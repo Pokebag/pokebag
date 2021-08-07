@@ -1,0 +1,42 @@
+{
+  "displayName": "Exp. Share",
+  "description": "Increases the Pokémon's passive Exp. Point gain while it has the fewest Exp. Points on its team. In addition, when a nearby teammate defeats a wild Pokémon, that teammate gains slightly more Exp. Points.",
+  "stats": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {
+      "hp": 160,
+      "movementSpeed": 100
+    },
+    {
+      "hp": 176,
+      "movementSpeed": 100
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ]
+}

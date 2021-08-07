@@ -1,0 +1,40 @@
+{
+  "displayName": "Attack Weight",
+  "description": "Increases Attack after the Pokémon successfully scores a goal.",
+  "stats": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {
+      "attack": 12
+    },
+    {
+      "attack": 12.6
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ]
+}

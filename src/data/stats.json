@@ -1,0 +1,38 @@
+{
+  "attack": {
+    "displayName": "Attack"
+  },
+  "attackSpeed": {
+    "displayName": "Basic Attack Speed"
+  },
+  "cooldown": {
+    "displayName": "Cooldown"
+  },
+  "critDamage": {
+    "displayName": "Critical-Hit Rate"
+  },
+  "critRate": {
+    "displayName": "Critical-Hit Damage"
+  },
+  "defense": {
+    "displayName": "Defense"
+  },
+  "hp": {
+    "displayName": "HP"
+  },
+  "hpRecovery": {
+    "displayName": "HP Recovery"
+  },
+  "movementSpeed": {
+    "displayName": "Movement Speed"
+  },
+  "spAtk": {
+    "displayName": "Sp. Atk"
+  },
+  "spDef": {
+    "displayName": "Sp. Def"
+  },
+  "uniteMoveChargeRate": {
+    "displayName": "Unite Move Charge Rate"
+  }
+}

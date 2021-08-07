@@ -1,0 +1,42 @@
+{
+  "displayName": "Muscle Band",
+  "description": "Increases basic attack damage.",
+  "stats": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {
+      "attack": 10,
+      "attackSpeed": "5%"
+    },
+    {
+      "attack": 11,
+      "attackSpeed": "5%"
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "displayName": "Sp. Atk Specs",
+  "description": "Increases Sp. Atk after the Pokémon successfully scores a goal.",
+  "stats": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {
+      "spAtk": 16
+    },
+    {
+      "spAtk": 16.8
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ]
+}
