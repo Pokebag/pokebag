@@ -1,4 +1,4 @@
-export async function getItemPaths() {
+export async function getItemsPaths() {
 	const [
 		fs,
 		path,

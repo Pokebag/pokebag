@@ -1,6 +1,7 @@
 {
   "displayName": "Leftovers",
   "description": "Continually restores the Pokémon's HP when it is not in combat.",
+  "tags": ["defense"],
   "stats": [
     {
       "hp": 16,

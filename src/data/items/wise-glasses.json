@@ -1,6 +1,7 @@
 {
   "displayName": "Wise Glasses",
   "description": "Increases Sp. Atk.",
+  "tags": ["attack"],
   "stats": [
     {},
     {},

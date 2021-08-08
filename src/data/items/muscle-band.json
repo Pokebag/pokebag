@@ -1,6 +1,7 @@
 {
   "displayName": "Muscle Band",
   "description": "Increases basic attack damage.",
+  "tags": ["attack"],
   "stats": [
     {},
     {},

@@ -1,6 +1,7 @@
 {
   "displayName": "Attack Weight",
   "description": "Increases Attack after the Pokémon successfully scores a goal.",
+  "tags": ["score"],
   "stats": [
     {},
     {},

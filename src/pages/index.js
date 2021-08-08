@@ -1,32 +1,22 @@
-// Module imports
-import Link from 'next/link'
+// Local imports
+import { Layout } from 'components/Layout'
 
 
 
 
 
-function mapItemValues(item) {
-  return (
-    <li key={item.id}>
-      <Link href={`/items/${item.id}`}>
-        {item.displayName}
-      </Link>
-    </li>
-  )
-}
+export default function HomePage(props) {
+	const { items } = props
 
-export default function ItemPage(props) {
-  const { items } = props
-
-  return (
-    <ul>
-      {Object.values(items).map(mapItemValues)}
-    </ul>
-  )
+	return (
+		<Layout items={items}>
+			foo
+		</Layout>
+	)
 }
 
 export async function getStaticProps() {
-  const { getItemsProps } = await import('helpers/getItemsProps')
+	const { getItemsProps } = await import('helpers/getItemsProps')
 
-  return getItemsProps()
+	return getItemsProps()
 }

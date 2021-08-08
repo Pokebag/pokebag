@@ -1,6 +1,7 @@
 {
   "displayName": "Scope Lens",
   "description": "Increases critical-hit damage.",
+  "tags": ["attack"],
   "stats": [
     {},
     {},

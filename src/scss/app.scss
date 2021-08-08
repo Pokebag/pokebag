@@ -2,8 +2,8 @@
   Variables
 \******************************************************************************/
 
-@import 'bulma/sass/utilities/initial-variables.sass';
-@import 'bulma/sass/utilities/derived-variables.sass';
+// @import 'bulma/sass/utilities/initial-variables.sass';
+// @import 'bulma/sass/utilities/derived-variables.sass';
 
 
 
@@ -13,12 +13,12 @@
   Core
 \******************************************************************************/
 
-@import 'core/root';
+// @import 'core/root';
 
-@import 'core/button';
-@import 'core/figure';
-@import 'core/menu';
-@import 'core/summary';
+// @import 'core/button';
+// @import 'core/figure';
+// @import 'core/menu';
+// @import 'core/summary';
 
 
 
@@ -28,10 +28,10 @@
 	Components
 \******************************************************************************/
 
-@import 'components/card-list';
-@import 'components/modal';
-@import 'components/notifications';
-@import 'components/radio-group';
+// @import 'components/card-list';
+// @import 'components/modal';
+// @import 'components/notifications';
+// @import 'components/radio-group';
 
 
 
@@ -41,4 +41,4 @@
 	Helpers
 \******************************************************************************/
 
-@import 'helpers/text-color';
+// @import 'helpers/text-color';

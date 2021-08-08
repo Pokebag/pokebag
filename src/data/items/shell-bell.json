@@ -1,6 +1,7 @@
 {
   "displayName": "Shell Bell",
   "description": "Restores some of the Pokémon's HP whenever it successfully lands a move.",
+  "tags": ["attack"],
   "stats": [
     {},
     {},

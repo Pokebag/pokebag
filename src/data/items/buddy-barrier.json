@@ -1,6 +1,7 @@
 {
   "displayName": "Buddy Barrier",
   "description": "Grants a shield to the Pokémon and to the nearby ally Pokémon with the lowest HP when the Pokémon uses its Unite Move.",
+  "tags": [],
   "stats": [
     {},
     {},
