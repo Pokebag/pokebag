@@ -1,0 +1,10 @@
+{
+  "displayName": "Garchomp",
+  "stats": {
+    "attack": 496,
+    "defense": 420,
+    "hp": 7750,
+    "spAtk": 112,
+    "spDef": 318
+  }
+}

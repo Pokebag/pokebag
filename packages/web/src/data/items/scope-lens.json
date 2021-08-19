@@ -1,0 +1,15 @@
+{
+  "displayName": "Scope Lens",
+  "description": "Increases critical-hit damage.",
+  "tags": ["attack"],
+  "stats": {
+    "critRate": {
+      "formula": "(Math.ceil({lvl} / 2) * 0.4).toFixed(1)",
+      "type": "flat"
+    },
+    "critDamage": {
+      "formula": "(Math.floor({lvl} / 2) * 0.8).toFixed(1)",
+      "type": "flat"
+    }
+  }
+}

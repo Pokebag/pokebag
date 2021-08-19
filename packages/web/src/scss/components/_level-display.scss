@@ -1,0 +1,47 @@
+$level-display-background-color: $background !default;
+$level-display-color: $text !default;
+
+$level-display-colors: $colors !default;
+
+.level-display {
+	align-items: center;
+	background-color: $level-display-background-color;
+	border-radius: 50%;
+	color: $level-display-color;
+	display: flex;
+	flex-direction: column;
+	font-size: 2em;
+	font-weight: bold;
+	justify-content: center;
+	height: 3ch;
+	position: relative;
+	width: 3ch;
+
+	&:before {
+		content: 'lvl';
+		font-size: 0.4em;
+		font-weight: normal;
+		position: absolute;
+		transform: translateY(-2.3ch);
+	}
+
+  @each $name, $pair in $level-display-colors {
+    $color: nth($pair, 1);
+    $color-invert: nth($pair, 2);
+    &.is-#{$name} {
+      background-color: $color;
+      color: $color-invert;
+
+      // If a light and dark colors are provided
+      @if length($pair) > 3 {
+        $color-light: nth($pair, 3);
+        $color-dark: nth($pair, 4);
+
+        &.is-light {
+          background-color: $color-light;
+          color: $color-dark;
+				}
+			}
+		}
+	}
+}

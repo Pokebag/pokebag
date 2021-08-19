@@ -1,0 +1,10 @@
+{
+  "displayName": "Gardevoir",
+  "stats": {
+    "attack": 334,
+    "defense": 174,
+    "hp": 6320,
+    "spAtk": 1000,
+    "spDef": 138
+  }
+}

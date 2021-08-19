@@ -1,0 +1,14 @@
+$level-display-background-color: $background !default;
+$level-display-color: $text !default;
+
+$tag-colors: $colors !default;
+
+.level-upper {
+	align-items: center;
+	justify-content: center;
+	display: flex;
+
+	.level-direction-indicator {
+		margin: 0 1rem;
+	}
+}

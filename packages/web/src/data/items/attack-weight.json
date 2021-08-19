@@ -1,0 +1,11 @@
+{
+  "displayName": "Attack Weight",
+  "description": "Increases Attack after the Pokémon successfully scores a goal.",
+  "tags": ["score"],
+  "stats": {
+    "attack": {
+      "formula": "({lvl} * 0.6).toFixed(1)",
+      "type": "flat"
+    }
+  }
+}

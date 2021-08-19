@@ -1,0 +1,10 @@
+{
+  "displayName": "Snorlax",
+  "stats": {
+    "attack": 345,
+    "defense": 580,
+    "hp": 9899,
+    "spAtk": 115,
+    "spDef": 400
+  }
+}

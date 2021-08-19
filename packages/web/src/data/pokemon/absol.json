@@ -1,0 +1,10 @@
+{
+  "displayName": "Absol",
+  "stats": {
+    "attack": 620,
+    "defense": 259,
+    "hp": 6000,
+    "spAtk": 117,
+    "spDef": 180
+  }
+}

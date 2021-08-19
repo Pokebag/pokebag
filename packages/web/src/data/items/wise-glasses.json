@@ -1,0 +1,11 @@
+{
+  "displayName": "Wise Glasses",
+  "description": "Increases Sp. Atk.",
+  "tags": ["attack"],
+  "stats": {
+    "spAtk": {
+      "formula": "{lvl} + 9",
+      "type": "flat"
+    }
+  }
+}

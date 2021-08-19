@@ -1,0 +1,10 @@
+{
+  "displayName": "Venusaur",
+  "stats": {
+    "attack": 293,
+    "defense": 174,
+    "hp": 6321,
+    "spAtk": 962,
+    "spDef": 137
+  }
+}

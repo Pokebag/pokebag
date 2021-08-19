@@ -1,0 +1,15 @@
+{
+  "displayName": "Rocky Helmet",
+  "description": "Deals damage to nearby opposing Pokémon when the holder receives damage.",
+  "tags": ["defense"],
+  "stats": {
+    "defense": {
+      "formula": "(Math.floor({lvl} / 2) * 2.8).toFixed(1)",
+      "type": "flat"
+    },
+    "hp": {
+      "formula": "Math.ceil({lvl} / 2) * 18",
+      "type": "flat"
+    }
+  }
+}

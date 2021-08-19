@@ -1,0 +1,15 @@
+{
+  "displayName": "Shell Bell",
+  "description": "Restores some of the Pokémon's HP whenever it successfully lands a move.",
+  "tags": ["attack"],
+  "stats": {
+    "cooldown": {
+      "formula": "(Math.ceil({lvl} / 2) * -0.3).toFixed(1)",
+      "type": "percentage"
+    },
+    "spAtk": {
+      "formula": "(Math.floor({lvl} / 2) * 1.6).toFixed(1)",
+      "type": "flat"
+    }
+  }
+}

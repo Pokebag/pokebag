@@ -1,0 +1,10 @@
+{
+  "displayName": "Pikachu",
+  "stats": {
+    "attack": 290,
+    "defense": 175,
+    "hp": 6300,
+    "spAtk": 952,
+    "spDef": 135
+  }
+}
