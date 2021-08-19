@@ -122,22 +122,28 @@ export default function HeldItemPage(props) {
 	return (
 		<Layout
 			activeItem={item.id}
-			content={
-				<div className="tags">
-					{item.tags.map(mapTags)}
+			items={items}>
+			<header className="box section">
+				<div className="columns is-vcentered">
+					<div className="column is-narrow">
+						<Image
+							alt={`Image of ${item.displayName}`}
+							blurDataURL={item.blurDataURL}
+							priority
+							size={128}
+							src={`/images/items/${item.id}.png`} />
+					</div>
+
+					<div className="column">
+						<h2 className="title">{item.displayName}</h2>
+						<p className="subtitle">{item.description}</p>
+
+						<div className="tags">
+							{item.tags.map(mapTags)}
+						</div>
+					</div>
 				</div>
-			}
-			image={
-				<Image
-					alt={`Image of ${item.displayName}`}
-					blurDataURL={item.blurDataURL}
-					priority
-					size={128}
-					src={`/images/items/${item.id}.png`} />
-			}
-			items={items}
-			subtitle={item.description}
-			title={item.displayName}>
+			</header>
 
 			{itemStats.map(mapLevels)}
 		</Layout>
