@@ -53,7 +53,7 @@ export default function HeldItemPage(props) {
 					type,
 				} = statData
 
-				accumulator[statID] = eval(formula.replace(/\{lvl\}/, (index + 1))).toString().replace(/\.?0+$/, '')
+				accumulator[statID] = eval(formula.replace(/\{lvl\}/, (index + 1))).toString().replace(/\.0+$/, '')
 
 				if (type === 'percentage') {
 					accumulator[statID] += '%'
