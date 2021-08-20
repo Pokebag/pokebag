@@ -1,5 +1,5 @@
 // Module imports
-import { useCallback } from 'react'
+import { useRouter } from 'next/router'
 import classnames from 'classnames'
 import Link from 'next/link'
 
@@ -7,45 +7,8 @@ import Link from 'next/link'
 
 
 
-export function LeftNav(props) {
-  const {
-		activeItem,
-		items,
-		pokemon = [
-			'Charizard',
-			'Crustle',
-		],
-	} = props
-
-	const mapItems = useCallback(item => {
-		return (
-			<li key={item.id}>
-				<Link href={`/unite/held-items/${item.id}`}>
-					<a
-						className={classnames({
-							'is-active': activeItem === item.id,
-						})}>
-						{item.displayName}
-					</a>
-				</Link>
-			</li>
-		)
-	}, [activeItem])
-
-	const mapPokemon = useCallback(pokemon => {
-		return (
-			<li key={pokemon}>
-				<Link href={`/unite/pokemon/${pokemon}`}>
-					<a
-						className={classnames({
-							'is-active': false,
-						})}>
-						{pokemon}
-					</a>
-				</Link>
-			</li>
-		)
-	}, [activeItem])
+export function LeftNav() {
+  const Router = useRouter()
 
   return (
     <aside className="box left-nav menu">
@@ -71,7 +34,14 @@ export function LeftNav(props) {
 
 			<ul className="menu-list">
 				<li>
-					<Link href="/unite/item-upgrade-calculator">Item Upgrade Calculator</Link>
+					<Link href="/unite/item-upgrade-calculator">
+						<a
+							className={classnames({
+								'is-active': Router.pathname === '/unite/item-upgrade-calculator',
+							})}>
+							Item Upgrade Calculator
+						</a>
+					</Link>
 				</li>
 			</ul>
 
@@ -81,13 +51,14 @@ export function LeftNav(props) {
 
       <ul className="menu-list">
 				<li>
-					<Link href="/unite/held-items">Held Items</Link>
-
-					{Boolean(items) && (
-						<ul>
-							{Object.values(items).map(mapItems)}
-						</ul>
-					)}
+					<Link href="/unite/held-items">
+						<a
+							className={classnames({
+								'is-active': Router.pathname.startsWith('/unite/held-items'),
+							})}>
+								Held Items
+						</a>
+					</Link>
 				</li>
 
 				{/* <li>
