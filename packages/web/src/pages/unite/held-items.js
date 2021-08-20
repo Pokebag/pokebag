@@ -82,15 +82,6 @@ function DropdownOption(props) {
 
 export default function HeldItemsIndexPage(props) {
 	const { items } = props
-	const initialFilters = useMemo(() => {
-		return Object.keys(TAG_DATA).reduce((accumulator, tagID) => {
-			accumulator[tagID] = false
-			return accumulator
-		}, {})
-	})
-	const [filters, setFilters] = useState(initialFilters)
-
-	const isFiltered = useMemo(() => Object.values(filters).every(value => !value), [filters])
 
 	useBreadcrumbs([
 		{
@@ -103,6 +94,33 @@ export default function HeldItemsIndexPage(props) {
 		},
 	])
 
+	const initialFilters = useMemo(() => {
+		return Object.keys(TAG_DATA).reduce((accumulator, tagID) => {
+			accumulator[tagID] = false
+			return accumulator
+		}, {})
+	}, [])
+	const [filters, setFilters] = useState(initialFilters)
+
+	const {
+		activeFilters,
+		allFiltersEnabled,
+		isFiltered,
+	} = useMemo(() => {
+		const localActiveFilters = Object.entries(filters).reduce((accumulator, [filterID, isActive]) => {
+			if (isActive) {
+				accumulator.push(filterID)
+			}
+			return accumulator
+		}, [])
+
+		return {
+			activeFilters: localActiveFilters,
+			allFiltersEnabled: (localActiveFilters.length === Object.keys(filters).length),
+			isFiltered: Boolean(localActiveFilters.length),
+		}
+	}, [filters])
+
 	const clearFilters = useCallback(() => setFilters(initialFilters), [setFilters])
 
 	const toggleFilter = useCallback(tagID => () => {
@@ -114,30 +132,39 @@ export default function HeldItemsIndexPage(props) {
 		})
 	}, [setFilters])
 
-	const mapItems = useCallback(item => (
-		<li
-			className="column is-one-quarter"
-			key={item.id}>
-			<Link href={`/unite/held-items/${item.id}`}>
-				<a>
-					<div className="card is-hoverable">
-						<div className="card-image">
-							<Image
-								alt={`Image of ${item.displayName}`}
-								blurDataURL={item.blurDataURL}
-								priority
-								size={256}
-								src={`/images/items/${item.id}.png`} />
-						</div>
+	const mapItems = useCallback(item => {
+		if (!isFiltered || item.tags.some(tagID => activeFilters.includes(tagID))) {
+			return (
+				<li
+					className="column is-one-quarter"
+					key={item.id}>
+					<Link href={`/unite/held-items/${item.id}`}>
+						<a>
+							<div className="card is-hoverable">
+								<div className="card-image">
+									<Image
+										alt={`Image of ${item.displayName}`}
+										blurDataURL={item.blurDataURL}
+										priority
+										size={256}
+										src={`/images/items/${item.id}.png`} />
+								</div>
 
-						<div className="card-content has-text-centered">
-							<h3 className="title is-6">{item.displayName}</h3>
-						</div>
-					</div>
-				</a>
-			</Link>
-		</li>
-	), [items])
+								<div className="card-content has-text-centered">
+									<h3 className="title is-6">{item.displayName}</h3>
+								</div>
+							</div>
+						</a>
+					</Link>
+				</li>
+			)
+		}
+
+		return null
+	}, [
+		filters,
+		items,
+	])
 
 	const mapTagFilters = useCallback(([tagID, tag]) => {
 		return (
@@ -167,7 +194,7 @@ export default function HeldItemsIndexPage(props) {
 					<div className="column">
 						<Dropdown label="Tags">
 							<DropdownOption
-								isSelected={isFiltered}
+								isSelected={!isFiltered || allFiltersEnabled}
 								onClick={clearFilters}>
 								<span className="icon is-small">
 									<span className="fa-layers fa-fw">
@@ -175,7 +202,6 @@ export default function HeldItemsIndexPage(props) {
 											icon={['far', 'circle']} />
 										<FontAwesomeIcon
 											icon="check"
-											// inverse
 											transform="shrink-8" />
 									</span>
 								</span>
