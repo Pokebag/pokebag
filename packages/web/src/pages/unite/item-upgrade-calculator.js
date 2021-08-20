@@ -82,6 +82,15 @@ export default function ItemUpgradeCalculatorPage() {
 			subtitle="Calculate the resources you need to upgrade a held item"
 			title="Upgrade Calculator">
 			<section className="box section">
+				<div className="block">
+					<p className="block has-text-centered">To upgrade your item from...</p>
+
+					<LevelUpper
+						className="level-item"
+						levels={levels}
+						selectedLevel={Math.max(...levels)} />
+				</div>
+
 				<RangeSlider
 					displaySteps={[1, 10, 20, 30]}
 					hasMarks
@@ -91,19 +100,10 @@ export default function ItemUpgradeCalculatorPage() {
 					onChange={setLevels}
 					values={levels} />
 
-				<div className="columns is-multiline">
-					<div className="column is-full">
-						<p className="block has-text-centered">To upgrade your item from...</p>
+				<p className="block has-text-centered">...you will need</p>
 
-						<LevelUpper
-							className="level-item"
-							fromLevel={Math.min(...levels)}
-							toLevel={Math.max(...levels)} />
-					</div>
-
-					<div className="column">
-						<p className="block">...you will need</p>
-
+				<div className="columns is-vcentered">
+					<div className="column is-one-quarter">
 						<div className="media">
 							<div className="media-left">
 								<Image
@@ -113,84 +113,54 @@ export default function ItemUpgradeCalculatorPage() {
 									width={256} />
 							</div>
 
-							<div className="media-content">
+							<div className="media-content has-text-left">
 								<p className="heading">Item Enhancers</p>
 								<p className="title">{humanizeNumber(itemEnhancers)}</p>
 							</div>
 						</div>
 					</div>
+
+					<div className="column">
+						<p className="content has-text-centered">OR</p>
+					</div>
+
+					<div className="column is-one-quarter">
+						<div className="media">
+							<div className="media-left">
+								<Image
+									height={199}
+									size={64}
+									src={AeosTicketImage}
+									width={299} />
+							</div>
+							<div className="media-content">
+								<p className="heading">Aeos Tickets</p>
+								<p className="title">{humanizeNumber(aeosTickets)}</p>
+							</div>
+						</div>
+					</div>
+
+					<div className="column">
+						<p className="content">OR</p>
+					</div>
+
+					<div className="column is-one-quarter">
+						<div className="media">
+							<div className="media-left">
+								<Image
+									height={252}
+									size={64}
+									src={AeosGemImage}
+									width={251} />
+							</div>
+							<div className="media-content">
+								<p className="heading">Aeos Gems</p>
+								<p className="title">{humanizeNumber(aeosGems)}</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</section>
-
-			<div className="box hero">
-				<div className="hero-body">
-					<RangeSlider
-						displaySteps={[1, 10, 20, 30]}
-						hasMarks
-						id="upgrade-calculator"
-						max={30}
-						min={1}
-						onChange={setLevels}
-						values={levels} />
-
-					<div className="level">
-						<LevelUpper
-							className="level-item"
-							fromLevel={Math.min(...levels)}
-							toLevel={Math.max(...levels)} />
-					</div>
-
-					<div className="level">
-						<div className="level-item">
-							<div className="media">
-								<div className="media-left">
-									<Image
-										height={256}
-										size={64}
-										src={ItemEnhancerImage}
-										width={256} />
-								</div>
-								<div className="media-content">
-									<p className="heading">Item Enhancers</p>
-									<p className="title">{humanizeNumber(itemEnhancers)}</p>
-								</div>
-							</div>
-						</div>
-
-						<div className="level-item">
-							<div className="media">
-								<div className="media-left">
-									<Image
-										height={199}
-										size={64}
-										src={AeosTicketImage}
-										width={299} />
-								</div>
-								<div className="media-content">
-									<p className="heading">Aeos Tickets</p>
-									<p className="title">{humanizeNumber(aeosTickets)}</p>
-								</div>
-							</div>
-						</div>
-
-						<div className="level-item">
-							<div className="media">
-								<div className="media-left">
-									<Image
-										height={252}
-										size={64}
-										src={AeosGemImage}
-										width={251} />
-								</div>
-								<div className="media-content">
-									<p className="heading">Aeos Gems</p>
-									<p className="title">{humanizeNumber(aeosGems)}</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</Layout>
 	)
 }

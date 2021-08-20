@@ -8,6 +8,10 @@ $tag-colors: $colors !default;
 	justify-content: center;
 	display: flex;
 
+	&.is-fullwidth {
+		justify-content: space-around;
+	}
+
 	.level-direction-indicator {
 		margin: 0 1rem;
 	}
