@@ -1,0 +1,18 @@
+{
+	"attack": {
+		"displayName": "Attack",
+		"icon": "bolt"
+	},
+	"defense": {
+		"displayName": "Defense",
+		"icon": "shield-alt"
+	},
+	"score": {
+		"displayName": "Score",
+		"icon": "futbol"
+	},
+	"other": {
+		"displayName": "Other",
+		"icon": "ellipsis-h"
+	}
+}

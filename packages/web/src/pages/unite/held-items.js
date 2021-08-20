@@ -22,34 +22,6 @@ import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
 
 
 
-// Constants
-const TAG_DATA = {
-	attack: {
-		displayName: 'Attack',
-		icon: 'bolt',
-	},
-	defense: {
-		displayName: 'Defense',
-		icon: 'shield-alt',
-	},
-	score: {
-		displayName: 'Score',
-		icon: 'futbol',
-	},
-	other: {
-		displayName: 'Other',
-		icon: 'ellipsis-h',
-	},
-}
-const INITIAL_TAGS_FILTERS = Object.keys(TAG_DATA).reduce((accumulator, tagID) => {
-	accumulator[tagID] = false
-	return accumulator
-}, {})
-
-
-
-
-
 function DropdownOption(props) {
 	const {
 		children,
@@ -86,8 +58,10 @@ function DropdownOption(props) {
 
 function TagsFilter(props) {
 	const {
+		clearFilters,
 		filters,
 		setFilters,
+		tags,
 	} = props
 
 	const {
@@ -107,8 +81,6 @@ function TagsFilter(props) {
 			isFiltered: false,
 		})
 	}, [filters])
-
-	const clearFilters = useCallback(() => setFilters(INITIAL_TAGS_FILTERS), [setFilters])
 
 	const toggleFilter = useCallback(tagID => () => {
 		setFilters(previousValue => {
@@ -158,13 +130,17 @@ function TagsFilter(props) {
 
 			<hr className="dropdown-divider" />
 
-			{Object.entries(TAG_DATA).map(mapTagFilters)}
+			{Object.entries(tags).map(mapTagFilters)}
 		</Dropdown>
 	)
 }
 
 export default function HeldItemsIndexPage(props) {
-	const { items } = props
+	const {
+		items,
+		stats,
+		tags,
+	} = props
 
 	useBreadcrumbs([
 		{
@@ -177,55 +153,63 @@ export default function HeldItemsIndexPage(props) {
 		},
 	])
 
+	const INITIAL_STATS_FILTERS = useMemo(() => {
+		return Object.keys(stats).reduce((accumulator, statID) => {
+			accumulator[statID] = false
+			return accumulator
+		}, {})
+	}, [stats])
+	const INITIAL_TAGS_FILTERS = useMemo(() => {
+		return Object.keys(tags).reduce((accumulator, tagID) => {
+			accumulator[tagID] = false
+			return accumulator
+		}, {})
+	}, [tags])
+	const [statsFilters, setStatsFilters] = useState(INITIAL_STATS_FILTERS)
 	const [tagsFilters, setTagsFilters] = useState(INITIAL_TAGS_FILTERS)
 
-	const {
-		activeFilters,
-		isFiltered,
-	} = useMemo(() => {
-		const localActiveFilters = Object.entries(tagsFilters).reduce((accumulator, [tagID, isActive]) => {
+
+	const clearTagsFilters = useCallback(() => setTagsFilters(INITIAL_TAGS_FILTERS), [setTagsFilters])
+
+	const activeTagsFilters = useMemo(() => {
+		return Object.entries(tagsFilters).reduce((accumulator, [tagID, isActive]) => {
 			if (isActive) {
 				accumulator.push(tagID)
 			}
 
 			return accumulator
 		}, [])
-
-		return {
-			activeFilters: localActiveFilters,
-			isFiltered: Boolean(localActiveFilters.length),
-		}
 	}, [tagsFilters])
 
 	const mapItems = useCallback(item => {
-		if (!isFiltered || item.tags.some(tagID => activeFilters.includes(tagID))) {
-			return (
-				<li
-					className="column is-one-quarter"
-					key={item.id}>
-					<Link href={`/unite/held-items/${item.id}`}>
-						<a>
-							<div className="card is-hoverable">
-								<div className="card-image">
-									<Image
-										alt={`Image of ${item.displayName}`}
-										blurDataURL={item.blurDataURL}
-										priority
-										size={256}
-										src={`/images/items/${item.id}.png`} />
-								</div>
-
-								<div className="card-content has-text-centered">
-									<h3 className="title is-6">{item.displayName}</h3>
-								</div>
-							</div>
-						</a>
-					</Link>
-				</li>
-			)
+		if (activeTagsFilters.length && !item.tags.every(tagID => activeTagsFilters.includes(tagID))) {
+			return null
 		}
 
-		return null
+		return (
+			<li
+				className="column is-one-quarter"
+				key={item.id}>
+				<Link href={`/unite/held-items/${item.id}`}>
+					<a>
+						<div className="card is-hoverable">
+							<div className="card-image">
+								<Image
+									alt={`Image of ${item.displayName}`}
+									blurDataURL={item.blurDataURL}
+									priority
+									size={256}
+									src={`/images/items/${item.id}.png`} />
+							</div>
+
+							<div className="card-content has-text-centered">
+								<h3 className="title is-6">{item.displayName}</h3>
+							</div>
+						</div>
+					</a>
+				</Link>
+			</li>
+		)
 	}, [
 		tagsFilters,
 		items,
@@ -241,8 +225,10 @@ export default function HeldItemsIndexPage(props) {
 				<div className="columns is-vcentered">
 					<div className="column">
 						<TagsFilter
+							clearFilters={clearTagsFilters}
 							filters={tagsFilters}
-							setFilters={setTagsFilters} />
+							setFilters={setTagsFilters}
+							tags={tags} />
 					</div>
 				</div>
 			</section>
@@ -257,19 +243,29 @@ export default function HeldItemsIndexPage(props) {
 export async function getStaticProps(context) {
 	const [
 		{ getItemsProps },
+		{ getStatsProps },
+		{ getTagsProps },
 	] = await Promise.all([
 		import('helpers/getItemsProps'),
+		import('helpers/getStatsProps'),
+		import('helpers/getTagsProps'),
 	])
 
 	const [
 		{ props: itemsProps },
+		{ props: statsProps },
+		{ props: tagsProps },
 	] = await Promise.all([
 		getItemsProps(context),
+		getStatsProps(context),
+		getTagsProps(context),
 	])
 
 	return {
 		props: {
 			...itemsProps,
+			...statsProps,
+			...tagsProps,
 		},
 	}
 }
