@@ -44,7 +44,6 @@ const TAG_DATA = {
 export default function HeldItemPage(props) {
 	const {
 		item,
-		items,
 		stats,
 	} = props
 
@@ -161,9 +160,7 @@ export default function HeldItemPage(props) {
 	}, [TAG_DATA])
 
 	return (
-		<Layout
-			activeItem={item.id}
-			items={items}>
+		<Layout activeItem={item.id}>
 			<header className="box section">
 				<div className="columns is-vcentered">
 					<div className="column is-narrow">
@@ -232,7 +229,6 @@ export async function getStaticProps(context) {
 	return {
 		props: {
 			item: itemsProps.items[params.itemID],
-			...itemsProps,
 			...statsProps,
 		},
 	}

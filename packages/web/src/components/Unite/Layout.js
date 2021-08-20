@@ -2,7 +2,6 @@
 import { BaseLayout } from 'components/BaseLayout'
 import { Breadcrumbs } from 'components/Breadcrumbs'
 import { LeftNav } from 'components/Unite/LeftNav'
-import { PageHeader } from 'components/PageHeader'
 
 
 
@@ -12,20 +11,13 @@ export function Layout(props) {
 	const {
 		activeItem,
 		children,
-		content,
-		image,
-		items,
-		subtitle,
-		title,
 	} = props
 
 	return (
 		<BaseLayout>
 			<div className="columns">
 				<div className="column is-one-quarter">
-					<LeftNav
-						activeItem={activeItem}
-						items={items} />
+					<LeftNav activeItem={activeItem} />
 				</div>
 
 				<div className="column is-three-quarters">
