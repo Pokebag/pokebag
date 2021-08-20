@@ -1,7 +1,9 @@
 // Module imports
 import {
+	Fragment,
 	useCallback,
 	useMemo,
+	useState,
 } from 'react'
 import classnames from 'classnames'
 
@@ -12,6 +14,7 @@ import classnames from 'classnames'
 // Local imports
 import { Image } from 'components/Image'
 import { Layout } from 'components/Unite/Layout'
+import { LevelUpper } from 'components/LevelUpper'
 import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
 
 
@@ -45,6 +48,57 @@ export default function HeldItemPage(props) {
 		stats,
 	} = props
 
+	useBreadcrumbs([
+		{
+			label: 'Pokémon UNITE',
+			url: '/unite',
+		},
+		{
+			label: 'Held Items',
+			url: '/unite/held-items',
+		},
+		{
+			label: item.displayName,
+			url: `/unite/held-items/${item.id}`,
+		},
+	])
+
+	const [selectedLevel, setSelectedLevel] = useState('1')
+
+	const boonLevels = useMemo(() => {
+		if (typeof item.special?.boons !== 'object') {
+			return null
+		}
+
+		return Object.keys(item.special.boons)
+	}, [item])
+
+	const description = useMemo(() => {
+		if (!item.special) {
+			return {}
+		}
+
+		const replacements = []
+
+		return item.special.description
+			.replace(/\{(\w+)}/g, (fullMatch, matchKey) => {
+				replacements.push((
+					<strong>{item.special.boons[selectedLevel][matchKey]}</strong>
+				))
+				return '||'
+			})
+			.split('|')
+			.map((item, index) => (
+				<Fragment key={index}>
+					{Boolean(item) && item}
+					{!item && replacements.shift()}
+				</Fragment>
+			))
+	}, [
+		item,
+		selectedLevel,
+	])
+
 	const itemStats = useMemo(() => {
 		return Array(30).fill(null).map((_, index) => {
 			return Object.entries(item.stats).reduce((accumulator, [statID, statData]) => {
@@ -62,34 +116,21 @@ export default function HeldItemPage(props) {
 				return accumulator
 			}, {})
 		})
-	}, [item.stats]);
-
-	useBreadcrumbs([
-		{
-			label: 'Pokémon UNITE',
-			url: '/unite',
-		},
-		{
-			label: 'Held Items',
-			url: '/unite/held-items',
-		},
-		{
-			label: item.displayName,
-			url: `/unite/held-items/${item.id}`,
-		},
-	])
+	}, [item.stats])
 
 	const mapLevels = useCallback((levelStats, levelIndex) => {
 		const level = levelIndex + 1
 
 		return (
-			<div className="box media">
+			<div
+				className="box media"
+				key={level}>
 				<div className="media-left">
 					<div className="level-display">{level}</div>
 				</div>
 
 				<div className="media-content">
-					<ul class="stat-blocks">
+					<ul className="stat-blocks">
 						{Object.entries(levelStats).map(([statID, value]) => (
 							<li
 								className="notification stat-block"
@@ -143,6 +184,19 @@ export default function HeldItemPage(props) {
 						</div>
 					</div>
 				</div>
+
+				<section className="content">
+					<h3 className="title is-4">Special</h3>
+					<p>{description}</p>
+
+					{Boolean(boonLevels) && (
+						<LevelUpper
+							className="is-fullwidth"
+							levels={boonLevels}
+							onLevelSelect={setSelectedLevel}
+							selectedLevel={selectedLevel} />
+					)}
+				</section>
 			</header>
 
 			{itemStats.map(mapLevels)}
