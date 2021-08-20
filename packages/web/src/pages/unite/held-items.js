@@ -41,6 +41,10 @@ const TAG_DATA = {
 		icon: 'ellipsis-h',
 	},
 }
+const INITIAL_TAGS_FILTERS = Object.keys(TAG_DATA).reduce((accumulator, tagID) => {
+	accumulator[tagID] = false
+	return accumulator
+}, {})
 
 
 
@@ -80,6 +84,85 @@ function DropdownOption(props) {
 	)
 }
 
+function TagsFilter(props) {
+	const {
+		filters,
+		setFilters,
+	} = props
+
+	const {
+		allFiltersEnabled,
+		isFiltered,
+	} = useMemo(() => {
+		return Object.values(filters).reduce((accumulator, value) => {
+			if (value) {
+				accumulator.isFiltered = true
+			} else {
+				accumulator.allFiltersEnabled = false
+			}
+
+			return accumulator
+		}, {
+			allFiltersEnabled: true,
+			isFiltered: false,
+		})
+	}, [filters])
+
+	const clearFilters = useCallback(() => setFilters(INITIAL_TAGS_FILTERS), [setFilters])
+
+	const toggleFilter = useCallback(tagID => () => {
+		setFilters(previousValue => {
+			return {
+				...previousValue,
+				[tagID]: !previousValue[tagID]
+			}
+		})
+	}, [setFilters])
+
+	const mapTagFilters = useCallback(([tagID, tag]) => {
+		return (
+			<DropdownOption
+				isSelected={filters[tagID]}
+				key={tagID}
+				onClick={toggleFilter(tagID)}>
+				<span className="icon is-small">
+					<FontAwesomeIcon
+						fixedWidth
+						icon={tag.icon} />
+				</span>
+
+				<span>{tag.displayName}</span>
+			</DropdownOption>
+		)
+	}, [filters])
+
+	return (
+		<Dropdown label="Tags">
+			<DropdownOption
+				isSelected={!isFiltered || allFiltersEnabled}
+				onClick={clearFilters}>
+				<span className="icon is-small">
+					<span className="fa-layers fa-fw">
+						<FontAwesomeIcon
+							icon={['far', 'circle']} />
+						<FontAwesomeIcon
+							icon="check"
+							transform="shrink-8" />
+					</span>
+				</span>
+
+				<span>
+					Show all
+				</span>
+			</DropdownOption>
+
+			<hr className="dropdown-divider" />
+
+			{Object.entries(TAG_DATA).map(mapTagFilters)}
+		</Dropdown>
+	)
+}
+
 export default function HeldItemsIndexPage(props) {
 	const { items } = props
 
@@ -94,43 +177,25 @@ export default function HeldItemsIndexPage(props) {
 		},
 	])
 
-	const initialFilters = useMemo(() => {
-		return Object.keys(TAG_DATA).reduce((accumulator, tagID) => {
-			accumulator[tagID] = false
-			return accumulator
-		}, {})
-	}, [])
-	const [filters, setFilters] = useState(initialFilters)
+	const [tagsFilters, setTagsFilters] = useState(INITIAL_TAGS_FILTERS)
 
 	const {
 		activeFilters,
-		allFiltersEnabled,
 		isFiltered,
 	} = useMemo(() => {
-		const localActiveFilters = Object.entries(filters).reduce((accumulator, [filterID, isActive]) => {
+		const localActiveFilters = Object.entries(tagsFilters).reduce((accumulator, [tagID, isActive]) => {
 			if (isActive) {
-				accumulator.push(filterID)
+				accumulator.push(tagID)
 			}
+
 			return accumulator
 		}, [])
 
 		return {
 			activeFilters: localActiveFilters,
-			allFiltersEnabled: (localActiveFilters.length === Object.keys(filters).length),
 			isFiltered: Boolean(localActiveFilters.length),
 		}
-	}, [filters])
-
-	const clearFilters = useCallback(() => setFilters(initialFilters), [setFilters])
-
-	const toggleFilter = useCallback(tagID => () => {
-		setFilters(previousValue => {
-			return {
-				...previousValue,
-				[tagID]: !previousValue[tagID]
-			}
-		})
-	}, [setFilters])
+	}, [tagsFilters])
 
 	const mapItems = useCallback(item => {
 		if (!isFiltered || item.tags.some(tagID => activeFilters.includes(tagID))) {
@@ -162,26 +227,9 @@ export default function HeldItemsIndexPage(props) {
 
 		return null
 	}, [
-		filters,
+		tagsFilters,
 		items,
 	])
-
-	const mapTagFilters = useCallback(([tagID, tag]) => {
-		return (
-			<DropdownOption
-				isSelected={filters[tagID]}
-				key={tagID}
-				onClick={toggleFilter(tagID)}>
-				<span className="icon is-small">
-					<FontAwesomeIcon
-						fixedWidth
-						icon={tag.icon} />
-				</span>
-
-				<span>{tag.displayName}</span>
-			</DropdownOption>
-		)
-	}, [filters])
 
 	return (
 		<Layout title="Held Items">
@@ -192,29 +240,9 @@ export default function HeldItemsIndexPage(props) {
 
 				<div className="columns is-vcentered">
 					<div className="column">
-						<Dropdown label="Tags">
-							<DropdownOption
-								isSelected={!isFiltered || allFiltersEnabled}
-								onClick={clearFilters}>
-								<span className="icon is-small">
-									<span className="fa-layers fa-fw">
-										<FontAwesomeIcon
-											icon={['far', 'circle']} />
-										<FontAwesomeIcon
-											icon="check"
-											transform="shrink-8" />
-									</span>
-								</span>
-
-								<span>
-									Show all
-								</span>
-							</DropdownOption>
-
-							<hr className="dropdown-divider" />
-
-							{Object.entries(TAG_DATA).map(mapTagFilters)}
-						</Dropdown>
+						<TagsFilter
+							filters={tagsFilters}
+							setFilters={setTagsFilters} />
 					</div>
 				</div>
 			</section>
