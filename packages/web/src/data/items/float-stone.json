@@ -1,7 +1,7 @@
 {
   "displayName": "Float Stone",
   "description": "Increases movement speed when not in combat.",
-  "tags": [],
+  "tags": ["other"],
   "special": {
     "description": "Increases movement speed by {movementSpeed} when the Pokémon is not in combat.",
     "boons": {
