@@ -2,6 +2,7 @@
 import {
 	Fragment,
 	useCallback,
+	useMemo,
 } from 'react'
 import PropTypes from 'prop-types'
 
@@ -65,8 +66,14 @@ export function RangeSlider(props) {
 		values,
 	} = props
 
-	const handleValueChange = useCallback(index => event => {
+	const rangeSliderStyles = {
+		'--min': min,
+		'--max': max,
+	}
+
+	const handleValueChange = useCallback(event => {
 		const newValues = [...values]
+		const index = Number(event.target.getAttribute('data-index'))
 		newValues[index] = Number(event.target.value)
 		onChange(newValues)
 	}, [
@@ -74,43 +81,44 @@ export function RangeSlider(props) {
 		values,
 	])
 
-	const rangeSliderStyles = {
-		'--min': min,
-		'--max': max,
-	}
+	const sliders = useMemo(() => {
+		return values.map((value, index) => {
+			const valueID = ALPHABET[index]
 
-	const sliders = []
+			let list = null
 
-	values.forEach((value, index) => {
-		const valueID = ALPHABET[index]
+			if (index === 0) {
+				list = `range-slider:${id}:marks`
+			}
 
-		let list = null
+			rangeSliderStyles[`--value-${valueID}`] = value
 
-		if (index === 0) {
-			list = `range-slider:${id}:marks`
-		}
+			return (
+				<Fragment key={valueID}>
+					<label
+						className="sr-only"
+						htmlFor={`range-slider:${id}:value:${valueID}`}>
+						Value A
+					</label>
 
-		rangeSliderStyles[`--value-${valueID}`] = value
-
-		sliders.push((
-			<Fragment key={valueID}>
-				<label
-					className="sr-only"
-					htmlFor={`range-slider:${id}:value:${valueID}`}>
-					Value A
-				</label>
-
-				<input
-					id={`range-slider:${id}:value:${valueID}`}
-					list={list}
-					max={max}
-					min={min}
-					onChange={handleValueChange(index)}
-					type="range"
-					value={value} />
-			</Fragment>
-		))
-	})
+					<input
+						data-index={index}
+						id={`range-slider:${id}:value:${valueID}`}
+						list={list}
+						max={max}
+						min={min}
+						onChange={handleValueChange}
+						type="range"
+						value={value} />
+				</Fragment>
+			)
+		}, [])
+	}, [
+		id,
+		max,
+		min,
+		values,
+	])
 
 	return (
 		<div

@@ -18,7 +18,15 @@ export function LevelUpper(props) {
 		direction,
 		levels,
 	} = props
-	const sortedLevels = useMemo(() => levels.sort(), [levels])
+	const sortedLevels = useMemo(() => {
+		const newLevels = Array.from(new Set(levels))
+		newLevels.sort((a, b) => {
+			if (a > b) return 1
+			if (a < b) return -1
+			return 0
+		})
+		return newLevels
+	}, [levels])
 	const selectedLevel = props.selectedLevel ?? sortedLevels[sortedLevels.length - 1]
 
 	const onLevelSelect = useCallback(event => {
