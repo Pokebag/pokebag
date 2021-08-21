@@ -16,15 +16,22 @@ export default function PokemonUniteIndexPage() {
 		}
 	])
 
+	const description = 'Here you\'ll find all of the information that we\'ve compiled on Pokémon UNITE, including Pokémon and item stats. You\'ll also find tools and utilities — such as calculators — to help you better understand the game!'
+
 	return (
-		<Layout>
-			<PageHeader className="has-text-centered">
+		<Layout
+			description={description}
+			title="Pokémon UNITE Resources"
+			useTitleTemplate={false}>
+			<PageHeader className="content has-text-centered">
 				<Image
 					alt="Pokémon UNITE logo"
 					height={348}
 					priority
 					width={640}
 					src="/images/logos/pokemon-unite.png" />
+
+				<p>Here you'll find all of the information that we've compiled on Pokémon UNITE, including Pokémon and item stats. You'll also find tools and utilities — such as calculators — to help you better understand the game!</p>
 			</PageHeader>
 		</Layout>
 	)
