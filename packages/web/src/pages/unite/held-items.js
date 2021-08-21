@@ -56,6 +56,78 @@ function DropdownOption(props) {
 	)
 }
 
+function StatsFilter(props) {
+	const {
+		clearFilters,
+		filters,
+		setFilters,
+		stats,
+	} = props
+
+	const {
+		allFiltersEnabled,
+		isFiltered,
+	} = useMemo(() => {
+		return Object.values(filters).reduce((accumulator, value) => {
+			if (value) {
+				accumulator.isFiltered = true
+			} else {
+				accumulator.allFiltersEnabled = false
+			}
+
+			return accumulator
+		}, {
+			allFiltersEnabled: true,
+			isFiltered: false,
+		})
+	}, [filters])
+
+	const toggleFilter = useCallback(statID => () => {
+		setFilters(previousValue => {
+			return {
+				...previousValue,
+				[statID]: !previousValue[statID]
+			}
+		})
+	}, [setFilters])
+
+	const mapStatFilters = useCallback(([statID, stat]) => {
+		return (
+			<DropdownOption
+				isSelected={filters[statID]}
+				key={statID}
+				onClick={toggleFilter(statID)}>
+				<span>{stat.displayName}</span>
+			</DropdownOption>
+		)
+	}, [filters])
+
+	return (
+		<Dropdown label="Stats">
+			<DropdownOption
+				isSelected={!isFiltered || allFiltersEnabled}
+				onClick={clearFilters}>
+				<span className="icon is-small">
+					<span className="fa-layers fa-fw">
+						<FontAwesomeIcon
+							icon={['far', 'circle']} />
+						<FontAwesomeIcon
+							icon="check"
+							transform="shrink-8" />
+					</span>
+				</span>
+
+				<span>
+					Show all
+				</span>
+			</DropdownOption>
+
+			<hr className="dropdown-divider" />
+
+			{Object.entries(stats).map(mapStatFilters)}
+		</Dropdown>)
+}
+
 function TagsFilter(props) {
 	const {
 		clearFilters,
@@ -168,9 +240,18 @@ export default function HeldItemsIndexPage(props) {
 	const [statsFilters, setStatsFilters] = useState(INITIAL_STATS_FILTERS)
 	const [tagsFilters, setTagsFilters] = useState(INITIAL_TAGS_FILTERS)
 
-
+	const clearStatsFilters = useCallback(() => setStatsFilters(INITIAL_STATS_FILTERS), [setStatsFilters])
 	const clearTagsFilters = useCallback(() => setTagsFilters(INITIAL_TAGS_FILTERS), [setTagsFilters])
 
+	const activeStatsFilters = useMemo(() => {
+		return Object.entries(statsFilters).reduce((accumulator, [statID, isActive]) => {
+			if (isActive) {
+				accumulator.push(statID)
+			}
+
+			return accumulator
+		}, [])
+	}, [statsFilters])
 	const activeTagsFilters = useMemo(() => {
 		return Object.entries(tagsFilters).reduce((accumulator, [tagID, isActive]) => {
 			if (isActive) {
@@ -182,7 +263,10 @@ export default function HeldItemsIndexPage(props) {
 	}, [tagsFilters])
 
 	const mapItems = useCallback(item => {
-		if (activeTagsFilters.length && !item.tags.every(tagID => activeTagsFilters.includes(tagID))) {
+		if (
+			(activeTagsFilters.length && !item.tags.some(tagID => activeTagsFilters.includes(tagID))) ||
+			(activeStatsFilters.length && !Object.keys(item.stats).some(statID => activeStatsFilters.includes(statID)))
+		) {
 			return null
 		}
 
@@ -211,7 +295,8 @@ export default function HeldItemsIndexPage(props) {
 			</li>
 		)
 	}, [
-		tagsFilters,
+		activeStatsFilters,
+		activeTagsFilters,
 		items,
 	])
 
@@ -223,12 +308,20 @@ export default function HeldItemsIndexPage(props) {
 				</p>
 
 				<div className="columns is-vcentered">
-					<div className="column">
+					<div className="column is-narrow">
 						<TagsFilter
 							clearFilters={clearTagsFilters}
 							filters={tagsFilters}
 							setFilters={setTagsFilters}
 							tags={tags} />
+					</div>
+
+					<div className="column is-narrow">
+						<StatsFilter
+							clearFilters={clearStatsFilters}
+							filters={statsFilters}
+							setFilters={setStatsFilters}
+							stats={stats} />
 					</div>
 				</div>
 			</section>
