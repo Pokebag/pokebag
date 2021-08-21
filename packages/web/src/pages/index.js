@@ -1,5 +1,5 @@
 // Module imports
-import NextImage from 'next/image'
+import Link from 'next/link'
 
 
 
@@ -7,19 +7,17 @@ import NextImage from 'next/image'
 
 // Local imports
 import { BaseLayout } from 'components/BaseLayout'
-import { Footer } from 'components/Footer'
 import { Image } from 'components/Image'
-import { PokeSlice } from 'components/Unite/PokeSlice'
 
 
 
 
 
 export default function HomePage(props) {
-	const { articles } = props
-
 	return (
-		<BaseLayout>
+		<BaseLayout
+			description="Pokébag aims to provide a great resource for information and tools for all Pokémon games!"
+			title="Home">
 			<main className="mt-0">
 				<div className="box section">
 					<div className="columns is-vcentered">
@@ -27,7 +25,9 @@ export default function HomePage(props) {
 							<div className="content">
 								<h2 className="title">Your One–Stop–Shop for Pokémon</h2>
 
-								<p>Pokébag aims to provide a great resource for information and tools for <em>all Pokémon games</em>! From the latest patches to the </p>
+								<p>Pokébag aims to provide a great resource for information and tools for <em>all Pokémon games</em>! From the latest patches, to the most recent announcements from the Pokémon Company themselves, we'll keep you up–to–date and in–the–know!</p>
+
+								<p>Learn more in our <Link href="/blog/welcome">very first blog post</Link>.</p>
 							</div>
 						</div>
 
@@ -55,14 +55,12 @@ export default function HomePage(props) {
 					</div>
 				</div>
 			</main>
-
-			{/* <Footer /> */}
 		</BaseLayout>
 	)
 }
 
-export async function getStaticProps() {
-	const { getArticlesProps } = await import('helpers/getArticlesProps')
+// export async function getStaticProps() {
+// 	const { getArticlesProps } = await import('helpers/getArticlesProps')
 
-	return getArticlesProps()
-}
+// 	return getArticlesProps()
+// }
