@@ -21,34 +21,11 @@ import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
 
 
 
-// Constants
-const TAG_DATA = {
-	attack: {
-		className: 'is-danger',
-		displayName: 'Attack',
-	},
-	defense: {
-		className: 'is-info',
-		displayName: 'Defense',
-	},
-	score: {
-		className: 'is-success',
-		displayName: 'Score',
-	},
-	other: {
-		className: 'is-light',
-		displayName: 'Other',
-	},
-}
-
-
-
-
-
 export default function HeldItemPage(props) {
 	const {
 		item,
 		stats,
+		tags,
 	} = props
 
 	useBreadcrumbs([
@@ -152,7 +129,7 @@ export default function HeldItemPage(props) {
 	})
 
 	const mapTags = useCallback(tag => {
-		const tagData = TAG_DATA[tag]
+		const tagData = tags[tag]
 
 		return (
 			<span
@@ -161,7 +138,7 @@ export default function HeldItemPage(props) {
 				{tagData.displayName}
 			</span>
 		)
-	}, [TAG_DATA])
+	}, [tags])
 
 	return (
 		<Layout activeItem={item.id}>
@@ -217,23 +194,28 @@ export async function getStaticProps(context) {
 	const [
 		{ getItemsProps },
 		{ getStatsProps },
+		{ getTagsProps },
 	] = await Promise.all([
 		import('helpers/getItemsProps'),
 		import('helpers/getStatsProps'),
+		import('helpers/getTagsProps'),
 	])
 
 	const [
 		{ props: itemsProps },
 		{ props: statsProps },
+		{ props: tagsProps },
 	] = await Promise.all([
 		getItemsProps(context),
 		getStatsProps(context),
+		getTagsProps(context),
 	])
 
 	return {
 		props: {
 			item: itemsProps.items[params.itemID],
 			...statsProps,
+			...tagsProps,
 		},
 	}
 }
