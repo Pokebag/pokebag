@@ -5,9 +5,11 @@
   "repository": "git@github.com:trezy/pokebag.git",
   "license": "BSD-3-Clause",
   "workspaces": [
+    "packages/api",
     "packages/web"
   ],
   "scripts": {
+    "start:api": "yarn workspace @pokebag/api start",
     "start:web": "yarn workspace @pokebag/web start"
   }
 }
