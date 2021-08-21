@@ -17,7 +17,7 @@ import { Route } from '../../structures/Route.js'
 export const route = new Route({
 	handler: async context => {
 		try {
-			const SHOULD_CALCULATE_STATS = JSON.parse(context.query['calculate-stats'] ?? 'false')
+			const SHOULD_CALCULATE_STATS = JSON.parse(context.query['calculate-stats'] || 'false')
 
 			const ITEM_DATA_PATH = path.resolve(process.cwd(), 'data', 'unite', context.params.patchVersion, 'held-items')
 			const ITEM_FILES = await fs.readdir(ITEM_DATA_PATH)
