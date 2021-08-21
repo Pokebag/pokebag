@@ -1,11 +1,11 @@
 // Local imports
-import router from './Router.js'
+import { router } from './Router.js'
 
 
 
 
 
-export default class {
+export class Route {
 	defaultOptions = {
 		methods: ['get'],
 	}

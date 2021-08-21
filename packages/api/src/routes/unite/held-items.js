@@ -7,7 +7,7 @@ import path from 'path'
 
 
 // Local imports
-import Route from '../../structures/Route.js'
+import { Route } from '../../structures/Route.js'
 
 
 

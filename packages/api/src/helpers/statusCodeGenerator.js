@@ -1,4 +1,4 @@
-export default () => async (context, next) => {
+export async function statusCodeGenerator(context, next) {
   await next()
 
   if (!context.status || (context.status === 200)) {

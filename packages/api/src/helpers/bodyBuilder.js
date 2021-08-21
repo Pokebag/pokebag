@@ -1,4 +1,4 @@
-export default () => async (context, next) => {
+export async function bodyBuilder(context, next) {
   const meta = {
     start_ms: Date.now()
   }
