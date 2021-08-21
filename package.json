@@ -9,7 +9,8 @@
     "packages/web"
   ],
   "scripts": {
-    "start:api": "yarn workspace @pokebag/api start",
-    "start:web": "yarn workspace @pokebag/web start"
+    "api:dev": "yarn workspace @pokebag/api dev",
+    "api:start": "yarn workspace @pokebag/api start",
+    "web:dev": "yarn workspace @pokebag/web dev"
   }
 }

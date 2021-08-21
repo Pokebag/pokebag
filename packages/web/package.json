@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "BSD-3-Clause",
   "scripts": {
-    "start": "next dev"
+    "dev": "next dev"
   },
   "dependencies": {
     "@creativebulma/bulma-tooltip": "^1.2.0",
