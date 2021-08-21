@@ -35,6 +35,10 @@ const TAG_DATA = {
 		className: 'is-success',
 		displayName: 'Score',
 	},
+	other: {
+		className: 'is-light',
+		displayName: 'Other',
+	},
 }
 
 
