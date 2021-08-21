@@ -1,5 +1,5 @@
 // Module imports
-import fs from 'fs/promises'
+import { promises as fs } from 'fs'
 import path from 'path'
 
 
@@ -7,15 +7,7 @@ import path from 'path'
 
 
 // Local imports
-import Route from '../structures/Route.js'
-
-
-
-
-
-// Constants
-const IS_DEV = process.env.NODE_ENV !== 'production'
-// const sourceDirectory = path.resolve(process.cwd(), 'src')
+import Route from '../../structures/Route.js'
 
 
 
@@ -24,9 +16,9 @@ const IS_DEV = process.env.NODE_ENV !== 'production'
 export const route = new Route({
 	handler: async context => {
 		try {
-			const shouldCalculate = JSON.parse(context.query.calculated)
+			const shouldCalculateStats = JSON.parse(context.query['calculate-stats'] ?? 'false')
 
-			const ITEM_DATA_PATH = path.resolve(process.cwd(), 'data', context.params.patchVersion, 'held-items')
+			const ITEM_DATA_PATH = path.resolve(process.cwd(), 'data', 'unite', context.params.patchVersion, 'held-items')
 			const ITEM_FILES = await fs.readdir(ITEM_DATA_PATH)
 
 			const ITEMS = await Promise.all(ITEM_FILES.map(async filename => {
@@ -34,7 +26,7 @@ export const route = new Route({
 				const FILE_CONTENTS = await fs.readFile(FILE_PATH, 'utf8')
 				const FILE_JSON = JSON.parse(FILE_CONTENTS)
 
-				if (shouldCalculate) {
+				if (shouldCalculateStats) {
 					const CALCULATED_STATS = {
 						1: {
 							lvl: 1,
@@ -75,8 +67,9 @@ export const route = new Route({
 				}, {}),
 			}
 		} catch(error) {
+			console.log(error)
 			context.errors.push(error.message)
 		}
 	},
-	route: '/:patchVersion/held-items',
+	route: '/unite/:patchVersion/held-items',
 })
