@@ -1,3 +1,10 @@
+// Module imports
+import PropTypes from 'prop-types'
+
+
+
+
+
 // Local imports
 import { BaseLayout } from 'components/BaseLayout'
 import { Breadcrumbs } from 'components/Breadcrumbs'
@@ -11,10 +18,20 @@ export function Layout(props) {
 	const {
 		activeItem,
 		children,
+		description,
+		useTitleTemplate,
 	} = props
 
+	let title = `${props.title} | UNITE`
+
+	if (!useTitleTemplate) {
+		title = props.title
+	}
+
 	return (
-		<BaseLayout>
+		<BaseLayout
+			description={description}
+			title={title}>
 			<div className="columns">
 				<div className="column is-one-quarter">
 					<LeftNav activeItem={activeItem} />
@@ -38,4 +55,17 @@ export function Layout(props) {
 			</div>
 		</BaseLayout>
 	)
+}
+
+Layout.defaultProps = {
+	activeItem: null,
+	useTitleTemplate: true,
+}
+
+Layout.propTypes = {
+	activeItem: PropTypes.string,
+	children: PropTypes.node.isRequired,
+	description: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
+	useTitleTemplate: PropTypes.bool,
 }
