@@ -5,6 +5,13 @@ import NextLink from 'next/link'
 
 
 
+// Local imports
+import { ExternalLink } from 'components/ExternalLink'
+
+
+
+
+
 export function Link(node) {
 	if (node.href.startsWith('/')) {
 		return (
@@ -32,6 +39,8 @@ export function Link(node) {
 	}
 
 	return (
-		<a href={node.href}>{node.children}</a>
+		<ExternalLink href={node.href}>
+			{node.children}
+		</ExternalLink>
 	)
 }

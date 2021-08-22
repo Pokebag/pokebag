@@ -5,6 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 
+// Local imports
+import { ExternalLink } from 'components/ExternalLink'
+
+
+
+
+
 export function Footer() {
 	return (
 		<footer className="footer">
@@ -23,22 +30,22 @@ export function Footer() {
 
 						<ul>
 							<li>
-								<a href="https://twitter.com/TrezyCodes">
+								<ExternalLink href="https://twitter.com/PokebagApp">
 									<FontAwesomeIcon
 										fixedWidth
 										icon={['fab', 'twitter']} />
 
 									{' Twitter'}
-								</a>
+								</ExternalLink>
 							</li>
 							<li>
-								<a href="https://github.com/trezy/pokebag">
+								<ExternalLink href="https://github.com/Pokebag/pokebag">
 									<FontAwesomeIcon
 										fixedWidth
 										icon={['fab', 'github']} />
 
 									{' Github'}
-								</a>
+								</ExternalLink>
 							</li>
 						</ul>
 					</div>
