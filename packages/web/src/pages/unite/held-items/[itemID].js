@@ -45,14 +45,6 @@ export default function HeldItemPage(props) {
 
 	const [selectedLevel, setSelectedLevel] = useState('1')
 
-	const boonLevels = useMemo(() => {
-		if (typeof item.special?.boons !== 'object') {
-			return null
-		}
-
-		return Object.keys(item.special.boons)
-	}, [item])
-
 	const description = useMemo(() => {
 		if (!item.special) {
 			return {}
@@ -79,24 +71,34 @@ export default function HeldItemPage(props) {
 		selectedLevel,
 	])
 
-	const itemStats = useMemo(() => {
-		return Array(30).fill(null).map((_, index) => {
-			return Object.entries(item.stats).reduce((accumulator, [statID, statData]) => {
-				const {
-					formula,
-					type,
-				} = statData
+	const {
+		boonLevels,
+		itemImageAlt,
+		itemImageURL,
+		itemStats,
+	} = useMemo(() => {
+		return {
+			boonLevels: Object.keys(item.special.boons),
+			itemImageAlt: `Image of ${item.displayName}`,
+			itemImageURL: `/images/items/${item.id}.png`,
+			itemStats: Array(30).fill(null).map((_, index) => {
+				return Object.entries(item.stats).reduce((accumulator, [statID, statData]) => {
+					const {
+						formula,
+						type,
+					} = statData
 
-				accumulator[statID] = eval(formula.replace(/\{lvl\}/, (index + 1))).toString().replace(/\.0+$/, '')
+					accumulator[statID] = eval(formula.replace(/\{lvl\}/, (index + 1))).toString().replace(/\.0+$/, '')
 
-				if (type === 'percentage') {
-					accumulator[statID] += '%'
-				}
+					if (type === 'percentage') {
+						accumulator[statID] += '%'
+					}
 
-				return accumulator
-			}, {})
-		})
-	}, [item.stats])
+					return accumulator
+				}, {})
+			}),
+		}
+	}, [item])
 
 	const mapLevels = useCallback((levelStats, levelIndex) => {
 		const level = levelIndex + 1
@@ -141,16 +143,29 @@ export default function HeldItemPage(props) {
 	}, [tags])
 
 	return (
-		<Layout activeItem={item.id}>
+		<Layout
+			activeItem={item.id}
+			description={item.description}
+			openGraph={{
+				images: [
+					{
+						alt: itemImageAlt,
+						height: 128,
+						url: itemImageURL,
+						width: 128,
+					},
+				],
+			}}
+			title={`Held Items: ${item.displayName}`}>
 			<header className="box section">
 				<div className="columns is-vcentered">
 					<div className="column is-narrow">
 						<Image
-							alt={`Image of ${item.displayName}`}
+							alt={itemImageAlt}
 							blurDataURL={item.blurDataURL}
 							priority
 							size={128}
-							src={`/images/items/${item.id}.png`} />
+							src={itemImageURL} />
 					</div>
 
 					<div className="column">

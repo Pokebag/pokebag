@@ -49,8 +49,6 @@ export function BaseLayout(props) {
 		title,
 	])
 
-	console.log(openGraph)
-
 	return (
 		<>
 			<NextSEO
