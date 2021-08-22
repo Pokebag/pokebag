@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { Dropdown } from 'components/Dropdown'
 import { Image } from 'components/Image'
 import { Layout } from 'components/Unite/Layout'
+import { PageHeader } from 'components/PageHeader'
 import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
 
 
@@ -301,8 +302,26 @@ export default function HeldItemsIndexPage(props) {
 	])
 
 	return (
-		<Layout title="Held Items">
-			<section className="box section">
+		<Layout
+			description="Check out the stats for all of Pokémon UNITE's held items!"
+			openGraph={{
+				images: [
+					{
+						alt: 'Pokémon UNITE: Held Items',
+						height: 630,
+						url: '/images/og/held-items.png',
+						width: 1200,
+					},
+				],
+			}}
+			title="Held Items">
+			<PageHeader>
+				<h2 className="title">
+					Held Items
+				</h2>
+
+				<hr />
+
 				<p className="title is-6">
 					Filters
 				</p>
@@ -324,7 +343,7 @@ export default function HeldItemsIndexPage(props) {
 							stats={stats} />
 					</div>
 				</div>
-			</section>
+			</PageHeader>
 
 			<ul className="columns is-multiline">
 				{Object.values(items).map(mapItems)}

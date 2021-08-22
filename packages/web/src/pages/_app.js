@@ -36,6 +36,7 @@ export default function App(props) {
 				openGraph={{
 					locale: 'en_US',
 					site_name: 'Pokébag',
+					title: 'Pokébag',
 					type: 'website',
 					url: 'https://pokeb.ag/',
 				}}

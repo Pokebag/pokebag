@@ -19,10 +19,11 @@ export function Layout(props) {
 		activeItem,
 		children,
 		description,
+		openGraph,
 		useTitleTemplate,
 	} = props
 
-	let title = `${props.title} | UNITE`
+	let title = `${props.title} | Pokémon UNITE`
 
 	if (!useTitleTemplate) {
 		title = props.title
@@ -31,6 +32,7 @@ export function Layout(props) {
 	return (
 		<BaseLayout
 			description={description}
+			openGraph={openGraph}
 			title={title}>
 			<div className="columns">
 				<div className="column is-one-quarter">
@@ -59,6 +61,7 @@ export function Layout(props) {
 
 Layout.defaultProps = {
 	activeItem: null,
+	openGraph: null,
 	useTitleTemplate: true,
 }
 
@@ -66,6 +69,7 @@ Layout.propTypes = {
 	activeItem: PropTypes.string,
 	children: PropTypes.node.isRequired,
 	description: PropTypes.string.isRequired,
+	openGraph: PropTypes.object,
 	title: PropTypes.string.isRequired,
 	useTitleTemplate: PropTypes.bool,
 }

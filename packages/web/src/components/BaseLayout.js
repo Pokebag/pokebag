@@ -26,6 +26,7 @@ export function BaseLayout(props) {
 	const {
 		children,
 		description,
+		openGraph,
 		title,
 	} = props
 
@@ -48,10 +49,13 @@ export function BaseLayout(props) {
 		title,
 	])
 
+	console.log(openGraph)
+
 	return (
 		<>
 			<NextSEO
 				description={description}
+				openGraph={openGraph}
 				title={title} />
 
 			<main className="section">
@@ -65,8 +69,13 @@ export function BaseLayout(props) {
 	)
 }
 
+BaseLayout.defaultProps = {
+	openGraph: null,
+}
+
 BaseLayout.propTypes = {
 	children: PropTypes.node.isRequired,
 	description: PropTypes.string.isRequired,
+	openGraph: PropTypes.object,
 	title: PropTypes.string.isRequired,
 }
