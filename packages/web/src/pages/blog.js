@@ -61,7 +61,9 @@ export default function BlogIndexPage(props) {
 	}, [articles])
 
 	return (
-		<Layout>
+		<Layout
+			description="Keep up with the latest news from Pokébag about all of the Pokémon games!"
+			title="Blog">
 			<PageHeader>
 				<h2 className="title">Latest Articles</h2>
 			</PageHeader>

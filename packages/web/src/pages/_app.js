@@ -42,7 +42,6 @@ export default function App(props) {
 				}}
 				titleTemplate="%s | Pokébag"
 				twitter={{
-					cardType: 'summary_large_image',
 					handle: '@TrezyCodes',
 					site: '@PokebagApp',
 				}} />

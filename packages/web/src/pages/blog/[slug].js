@@ -11,6 +11,7 @@ import {
 // 	onValue as onDatabaseValue,
 // } from 'firebase/database'
 import { MDXRemote } from 'next-mdx-remote'
+import { useRouter } from 'next/router'
 
 
 
@@ -20,8 +21,10 @@ import { MDXRemote } from 'next-mdx-remote'
 // import { database } from 'helpers/firebase'
 import { ArticleLayout } from 'components/Blog/ArticleLayout'
 import { MARKDOWN_COMPONENTS } from 'components/Blog/markdown'
+import { PageHeader } from 'components/PageHeader'
 import { PublishedAt } from 'components/Blog/PublishedAt'
 // import { Reactions } from 'components/Blog/Reactions'
+import { TagList } from 'components/TagList'
 
 
 
@@ -34,9 +37,24 @@ export default function ArticlePage(props) {
 		tableOfContents,
 	} = props
 	const {
+		category,
+		headerImage,
+		keywords,
 		publishedAt,
+		summary,
+		tags,
 		title,
 	} = source.scope
+	const Router = useRouter()
+
+	const twitterCardType = useMemo(() => {
+		if (headerImage) {
+			return 'summary_large_image'
+		}
+
+		return 'summary'
+	}, [source])
+
 	// const [reactions, setReactions] = useState({})
 	// const reactionsRef = useMemo(() => {
 	// 	return database.ref(`article-reactions/${slug}`)
@@ -61,14 +79,41 @@ export default function ArticlePage(props) {
 	// }, [handleReactionsSnapshot])
 
 	return (
-		<ArticleLayout tableOfContents={tableOfContents}>
+		<ArticleLayout
+			description={summary}
+			openGraph={{
+				title: `${title} | Pokébag`,
+				type: 'article',
+				description: summary,
+				url: Router.asPath,
+				article: {
+					publishedTime: publishedAt,
+					section: category,
+					authors: [
+						'https://trezy.com/about',
+					],
+					tags: keywords,
+				},
+			}}
+			tableOfContents={tableOfContents}
+			title={title}
+			twitter={{
+				cardType: twitterCardType,
+			}}>
 			<article>
-				<header className="box hero">
-					<div className="hero-body">
-						<h2 className="title">{title}</h2>
-						<em><PublishedAt timestamp={publishedAt} /></em>
-					</div>
-				</header>
+				<PageHeader>
+					<h2 className="title">{title}</h2>
+
+					<ul>
+						<li>
+							<TagList tags={tags} />
+						</li>
+
+						<li>
+							<em><PublishedAt timestamp={publishedAt} /></em>
+						</li>
+					</ul>
+				</PageHeader>
 
 				<section className="box section">
 					<div className="content">
