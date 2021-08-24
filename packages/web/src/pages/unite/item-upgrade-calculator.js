@@ -79,11 +79,12 @@ export default function ItemUpgradeCalculatorPage() {
 
 	return (
 		<Layout
+			description="Use our calculator to figure out how many Item Enhancers you need to upgrade your held items, and how many Aeos tickets or gems that'll cost!"
 			subtitle="Calculate the resources you need to upgrade a held item"
-			title="Upgrade Calculator">
+			title="Held Item Upgrade Calculator">
 			<section className="box section">
 				<div className="block">
-					<p className="block has-text-centered">To upgrade your item from...</p>
+					<p className="block has-text-centered is-4 title">To upgrade your item from...</p>
 
 					<LevelUpper
 						className="level-item"
@@ -99,8 +100,10 @@ export default function ItemUpgradeCalculatorPage() {
 					min={1}
 					onChange={setLevels}
 					values={levels} />
+			</section>
 
-				<p className="block has-text-centered">...you will need</p>
+			<section className="box section">
+				<p className="block has-text-centered is-4 title">...you will need</p>
 
 				<div className="columns is-vcentered">
 					<div className="column is-one-quarter">
@@ -121,7 +124,7 @@ export default function ItemUpgradeCalculatorPage() {
 					</div>
 
 					<div className="column">
-						<p className="content has-text-centered">OR</p>
+						<p className="content has-text-centered heading title is-5">OR</p>
 					</div>
 
 					<div className="column is-one-quarter">
@@ -141,7 +144,7 @@ export default function ItemUpgradeCalculatorPage() {
 					</div>
 
 					<div className="column">
-						<p className="content">OR</p>
+						<p className="content has-text-centered heading title is-5">OR</p>
 					</div>
 
 					<div className="column is-one-quarter">
