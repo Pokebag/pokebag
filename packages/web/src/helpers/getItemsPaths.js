@@ -1,21 +1,18 @@
-export async function getItemsPaths() {
-	const [
-		fs,
-		path,
-	] = await Promise.all([
-		import('fs/promises'),
-		import('path'),
-	])
+// Local imports
+import * as API from 'helpers/API'
 
-	const itemsPath = path.resolve(process.cwd(), 'src', 'data', 'items')
-	const itemFiles = await fs.readdir(itemsPath)
-	const items = itemFiles.map(itemFilename => {
-		return itemFilename.replace(/\.json$/, '')
-	})
+
+
+
+
+export async function getItemsPaths() {
+	const {
+		data: { items },
+	} = await API.getUniteHeldItems()
 
 	return {
 		fallback: false,
-		paths: items.map(itemID => ({
+		paths: Object.keys(items).map(itemID => ({
 			params: { itemID },
 		})),
 	}

@@ -31,7 +31,7 @@ export default function PokemonUniteIndexPage() {
 					width={640}
 					src="/images/logos/pokemon-unite.png" />
 
-				<p>Here you'll find all of the information that we've compiled on Pokémon UNITE, including Pokémon and item stats. You'll also find tools and utilities — such as calculators — to help you better understand the game!</p>
+				<p>{description}</p>
 			</PageHeader>
 		</Layout>
 	)
