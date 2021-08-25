@@ -1,5 +1,5 @@
 // Module imports
-import fs from 'fs/promises'
+import { promises as fs } from 'fs'
 import merge from 'lodash-es/merge.js'
 import path from 'path'
 

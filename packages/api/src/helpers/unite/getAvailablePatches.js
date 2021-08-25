@@ -1,5 +1,5 @@
 // Module imports
-import fs from 'fs/promises'
+import { promises as fs } from 'fs'
 import path from 'path'
 
 
