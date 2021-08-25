@@ -3,16 +3,16 @@
   "description": "Increases Attack after the Pokémon successfully scores a goal.",
   "tags": ["score"],
   "special": {
-    "description": "When the Pokémon scores a goal, its Attack increases by {atk}.",
+    "description": "When the Pokémon scores a goal, its Attack increases by {attack}.",
     "boons": {
       "1": {
-        "atk": "6"
+        "attack": "6"
       },
       "10": {
-        "atk": "9"
+        "attack": "9"
       },
       "20": {
-        "atk": "12"
+        "attack": "12"
       }
     }
   },

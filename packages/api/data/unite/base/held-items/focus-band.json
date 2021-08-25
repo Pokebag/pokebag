@@ -21,7 +21,7 @@
       "formula": "Math.ceil({lvl} / 2) * 2",
       "type": "flat"
     },
-    "spDef": {
+    "spDefense": {
       "formula": "Math.floor({lvl} / 2) * 2",
       "type": "flat"
     }

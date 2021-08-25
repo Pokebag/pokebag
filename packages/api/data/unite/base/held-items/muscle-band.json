@@ -3,16 +3,16 @@
   "description": "Increases basic attack damage.",
   "tags": ["attack"],
   "special": {
-    "description": "When basic attacks hit, the damage is increased by {atkDmg} of the opposing Pokémon's HP.",
+    "description": "When basic attacks hit, the damage is increased by {attackDamage} of the opposing Pokémon's HP.",
     "boons": {
       "1": {
-        "atkDmg": "1%"
+        "attackDamage": "1%"
       },
       "10": {
-        "atkDmg": "2%"
+        "attackDamage": "2%"
       },
       "20": {
-        "atkDmg": "3%"
+        "attackDamage": "3%"
       }
     }
   },

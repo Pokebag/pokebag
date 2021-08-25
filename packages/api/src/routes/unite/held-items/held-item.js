@@ -1,13 +1,6 @@
-// Module imports
-import { promises as fs } from 'fs'
-import path from 'path'
-
-
-
-
-
 // Local imports
 import { calculateHeldItemStats } from '../../../helpers/unite/calculateHeldItemStats.js'
+import { getFileAtPatchVersion } from '../../../helpers/unite/getFileAtPatchVersion.js'
 import { Route } from '../../../structures/Route.js'
 
 
@@ -21,9 +14,7 @@ export const route = new Route({
 
 			const SHOULD_CALCULATE_STATS = JSON.parse(context.query['calculate-stats'] || 'false')
 
-			const FILE_PATH = path.resolve(process.cwd(), 'data', 'unite', context.params.patchVersion, 'held-items', `${itemID}.json`)
-			const FILE_CONTENTS = await fs.readFile(FILE_PATH, 'utf8')
-			const ITEM = JSON.parse(FILE_CONTENTS)
+			const ITEM = await getFileAtPatchVersion(`held-items/${itemID}.json`, context.params.patchVersion)
 
 			ITEM.id = itemID
 

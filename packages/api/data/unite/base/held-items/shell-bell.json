@@ -21,7 +21,7 @@
       "formula": "(Math.ceil({lvl} / 2) * -0.3).toFixed(1)",
       "type": "percentage"
     },
-    "spAtk": {
+    "spAttack": {
       "formula": "(Math.floor({lvl} / 2) * 1.6).toFixed(1)",
       "type": "flat"
     }

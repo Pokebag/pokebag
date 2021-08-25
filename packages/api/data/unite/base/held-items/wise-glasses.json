@@ -3,21 +3,21 @@
   "description": "Increases Sp. Atk.",
   "tags": ["attack"],
   "special": {
-    "description": "Increases Sp. Atk by {spAtk}.",
+    "description": "Increases Sp. Atk by {spAttack}.",
     "boons": {
       "1": {
-        "spAtk": "3%"
+        "spAttack": "3%"
       },
       "10": {
-        "spAtk": "5%"
+        "spAttack": "5%"
       },
       "20": {
-        "spAtk": "7%"
+        "spAttack": "7%"
       }
     }
   },
   "stats": {
-    "spAtk": {
+    "spAttack": {
       "formula": "{lvl} + 9",
       "type": "flat"
     }
