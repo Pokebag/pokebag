@@ -28,7 +28,7 @@ const DESCRIPTION = 'Report a bug in Pokémon UNITE so that we can investigate, 
 
 
 
-export default function PokemonIndexPage(props) {
+export default function ReportABugPage(props) {
 	const {
 		items,
 		pokemon,
