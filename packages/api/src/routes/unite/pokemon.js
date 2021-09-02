@@ -23,7 +23,10 @@ export class PokemonRoute extends Route {
 			})
 
 			context.data = {
-				pokemon: POKEMON,
+				pokemon: POKEMON.reduce((accumulator, mon) => {
+					accumulator[mon.id] = mon
+					return accumulator
+				}, {}),
 			}
 		} catch(error) {
 			console.log(error)
