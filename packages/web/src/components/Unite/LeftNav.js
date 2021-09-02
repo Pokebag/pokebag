@@ -12,7 +12,7 @@ export function LeftNav() {
 
   return (
     <aside className="box left-nav menu">
-      {/* <p className="menu-label">
+      <p className="menu-label">
 				Pokémon
       </p>
 
@@ -20,13 +20,13 @@ export function LeftNav() {
 				<li>
 					<Link href="/unite/pokemon">All Pokémon</Link>
 
-					{Boolean(pokemon) && (
+					{/* {Boolean(pokemon) && (
 						<ul>
 							{Object.values(pokemon).map(mapPokemon)}
 						</ul>
-					)}
+					)} */}
 				</li>
-			</ul> */}
+			</ul>
 
       <p className="menu-label">
         Utilities

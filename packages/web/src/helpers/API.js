@@ -1,10 +1,3 @@
-// Local imports
-import { sortVersions } from 'helpers/sortVersions'
-
-
-
-
-
 /******************************************************************************\
  * Core functions
 \******************************************************************************/
@@ -31,16 +24,20 @@ export function getGameData(gameID) {
 	return apiFetchJSON(gameID)
 }
 
-export async function getUniteHeldItems(patchVersion) {
-	if (!patchVersion) {
-		const {
-			data: { availablePatches },
-		} = await getGameData('unite')
+export function getUniteEntityData(entityType, patchVersion) {
+	let basePath = '/unite'
 
-		availablePatches.sort(sortVersions)
-
-		patchVersion = availablePatches[availablePatches.length - 1]
+	if (patchVersion) {
+		basePath += `/${patchVersion}`
 	}
 
-	return apiFetchJSON(`/unite/${patchVersion}/held-items`)
+	return apiFetchJSON(`${basePath}/${entityType}`)
+}
+
+export function getUniteHeldItems(patchVersion) {
+	return getUniteEntityData('held-items', patchVersion)
+}
+
+export async function getUnitePokemon(patchVersion) {
+	return getUniteEntityData('pokemon', patchVersion)
 }
