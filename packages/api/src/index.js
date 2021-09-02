@@ -3,6 +3,7 @@ import body from 'koa-body'
 import cors from '@koa/cors'
 import compress from 'koa-compress'
 import Koa from 'koa'
+import logger from 'koa-logger'
 import noTrailingSlash from 'koa-no-trailing-slash'
 
 
@@ -30,6 +31,7 @@ const app = new Koa()
 
 
 // Attach middlewares
+app.use(logger())
 app.use(noTrailingSlash())
 app.use(compress())
 app.use(cors())
