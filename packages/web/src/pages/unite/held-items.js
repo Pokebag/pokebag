@@ -354,11 +354,11 @@ export default function HeldItemsIndexPage(props) {
 
 export async function getStaticProps(context) {
 	const [
-		{ getItemsProps },
+		{ getHeldItemsProps },
 		{ getStatsProps },
 		{ getTagsProps },
 	] = await Promise.all([
-		import('helpers/getItemsProps'),
+		import('helpers/getHeldItemsProps'),
 		import('helpers/getStatsProps'),
 		import('helpers/getTagsProps'),
 	])
@@ -368,7 +368,7 @@ export async function getStaticProps(context) {
 		{ props: statsProps },
 		{ props: tagsProps },
 	] = await Promise.all([
-		getItemsProps(context),
+		getHeldItemsProps(context),
 		getStatsProps(context),
 		getTagsProps(context),
 	])

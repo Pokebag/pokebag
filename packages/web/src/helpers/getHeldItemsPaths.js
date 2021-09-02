@@ -5,7 +5,7 @@ import * as API from 'helpers/API'
 
 
 
-export async function getItemsPaths() {
+export async function getHeldItemsPaths() {
 	const {
 		data: { items },
 	} = await API.getUniteHeldItems()

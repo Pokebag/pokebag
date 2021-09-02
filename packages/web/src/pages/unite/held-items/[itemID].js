@@ -198,20 +198,20 @@ export default function HeldItemPage(props) {
 }
 
 export async function getStaticPaths() {
-	const { getItemsPaths } = await import('helpers/getItemsPaths')
+	const { getHeldItemsPaths } = await import('helpers/getHeldItemsPaths')
 
-	return getItemsPaths()
+	return getHeldItemsPaths()
 }
 
 export async function getStaticProps(context) {
 	const { params } = context
 
 	const [
-		{ getItemsProps },
+		{ getHeldItemsProps },
 		{ getStatsProps },
 		{ getTagsProps },
 	] = await Promise.all([
-		import('helpers/getItemsProps'),
+		import('helpers/getHeldItemsProps'),
 		import('helpers/getStatsProps'),
 		import('helpers/getTagsProps'),
 	])
@@ -221,7 +221,7 @@ export async function getStaticProps(context) {
 		{ props: statsProps },
 		{ props: tagsProps },
 	] = await Promise.all([
-		getItemsProps(context),
+		getHeldItemsProps(context),
 		getStatsProps(context),
 		getTagsProps(context),
 	])

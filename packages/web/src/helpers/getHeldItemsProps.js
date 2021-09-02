@@ -27,7 +27,7 @@ async function getItemBlurhash(itemID) {
 	return encodeBlurhash(new Uint8ClampedArray(modifiedImageBuffer), 10, 10, 4, 4)
 }
 
-export async function getItemsProps() {
+export async function getHeldItemsProps() {
 	const {
 		data: { items },
 	} = await API.getUniteHeldItems()
