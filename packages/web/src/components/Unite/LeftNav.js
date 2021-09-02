@@ -8,29 +8,23 @@ import Link from 'next/link'
 
 
 export function LeftNav() {
-  const Router = useRouter()
+	const Router = useRouter()
 
-  return (
-    <aside className="box left-nav menu">
-      <p className="menu-label">
+	return (
+		<aside className="box left-nav menu">
+			{/* <p className="menu-label">
 				Pokémon
-      </p>
+			</p>
 
 			<ul className="menu-list">
 				<li>
 					<Link href="/unite/pokemon">All Pokémon</Link>
-
-					{/* {Boolean(pokemon) && (
-						<ul>
-							{Object.values(pokemon).map(mapPokemon)}
-						</ul>
-					)} */}
 				</li>
-			</ul>
+			</ul> */}
 
-      <p className="menu-label">
-        Utilities
-      </p>
+			<p className="menu-label">
+				Utilities
+			</p>
 
 			<ul className="menu-list">
 				<li>
@@ -45,11 +39,11 @@ export function LeftNav() {
 				</li>
 			</ul>
 
-      <p className="menu-label">
-        Items
-      </p>
+			<p className="menu-label">
+				Items
+			</p>
 
-      <ul className="menu-list">
+			<ul className="menu-list">
 				<li>
 					<Link href="/unite/held-items">
 						<a
@@ -67,7 +61,7 @@ export function LeftNav() {
 						{Object.values(items).map(mapItems)}
 					</ul>
 				</li> */}
-      </ul>
-    </aside>
-  )
+			</ul>
+		</aside>
+	)
 }
