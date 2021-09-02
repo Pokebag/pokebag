@@ -1,7 +1,0 @@
-{
-  "description": "While HP is at 50% or less, Attack and movement speed are increased.",
-  "displayName": "Torrent",
-  "id": "greninja-torrent",
-  "requires": [],
-  "slot": 0
-}

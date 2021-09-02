@@ -1,13 +1,11 @@
 // Module imports
-import { promises as fs } from 'fs'
-import path from 'path'
+import { getPatches } from '@pokebag/data-sdk'
 
 
 
 
 
 // Local imports
-import { getAvailablePatches } from '../helpers/unite/getAvailablePatches.js'
 import { Route } from '../structures/Route.js'
 
 
@@ -17,7 +15,7 @@ import { Route } from '../structures/Route.js'
 export const route = new Route({
 	handler: async context => {
 		try {
-			const PATCHES = await getAvailablePatches()
+			const PATCHES = await getPatches()
 
 			context.data = {
 				availablePatches: PATCHES.filter(patchVersion => !patchVersion.startsWith('200.')),

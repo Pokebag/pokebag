@@ -1,9 +1,0 @@
-{
-  "type": 4,
-  "description": "Attack with a spray of bubbles, decreasing the movement speed of enemies when it hits.",
-  "displayName": "Bubble",
-  "id": "greninja-bubble",
-  "requires": [],
-  "slot": 2,
-  "cooldown": 9
-}

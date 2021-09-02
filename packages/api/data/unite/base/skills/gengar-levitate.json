@@ -1,7 +1,0 @@
-{
-  "description": "Increases movement speed when out of combat. (8s after leaving combat)",
-  "displayName": "Levitate",
-  "id": "gengar-levitate",
-  "requires": [],
-  "slot": 0
-}

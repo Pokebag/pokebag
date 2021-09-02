@@ -1,6 +1,14 @@
+// Module imports
+import {
+	getDirectory,
+	getFile,
+} from '@pokebag/data-sdk'
+
+
+
+
+
 // Local imports
-import { getDirectoryAtPatchVersion } from '../../helpers/unite/getDirectoryAtPatchVersion.js'
-import { getFileAtPatchVersion } from '../../helpers/unite/getFileAtPatchVersion.js'
 import { Route } from '../../structures/Route.js'
 
 
@@ -10,10 +18,10 @@ import { Route } from '../../structures/Route.js'
 export const route = new Route({
 	handler: async context => {
 		try {
-			const POKEMON_FILES = await getDirectoryAtPatchVersion('pokemon', context.params.patchVersion)
+			const POKEMON_FILES = await getDirectory('pokemon', context.params.patchVersion)
 
 			const ALL_POKEMON = await Promise.all(POKEMON_FILES.map(async filename => {
-				const POKEMON = await getFileAtPatchVersion(`pokemon/${filename}`, context.params.patchVersion)
+				const POKEMON = await getFile(`pokemon/${filename}`, context.params.patchVersion)
 
 				return {
 					id: filename.replace(/\.json$/, ''),
@@ -22,9 +30,8 @@ export const route = new Route({
 			}))
 
 			context.data = {
-				pokemon: ALL_POKEMON.reduce((accumulator, { id, data }) => {
-					data.id = id
-					accumulator[id] = data
+				pokemon: ALL_POKEMON.reduce((accumulator, pokemon) => {
+					accumulator[pokemon.id] = pokemon
 					return accumulator
 				}, {}),
 			}

@@ -1032,6 +1032,8 @@ __metadata:
   resolution: "@pokebag/api@workspace:packages/api"
   dependencies:
     "@koa/cors": ^3.1.0
+    "@pokebag/data-sdk": ^2.0.1
+    "@pokebag/pokemon-unite-data": ^1.1.4
     dotenv: ^10.0.0
     koa: ^2.13.1
     koa-body: ^4.2.0
@@ -1042,6 +1044,27 @@ __metadata:
     nodemon: ^2.0.12
   languageName: unknown
   linkType: soft
+
+"@pokebag/data-sdk@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@pokebag/data-sdk@npm:2.0.1"
+  dependencies:
+    dirname-filename-esm: ^1.1.1
+    lodash-es: ^4.17.21
+  peerDependencies:
+    "@pokebag/pokemon-unite-data": ^1.1.4
+  checksum: cb2b709830cbeacd57cca2d082d88a8c0c567046a9a73ffec4376e12df252fcbfd4a3f6e9cdac205570412053e8d41f815fa396bfaba72e0ffc06744be36b8bd
+  languageName: node
+  linkType: hard
+
+"@pokebag/pokemon-unite-data@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "@pokebag/pokemon-unite-data@npm:1.1.4"
+  dependencies:
+    dirname-filename-esm: ^1.1.1
+  checksum: 1db50a103d3c7a75ab424dbb8125230b798b43e0a0042016ab2209425a79b743542b604d8e25f8702a0fbbfaeaece128d4c0085468b5bfdd8d5dc756bb409f92
+  languageName: node
+  linkType: hard
 
 "@pokebag/web@workspace:packages/web":
   version: 0.0.0-use.local
@@ -2686,6 +2709,13 @@ __metadata:
     miller-rabin: ^4.0.0
     randombytes: ^2.0.0
   checksum: 0e620f322170c41076e70181dd1c24e23b08b47dbb92a22a644f3b89b6d3834b0f8ee19e37916164e5eb1ee26d2aa836d6129f92723995267250a0b541811065
+  languageName: node
+  linkType: hard
+
+"dirname-filename-esm@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "dirname-filename-esm@npm:1.1.1"
+  checksum: 189edcefe7c3d2de25a1560c6d8eab1f3a607f3b1dd3f7e1ac3923c9c5662cabd5d8a940bb2484ca2acc595d1530d66a52926596707520d82fdc38b6b7dfe1d2
   languageName: node
   linkType: hard
 

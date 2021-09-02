@@ -1,6 +1,12 @@
+// Module imports
+import { getHeldItems } from '@pokebag/data-sdk'
+
+
+
+
+
 // Local imports
 import { calculateHeldItemStats } from '../../../helpers/unite/calculateHeldItemStats.js'
-import { getFileAtPatchVersion } from '../../../helpers/unite/getFileAtPatchVersion.js'
 import { Route } from '../../../structures/Route.js'
 
 
@@ -14,7 +20,10 @@ export const route = new Route({
 
 			const SHOULD_CALCULATE_STATS = JSON.parse(context.query['calculate-stats'] || 'false')
 
-			const ITEM = await getFileAtPatchVersion(`held-items/${itemID}.json`, context.params.patchVersion)
+			const [ITEM] = await getHeldItems({
+				ids: [itemID],
+				patch: context.params.patchVersion
+			})
 
 			ITEM.id = itemID
 
