@@ -157,7 +157,6 @@ export default function PokemonIndexPage(props) {
 			<li
 				className="column is-one-quarter"
 				key={pokemon.id}>
-				{console.log(pokemon)}
 				<Link href={`/unite/pokemon/${pokemon.id}`}>
 					<a>
 						<div className="card is-hoverable">
