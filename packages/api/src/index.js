@@ -11,10 +11,10 @@ import noTrailingSlash from 'koa-no-trailing-slash'
 
 
 // Local imports
-import './routes/index.js'
+// import './routes/index.js'
 import { bodyBuilder } from './helpers/bodyBuilder.js'
 import { statusCodeGenerator } from './helpers/statusCodeGenerator.js'
-import { router } from './structures/Router.js'
+import { mainRouter } from './router.js'
 
 
 
@@ -39,8 +39,8 @@ app.use(body())
 app.use(statusCodeGenerator)
 app.use(bodyBuilder)
 
-app.use(router.routes())
-app.use(router.allowedMethods())
+app.use(mainRouter.router.routes())
+app.use(mainRouter.router.allowedMethods())
 
 
 

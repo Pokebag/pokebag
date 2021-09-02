@@ -6,8 +6,10 @@ import { Route } from '../../../structures/Route.js'
 
 
 
-export const route = new Route({
-	handler: async context => {
+export class SinglePokemonRoute extends Route {
+	path = '/pokemon/:pokemonID'
+
+	handler = async context => {
 		try {
 			const { pokemonID } = context.params
 
@@ -28,6 +30,5 @@ export const route = new Route({
 			console.log(error)
 			context.errors.push(error.message)
 		}
-	},
-	route: '/unite/:patchVersion/pokemon/:pokemonID',
-})
+	}
+}

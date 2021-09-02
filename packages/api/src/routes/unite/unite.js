@@ -6,14 +6,16 @@ import { getPatches } from '@pokebag/data-sdk'
 
 
 // Local imports
-import { Route } from '../structures/Route.js'
+import { Route } from '../../structures/Route.js'
 
 
 
 
 
-export const route = new Route({
-	handler: async context => {
+export class UniteRoute extends Route {
+	path = '/'
+
+	handler = async context => {
 		try {
 			const PATCHES = await getPatches()
 
@@ -26,6 +28,5 @@ export const route = new Route({
 			console.log(error)
 			context.errors.push(error.message)
 		}
-	},
-	route: '/unite',
-})
+	}
+}

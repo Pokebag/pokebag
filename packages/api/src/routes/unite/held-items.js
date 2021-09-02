@@ -13,8 +13,10 @@ import { Route } from '../../structures/Route.js'
 
 
 
-export const route = new Route({
-	handler: async context => {
+export class HeldItemsRoute extends Route {
+	path = '/held-items'
+
+	handler = async context => {
 		try {
 			const SHOULD_CALCULATE_STATS = JSON.parse(context.query['calculate-stats'] || 'false')
 
@@ -36,6 +38,5 @@ export const route = new Route({
 			console.log(error)
 			context.errors.push(error.message)
 		}
-	},
-	route: '/unite/:patchVersion/held-items',
-})
+	}
+}

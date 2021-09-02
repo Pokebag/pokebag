@@ -15,8 +15,10 @@ import { Route } from '../../structures/Route.js'
 
 
 
-export const route = new Route({
-	handler: async context => {
+export class PokemonRoute extends Route {
+	path = '/pokemon'
+
+	handler = async context => {
 		try {
 			const POKEMON_FILES = await getDirectory('pokemon', context.params.patchVersion)
 
@@ -39,6 +41,5 @@ export const route = new Route({
 			console.log(error)
 			context.errors.push(error.message)
 		}
-	},
-	route: '/unite/:patchVersion/pokemon',
-})
+	}
+}

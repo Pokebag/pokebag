@@ -1,41 +1,50 @@
-// Local imports
-import { router } from './Router.js'
-
-
-
-
-
 export class Route {
+	/****************************************************************************\
+	 * Class Properties
+	\****************************************************************************/
+
 	defaultOptions = {
 		methods: ['get'],
 	}
 
-	constructor (options) {
-		const allOptions = {
+	handler = null
+
+	path = null
+
+
+
+
+
+	/****************************************************************************\
+	 * Public Methods
+	\****************************************************************************/
+
+	constructor(options) {
+		this.options = {
 			...this.defaultOptions,
 			...options,
 		}
-		this.options = allOptions
+	}
 
-		const {
-			handler,
-			route,
-		} = allOptions
-
-		if (!route) {
-			throw new Error('route is required')
+	validate = () => {
+		if (!this.path) {
+			throw new Error('path is required')
 		}
 
-		if (!handler) {
+		if (!this.handler) {
 			throw new Error('handler is required')
 		}
+	}
 
-		let methods = allOptions.methods
 
-		if (!Array.isArray(methods)) {
-			methods = [methods]
-		}
 
-		methods.forEach(method => router[method](route, handler))
+
+
+	/****************************************************************************\
+	 * Getters
+	\****************************************************************************/
+
+	get methods() {
+		return this.options.methods
 	}
 }

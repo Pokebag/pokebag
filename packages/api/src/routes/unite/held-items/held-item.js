@@ -13,8 +13,10 @@ import { Route } from '../../../structures/Route.js'
 
 
 
-export const route = new Route({
-	handler: async context => {
+export class SignleHeldItemRoute extends Route {
+	path = '/held-items/:itemID'
+
+	handler = async context => {
 		try {
 			const { itemID } = context.params
 
@@ -40,6 +42,5 @@ export const route = new Route({
 			console.log(error)
 			context.errors.push(error.message)
 		}
-	},
-	route: '/unite/:patchVersion/held-items/:itemID',
-})
+	}
+}
