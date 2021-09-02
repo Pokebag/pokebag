@@ -1,5 +1,6 @@
 // Module imports
 import { useMemo } from 'react'
+import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
 
@@ -104,18 +105,18 @@ export function IDSelect(props) {
 		pokemonOptions,
 	])
 
-	if (!entityType) {
-		return null
-	}
-
 	return (
 		<Field
+			className={classnames({
+				'is-hidden': !entityType,
+			})}
 			id="entity-id"
+			isDisabled={!entityType}
 			label={`Which ${entityTypeLabel} is bugged?`}>
 			<Select
 				id="entity-id"
 				label={`Select a ${entityTypeLabel}...`}
-				options={options} />
+				options={options ?? []} />
 		</Field>
 	)
 }

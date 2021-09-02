@@ -16,6 +16,13 @@ import PropTypes from 'prop-types'
 
 
 
+// Local imports
+import { Button } from 'components/Button'
+
+
+
+
+
 function createClickHandler(originalClickHandler, additionalHandlers) {
 	return event => {
 		if (typeof originalClickHandler === 'function') {
@@ -36,6 +43,7 @@ function mapChildren(additionalHandlers) {
 
 export function Dropdown(props) {
 	const {
+		className,
 		isMultiselect,
 		label,
 	} = props
@@ -94,26 +102,24 @@ export function Dropdown(props) {
 
 	return (
 		<div
-			className={classnames({
+			className={classnames(className, {
 				dropdown: true,
 				'is-active': isOpen,
 			})}
 			onMouseOut={startHoverIntentTimer}
 			onMouseOver={stopHoverIntentTimer}
 			ref={containerRef}>
-			<button
+			<Button
 				aria-controls="dropdown-menu"
 				aria-haspopup="true"
-				className="button"
-				onClick={toggleIsOpen}
-				type="button">
+				onClick={toggleIsOpen}>
 				<span>{label}</span>
 				<span className="icon is-small">
 					<FontAwesomeIcon
 						fixedWidth
 						icon="angle-down" />
 				</span>
-			</button>
+			</Button>
 
 			<div className="dropdown-menu" id="dropdown-menu" role="menu">
 				<div className="dropdown-content">
@@ -125,11 +131,13 @@ export function Dropdown(props) {
 }
 
 Dropdown.defaultProps = {
+	className: '',
 	isMultiselect: false,
 }
 
 Dropdown.propTypes = {
 	children: PropTypes.node.isRequired,
+	className: PropTypes.string,
 	isMultiselect: PropTypes.bool,
 	label: PropTypes.string.isRequired,
 }

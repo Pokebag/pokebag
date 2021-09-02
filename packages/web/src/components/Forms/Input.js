@@ -32,8 +32,11 @@ export function Input(props) {
 		isRequired,
 		maxLength,
 		minLength,
+		onChange,
+		placeholder,
 		shouldDebounceBy,
 		type,
+		value,
 	} = props
 	const {
 		errors: formErrors,
@@ -71,20 +74,20 @@ export function Input(props) {
 	])
 
 	const handleChange = useCallback(event => {
-		let value = event.target.value
+		let { value: localValue } = event.target
 
 		if (type === 'number') {
 			// If the value contains a decimal, parse as a float. Otherwise, parse as
 			// an integer.
-			if (value.indexOf('.') !== -1) {
-				value = parseFloat(value)
+			if (localValue.indexOf('.') !== -1) {
+				localValue = parseFloat(localValue)
 			} else {
-				value = parseInt(value)
+				localValue = parseInt(localValue)
 			}
 		}
 
-		updateValue(id, value)
-		validate(value, props)
+		updateValue(id, localValue)
+		validate(localValue, props)
 	}, [
 		id,
 		props,
@@ -125,9 +128,10 @@ export function Input(props) {
 					id={id}
 					maxLength={maxLength}
 					minLength={minLength}
-					onChange={handleChange}
+					onChange={onChange ?? handleChange}
+					placeholder={placeholder}
 					required={isRequired}
-					value={values[id]} />
+					value={value ?? values[id]} />
 			)}
 
 			{!isMultiline && (
@@ -143,10 +147,11 @@ export function Input(props) {
 					id={id}
 					maxLength={maxLength}
 					minLength={minLength}
-					onChange={handleChange}
+					onChange={onChange ?? handleChange}
+					placeholder={placeholder}
 					required={isRequired}
 					type={type}
-					value={values[id]} />
+					value={value ?? values[id]} />
 			)}
 
 			{Boolean(iconLeft) && (
@@ -178,9 +183,12 @@ Input.defaultProps = {
 	isRequired: false,
 	maxLength: null,
 	minLength: null,
+	onChange: null,
+	placeholder: '',
 	shouldDebounceBy: 0,
 	type: 'text',
 	validate: () => {},
+	value: null,
 }
 
 Input.propTypes = {
@@ -197,7 +205,13 @@ Input.propTypes = {
 	isRequired: PropTypes.bool,
 	maxLength: PropTypes.number,
 	minLength: PropTypes.number,
+	onChange: PropTypes.func,
+	placeholder: PropTypes.string,
 	shouldDebounceBy: PropTypes.number,
 	type: PropTypes.string,
 	validate: PropTypes.func,
+	value: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
 }

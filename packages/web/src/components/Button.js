@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 
 
-const Button = forwardRef((props, ref) => {
+export const Button = forwardRef((props, ref) => {
 	const {
 		children,
 		className,
@@ -18,6 +18,13 @@ const Button = forwardRef((props, ref) => {
 		type,
 	} = props
 
+	const ariaAttributes = Object.entries(props).reduce((accumulator, [key, value]) => {
+		if (key.startsWith('aria-')) {
+			accumulator[key] = value
+		}
+		return accumulator
+	}, {})
+
 	const dataAttributes = Object.entries(props).reduce((accumulator, [key, value]) => {
 		if (key.startsWith('data-')) {
 			accumulator[key] = value
@@ -27,6 +34,7 @@ const Button = forwardRef((props, ref) => {
 
 	return (
 		<button
+			{...ariaAttributes}
 			{...dataAttributes}
 			className={classnames(className, {
 				button: isStyled,
@@ -59,5 +67,3 @@ Button.propTypes = {
 	style: PropTypes.object,
 	type: PropTypes.string.isRequired,
 }
-
-export { Button }

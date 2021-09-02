@@ -7,6 +7,13 @@ import PropTypes from 'prop-types'
 
 
 
+// Local imports
+import { Button } from 'components/Button'
+
+
+
+
+
 
 export function SelectOption(props) {
 	const {
@@ -17,8 +24,8 @@ export function SelectOption(props) {
 	} = props
 
 	return (
-		<button
-			className="button dropdown-item"
+		<Button
+			className="dropdown-item"
 			onClick={onClick}>
 			{children}
 
@@ -40,7 +47,7 @@ export function SelectOption(props) {
 					)}
 				</span>
 			</span>
-		</button>
+		</Button>
 	)
 }
 

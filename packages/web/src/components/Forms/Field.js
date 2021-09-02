@@ -74,7 +74,7 @@ export function Field(props) {
 	}
 
 	return (
-		<div className="field">
+		<div className={classnames('field', className)}>
 			{renderedLabel}
 			{children}
 			{renderedHelpers}

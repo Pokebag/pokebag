@@ -47,6 +47,7 @@ function parseOptions(option) {
 
 export function Select(props) {
 	const {
+		className,
 		id,
 		isMultiselect,
 	} = props
@@ -165,6 +166,7 @@ export function Select(props) {
 
 	return (
 		<Dropdown
+			className={className}
 			isMultiselect={isMultiselect}
 			label={label}>
 			{options.map(mapOptions)}
@@ -173,10 +175,12 @@ export function Select(props) {
 }
 
 Select.defaultProps = {
+	className: '',
 	isMultiselect: false,
 }
 
 Select.propTypes = {
+	className: PropTypes.string,
 	id: PropTypes.string.isRequired,
 	isMultiselect: PropTypes.bool,
 	label: PropTypes.string.isRequired,

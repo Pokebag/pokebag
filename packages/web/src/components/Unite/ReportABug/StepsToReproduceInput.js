@@ -7,28 +7,28 @@ import { useMemo } from 'react'
 
 // Local imports
 import { Field } from 'components/Forms/Field'
-import { Input } from 'components/Forms/Input'
+import { MultiInput } from 'components/Forms/MultiInput'
 import { useForm } from 'components/Forms/Form'
 
 
 
 
 
-export function DescriptionInput() {
+export function StepsToReproduceInput() {
 	const { values } = useForm()
 
 	const isDisabled = useMemo(() => !values['entity-id'], [values['entity-id']])
 
 	return (
 		<Field
-			id="description"
-			label="Describe the bug">
-			<Input
-				id="description"
+			helperText="Please be as specific as possible."
+			id="step-1"
+			label="What steps must be taken to reproduce this bug?">
+			<MultiInput
+				id="steps-to-reproduce"
 				isDisabled={isDisabled}
-				isMultiline
 				isRequired
-				placeholder="e.g. When a Pokémon gets hit with with Stealth Rock, it is teleported to a completely different match and immediately wins." />
+				prefix="Step" />
 		</Field>
 	)
 }
