@@ -14,6 +14,7 @@ import { DefaultSeo as DefaultSEO } from 'next-seo'
 
 
 // Local imports
+import { AuthContextProvider } from 'contexts/AuthContext'
 import { Navbar } from 'components/Navbar'
 import { reportWebVitals } from 'helpers/reportWebVitals'
 import { useFontawesome } from 'hooks/useFontawesome'
@@ -31,7 +32,7 @@ export default function App(props) {
 	useFontawesome()
 
 	return (
-		<>
+		<AuthContextProvider>
 			<DefaultSEO
 				openGraph={{
 					locale: 'en_US',
@@ -51,7 +52,7 @@ export default function App(props) {
 				<Component {...pageProps} />
 				<div id="modal-portal-container" />
 			</div>
-		</>
+		</AuthContextProvider>
 	)
 }
 

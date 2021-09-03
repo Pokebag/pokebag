@@ -40,7 +40,7 @@ if (!auth) {
 }
 
 if (!database) {
-	database = firebase.database()
+	// database = firebase.database()
 }
 
 if (!firestore) {

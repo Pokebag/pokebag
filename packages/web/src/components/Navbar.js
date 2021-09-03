@@ -11,7 +11,19 @@ import Link from 'next/link'
 
 
 
+// Local imports
+import { useAuth } from 'contexts/AuthContext'
+
+
+
+
+
 export function Navbar() {
+	const {
+		isLoggedIn,
+		logout,
+	} = useAuth()
+
 	const [menuIsOpen, setMenuIsOpen] = useState(false)
 
 	const toggleMenuOpen = useCallback(() => {
@@ -76,26 +88,51 @@ export function Navbar() {
 								</Link>
 							</div>
 						</div>
-
-						{/* <Link href="/">
-							<a className="navbar-item">
-								Documentation
-							</a>
-						</Link> */}
 					</div>
 
-					{/* <div className="navbar-end">
-						<div className="navbar-item">
-							<div className="buttons">
-								<Link className="button is-primary">
-									<strong>Sign up</strong>
-								</Link>
-								<Link className="button is-light">
-									Log in
-								</Link>
+					<div className="navbar-end">
+						{isLoggedIn && (
+							<div className="navbar-item has-dropdown is-hoverable">
+								<div className="navbar-link">
+									Ohai!
+								</div>
+
+								<div className="navbar-dropdown is-right">
+									<Link href="/unite">
+										<a className="navbar-item">Profile</a>
+									</Link>
+
+									<Link href="/unite">
+										<a className="navbar-item">Settings</a>
+									</Link>
+
+									<hr class="dropdown-divider" />
+
+									<button
+										className="button dropdown-item has-text-left"
+										onClick={logout}>
+										Logout
+									</button>
+								</div>
 							</div>
-						</div>
-					</div> */}
+						)}
+
+						{!isLoggedIn && (
+							<div className="navbar-item">
+								<div className="buttons">
+									<Link href="/sign-up">
+										<a className="button is-primary">
+											<strong>Sign up</strong>
+										</a>
+									</Link>
+
+									<Link href="/login">
+										<a className="button is-light">Log in</a>
+									</Link>
+								</div>
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
 		</nav>
