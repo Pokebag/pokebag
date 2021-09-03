@@ -20,5 +20,8 @@ export function useBreadcrumbs(breadcrumbs) {
 
 	useEffect(() => {
 		setBreadcrumbs(breadcrumbs)
-	}, [])
+	}, [
+		breadcrumbs,
+		setBreadcrumbs,
+	])
 }
