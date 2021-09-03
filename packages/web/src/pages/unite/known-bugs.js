@@ -1,25 +1,26 @@
 // Module imports
-import {
-	useCallback,
-	useMemo,
-} from 'react'
+import { useCallback } from 'react'
 
 
 
 
 
 // Local imports
+import { Bug } from 'components/Unite/Bug'
 import { Layout } from 'components/Unite/Layout'
 import { PageHeader } from 'components/PageHeader'
 import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
-import { Image } from 'components/Image'
 
 
 
 
 
 export default function KnownBugsPage(props) {
-	const { pokemon } = props
+	const {
+		bugs,
+		items,
+		pokemon,
+	} = props
 
 	useBreadcrumbs([
 		{
@@ -32,116 +33,15 @@ export default function KnownBugsPage(props) {
 		},
 	])
 
-	const dateFormatter = useMemo(() => {
-		return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' })
-	}, [])
-
-	const bugs = useMemo(() => {
-		return props.bugs.map(bug => {
-			bug.reports = bug.reports.map(report => {
-				report.createdAt = dateFormatter.format(new Date(report.createdAt))
-				return report
-			})
-
-			return bug
-		})
-	}, [
-		dateFormatter,
-		props.bugs,
-	])
-
-	const mapReport = useCallback(report => {
-		return (
-			<li key={report.id}>
-				<a href="#">{`Reported by ${report.author} on ${report.createdAt}`}</a>
-			</li>
-		)
-	}, [])
-
 	const mapBugs = useCallback(bug => {
-		const reports = bug.reports.sort((a, b) => {
-			const dateA = new Date(a.createdAt)
-			const dateB = new Date(b.createdAt)
-
-			if (dateA > dateB) return 1
-
-			if (dateA < dateB) return -1
-
-			return 0
-		})
-
-		const firstReport = reports[0]
-		const mon = pokemon[bug.entityID]
-
 		return (
-			<section
-				className="box section"
-				key={bug.id}>
-				<header className="content">
-					<h3 className="title is-4">{bug.title}</h3>
-					<p className="subtitle is-5">{`This bug affects the Pokémon, ${mon.displayName}.`}</p>
-				</header>
-
-				<div className="columns">
-					<div className="column columns is-multiline">
-						<div className="column is-full">
-							<h4 className="heading">{'Description'}</h4>
-							<div className="content">
-								<p>{bug.description}</p>
-							</div>
-						</div>
-
-						<div className="column">
-							<h4 className="heading">{'First reported by:'}</h4>
-							<p>
-								<a href="#">{firstReport.author}</a>
-							</p>
-						</div>
-
-						<div className="column">
-							<h4 className="heading">{'First reported on:'}</h4>
-							<p>{firstReport.createdAt}</p>
-						</div>
-
-						<div className="column">
-							<h4 className="heading">{'Bug ID:'}</h4>
-							<p>
-								<a href="#">{bug.id}</a>
-							</p>
-						</div>
-
-						<div className="column">
-							<h4 className="heading">{'Status:'}</h4>
-							<p className="has-text-danger">{bug.status}</p>
-						</div>
-
-						<div className="column is-full">
-							<h4 className="heading">
-								{'Related reports'}
-							</h4>
-
-							<div className="content">
-								<ul>
-									{reports.map(mapReport)}
-								</ul>
-							</div>
-						</div>
-					</div>
-
-					<div className="column is-narrow">
-						<Image
-							alt={`Image of ${mon.displayName}`}
-							blurDataURL={mon.blurDataURL}
-							priority
-							size={256}
-							src={mon.imageURL} />
-					</div>
-				</div>
-			</section>
+			<Bug
+				bug={bug}
+				items={items}
+				pokemon={pokemon} />
 		)
 	}, [
-		dateFormatter,
-		mapReport,
+		items,
 		pokemon,
 	])
 
