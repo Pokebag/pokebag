@@ -45,6 +45,7 @@ export function Dropdown(props) {
 	const {
 		className,
 		isMultiselect,
+		isUp,
 		label,
 	} = props
 	const [isOpen, setIsOpen] = useState(false)
@@ -105,6 +106,7 @@ export function Dropdown(props) {
 			className={classnames(className, {
 				dropdown: true,
 				'is-active': isOpen,
+				'is-up': isUp,
 			})}
 			onMouseOut={startHoverIntentTimer}
 			onMouseOver={stopHoverIntentTimer}
@@ -133,11 +135,13 @@ export function Dropdown(props) {
 Dropdown.defaultProps = {
 	className: '',
 	isMultiselect: false,
+	isUp: false,
 }
 
 Dropdown.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
 	isMultiselect: PropTypes.bool,
+	isUp: PropTypes.bool,
 	label: PropTypes.string.isRequired,
 }

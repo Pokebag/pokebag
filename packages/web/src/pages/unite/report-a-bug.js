@@ -1,12 +1,15 @@
 // Module imports
-import { useCallback } from 'react'
+import {
+	useCallback,
+	useState,
+} from 'react'
+import { useRouter } from 'next/router'
 
 
 
 
 
 // Local imports
-import { Field } from 'components/Forms/Field'
 import { FormButton } from 'components/Forms/FormButton'
 import { Form } from 'components/Forms/Form'
 import { IDSelect } from 'components/Unite/ReportABug/IDSelect'
@@ -16,6 +19,7 @@ import { PageHeader } from 'components/PageHeader'
 import { StepsToReproduceInput } from 'components/Unite/ReportABug/StepsToReproduceInput'
 import { TypeSelect } from 'components/Unite/ReportABug/TypeSelect'
 import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
+import classNames from 'classnames'
 
 
 
@@ -33,10 +37,32 @@ export default function ReportABugPage(props) {
 		items,
 		pokemon,
 	} = props
+	const Router = useRouter()
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
-	const handleSubmit = useCallback(formData => {
-		console.log(formData)
-	}, [])
+	const handleSubmit = useCallback(async ({ values }) => {
+		setIsSubmitting(true)
+
+		try {
+			const { id: reportID } = await fetch('/api/unite/bug-reports', {
+				body: JSON.stringify({
+					description: values.description,
+					entityID: values['entity-id'],
+					entityType: values['entity-type'],
+					stepsToReproduce: values['steps-to-reproduce'],
+				}),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				method: 'post',
+			}).then(response => response.json())
+
+			Router.push(`/unite/bug-reports/${reportID}`)
+		} catch(error) {
+			console.log(error)
+			setIsSubmitting(false)
+		}
+	}, [setIsSubmitting])
 
 	useBreadcrumbs([
 		{
@@ -67,6 +93,7 @@ export default function ReportABugPage(props) {
 					'entity-type': null,
 					'steps-to-reproduce': [],
 				}}
+				isDisabled={isSubmitting}
 				onSubmit={handleSubmit}>
 				<section className="box section">
 					<div className="field is-horizontal">
@@ -85,7 +112,10 @@ export default function ReportABugPage(props) {
 
 					<div className="field has-text-right">
 						<FormButton
-							className="is-primary"
+							className={classNames({
+								'is-loading': isSubmitting,
+								'is-primary': true,
+							})}
 							type="submit">
 							Submit
 						</FormButton>

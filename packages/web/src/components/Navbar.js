@@ -106,7 +106,7 @@ export function Navbar() {
 										<a className="navbar-item">Settings</a>
 									</Link>
 
-									<hr class="dropdown-divider" />
+									<hr className="dropdown-divider" />
 
 									<button
 										className="button dropdown-item has-text-left"

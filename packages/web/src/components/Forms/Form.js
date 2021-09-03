@@ -87,6 +87,7 @@ export function Form(props) {
 		children,
 		className,
 		initialValues,
+		isDisabled,
 		onSubmit,
 	} = props
 	const [state, dispatch] = useReducer(reducer, {
@@ -153,7 +154,9 @@ export function Form(props) {
 			<form
 				className={className}
 				onSubmit={handleSubmit}>
-				{children}
+				<fieldset disabled={isDisabled}>
+					{children}
+				</fieldset>
 			</form>
 		</FormContext.Provider>
 	)
@@ -162,6 +165,7 @@ export function Form(props) {
 Form.defaultProps = {
 	className: null,
 	initialValues: {},
+	initialValuesisDisabled: false,
 	onSubmit: () => {},
 }
 
@@ -169,6 +173,7 @@ Form.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
 	initialValues: PropTypes.object,
+	isDisabled: PropTypes.bool,
 	onSubmit: PropTypes.func,
 }
 
