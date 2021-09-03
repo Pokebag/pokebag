@@ -119,7 +119,7 @@ export function Dropdown(props) {
 				<span className="icon is-small">
 					<FontAwesomeIcon
 						fixedWidth
-						icon="angle-down" />
+						icon={`angle-${isUp ? 'up' : 'down'}`} />
 				</span>
 			</Button>
 

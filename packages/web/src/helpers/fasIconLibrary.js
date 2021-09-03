@@ -1,6 +1,7 @@
 export {
 	faAngleDown,
 	faAngleDoubleRight,
+	faAngleUp,
 	faBolt,
 	faBug,
 	faCheck,
