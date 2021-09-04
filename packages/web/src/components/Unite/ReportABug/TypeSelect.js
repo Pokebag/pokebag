@@ -17,11 +17,11 @@ export function TypeSelect() {
 				options={[
 					{
 						label: 'Battle Item',
-						value: 'battle-item',
+						value: 'battle-items',
 					},
 					{
 						label: 'Held Item',
-						value: 'held-item',
+						value: 'held-items',
 					},
 					{
 						label: 'Pokémon',

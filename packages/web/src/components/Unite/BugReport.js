@@ -52,11 +52,11 @@ export function BugReport(props) {
 	let entity = null
 
 	switch (report.entityType) {
-		// case 'battle-item':
+		// case 'battle-items':
 		// 	entityLabel = 'Battle Item'
 		// 	break
 
-		case 'held-item':
+		case 'held-items':
 			entity = items[report.entityID]
 			break
 

@@ -8,7 +8,9 @@ import shallow from 'zustand/shallow'
 
 
 // Local imports
+import { BattleItemsSelect } from 'components/Unite/BattleItemsSelect'
 import { Field } from 'components/Forms/Field'
+import { HeldItemsSelect } from 'components/Unite/HeldItemsSelect'
 import { PokemonSelect } from 'components/Unite/PokemonSelect'
 import { Select } from 'components/Forms/Select'
 import { useForm } from 'components/Forms/Form'
@@ -50,6 +52,14 @@ export function EntitySelect(props) {
 					<Field id="entityID">
 						{!values.entityType && (
 							<Select options={[]} />
+						)}
+
+						{(values.entityType === 'battle-items') && (
+							<BattleItemsSelect />
+						)}
+
+						{(values.entityType === 'held-items') && (
+							<HeldItemsSelect />
 						)}
 
 						{(values.entityType === 'pokemon') && (

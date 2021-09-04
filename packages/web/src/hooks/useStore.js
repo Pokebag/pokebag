@@ -37,54 +37,53 @@ export const useStore = create((setState, getState) => {
 		isModalOpen: false,
 		unite: {
 			entityTypes: {
-				'battle-item': 'Battle Item',
-				'held-item': 'Held Item',
+				'battle-items': 'Battle Item',
+				'held-items': 'Held Item',
 				pokemon: 'Pokémon',
 			},
 
-			battleItems: {
-				'eject-button': {
-					displayName: 'Eject Button',
-					id: 'eject-button',
-				},
-				'fluffy-tail': {
-					displayName: 'Fluffy Tail',
-					id: 'fluffy-tail',
-				},
-				'full-heal': {
-					displayName: 'Full Heal',
-					id: 'full-heal',
-				},
-				'goal-getter': {
-					displayName: 'Goal Getter',
-					id: 'goal-getter',
-				},
-				'potion': {
-					displayName: 'Potion',
-					id: 'potion',
-				},
-				'slow-smoke': {
-					displayName: 'Slow Smoke',
-					id: 'slow-smoke',
-				},
-				'x-attack': {
-					displayName: 'X Attack',
-					id: 'x-attack',
-				},
-				'x-speed': {
-					displayName: 'X Speed',
-					id: 'x-speed',
-				},
-			},
-
+			battleItems: null,
 			heldItems: null,
 			isSavingBug: false,
 			pokemon: null,
 
-			getPokemon: async () => {
-				const response = await API.getUnitePokemon()
+			getBattleItems: async () => {
+				// const response = await API.getUniteBattleItems()
 				setState(state => {
-					state.unite.pokemon = response.data.pokemon
+					state.unite.battleItems = {
+						'eject-button': {
+							displayName: 'Eject Button',
+							id: 'eject-button',
+						},
+						'fluffy-tail': {
+							displayName: 'Fluffy Tail',
+							id: 'fluffy-tail',
+						},
+						'full-heal': {
+							displayName: 'Full Heal',
+							id: 'full-heal',
+						},
+						'goal-getter': {
+							displayName: 'Goal Getter',
+							id: 'goal-getter',
+						},
+						'potion': {
+							displayName: 'Potion',
+							id: 'potion',
+						},
+						'slow-smoke': {
+							displayName: 'Slow Smoke',
+							id: 'slow-smoke',
+						},
+						'x-attack': {
+							displayName: 'X Attack',
+							id: 'x-attack',
+						},
+						'x-speed': {
+							displayName: 'X Speed',
+							id: 'x-speed',
+						},
+					}
 				})
 			},
 
@@ -92,6 +91,13 @@ export const useStore = create((setState, getState) => {
 				const response = await API.getUniteHeldItems()
 				setState(state => {
 					state.unite.heldItems = response.data.items
+				})
+			},
+
+			getPokemon: async () => {
+				const response = await API.getUnitePokemon()
+				setState(state => {
+					state.unite.pokemon = response.data.pokemon
 				})
 			},
 

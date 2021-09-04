@@ -48,12 +48,12 @@ export function Bug(props) {
 		entityLabel,
 	} = useMemo(() => {
 		switch (bug.entityType) {
-			case 'battle-item':
+			case 'battle-items':
 				return {
 					entityLabel: 'Battle Item',
 				}
 
-			case 'held-item':
+			case 'held-items':
 				return {
 					entity: items[bug.entityID],
 					entityLabel: 'Held Item',

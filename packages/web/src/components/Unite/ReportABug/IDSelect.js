@@ -45,7 +45,7 @@ export function IDSelect(props) {
 		options
 	} = useMemo(() => {
 		switch (entityType) {
-			case 'battle-item':
+			case 'battle-items':
 				return {
 					entityTypeLabel: 'Battle Item',
 					options: [
@@ -84,7 +84,7 @@ export function IDSelect(props) {
 					],
 				}
 
-			case 'held-item':
+			case 'held-items':
 				return {
 					entityTypeLabel: 'Held Item',
 					options: heldItemOptions,
