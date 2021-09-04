@@ -32,11 +32,9 @@ export async function getPokemonProps() {
 		data: { pokemon },
 	} = await API.getUnitePokemon()
 
-	await Promise.all(Object.values(pokemon).map(async currentPokemon => {
-		const blurDataURL = await getItemBlurhash(currentPokemon.id)
-		currentPokemon.blurDataURL = blurDataURL
-		currentPokemon.id = currentPokemon.id
-		currentPokemon.imageURL = `/images/games/unite/pokemon/${currentPokemon.id}.png`
+	await Promise.all(Object.values(pokemon).map(async mon => {
+		mon.blurDataURL = await getItemBlurhash(mon.id)
+		mon.imageURL = `/images/games/unite/pokemon/${mon.id}.png`
 	}))
 
 	return {

@@ -32,10 +32,9 @@ export async function getHeldItemsProps() {
 		data: { items },
 	} = await API.getUniteHeldItems()
 
-	await Promise.all(Object.keys(items).map(async itemID => {
-		const blurDataURL = await getItemBlurhash(itemID)
-		items[itemID].blurDataURL = blurDataURL
-		items[itemID].id = itemID
+	await Promise.all(Object.values(items).map(async item => {
+		item.blurDataURL = await getItemBlurhash(item.id)
+		item.imageURL = `/images/items/${item.id}.png`
 	}))
 
 	return {
