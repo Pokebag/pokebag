@@ -98,7 +98,7 @@ export function BugReport(props) {
 					</div>
 				</div>
 
-				{Boolean(entity.imageURL) && (
+				{Boolean(entity?.imageURL) && (
 					<div className="column is-narrow">
 						<Image
 							alt={`Image of ${entity.displayName}`}
