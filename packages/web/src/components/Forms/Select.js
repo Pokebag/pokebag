@@ -49,7 +49,9 @@ export function Select(props) {
 	const {
 		className,
 		id,
+		isLoading,
 		isMultiselect,
+		isUp,
 	} = props
 	const {
 		updateValidity,
@@ -167,7 +169,9 @@ export function Select(props) {
 	return (
 		<Dropdown
 			className={className}
+			isLoading={isLoading}
 			isMultiselect={isMultiselect}
+			isUp={isUp}
 			label={label}>
 			{options.map(mapOptions)}
 		</Dropdown>
@@ -176,14 +180,19 @@ export function Select(props) {
 
 Select.defaultProps = {
 	className: '',
+	isLoading: false,
 	isMultiselect: false,
+	isUp: false,
+	label: 'Select...',
 }
 
 Select.propTypes = {
 	className: PropTypes.string,
 	id: PropTypes.string.isRequired,
+	isLoading: PropTypes.bool,
 	isMultiselect: PropTypes.bool,
-	label: PropTypes.string.isRequired,
+	isUp: PropTypes.bool,
+	label: PropTypes.string,
 	options: PropTypes.arrayOf(PropTypes.oneOfType([
 		PropTypes.shape({
 			disabled: PropTypes.bool,

@@ -22,6 +22,7 @@ export function Modal(props) {
 	const {
 		children,
 		onClose,
+		showClose,
 		wrapContent,
 	} = props
 	const {
@@ -65,10 +66,12 @@ export function Modal(props) {
 
 				{!wrapContent && children}
 
-				<button
-					aria-label="close"
-					className="modal-close is-large"
-					onClick={handleClose} />
+				{showClose && (
+					<button
+						aria-label="close"
+						className="modal-close is-large"
+						onClick={handleClose} />
+				)}
 			</div>
 		),
 		document.querySelector('#modal-portal-container')
@@ -76,11 +79,13 @@ export function Modal(props) {
 }
 
 Modal.defaultProps = {
+	showClose: true,
 	wrapContent: true,
 }
 
 Modal.propTypes = {
 	children: PropTypes.node.isRequired,
 	onClose: PropTypes.func.isRequired,
+	showClose: PropTypes.bool,
 	wrapContent: PropTypes.bool,
 }

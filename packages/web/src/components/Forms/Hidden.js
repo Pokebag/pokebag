@@ -33,7 +33,11 @@ export function Hidden(props) {
 	)
 }
 
+Hidden.defaultProps = {
+	autocomplete: 'off',
+}
+
 Hidden.propTypes = {
-	autocomplete: PropTypes.string.isRequired,
+	autocomplete: PropTypes.string,
 	id: PropTypes.string.isRequired,
 }

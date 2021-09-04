@@ -1,6 +1,10 @@
 // Module imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useMemo } from 'react'
+import {
+	useCallback,
+	useMemo,
+	useState,
+} from 'react'
 import Link from 'next/link'
 
 
@@ -9,6 +13,7 @@ import Link from 'next/link'
 
 // Local imports
 import { Button } from 'components/Button'
+import { ConvertBugReportToBugModal } from 'components/Unite/ConvertBugReportToBugModal'
 import { Dropdown } from 'components/Dropdown'
 import { Image } from 'components/Image'
 
@@ -30,27 +35,33 @@ export function BugReport(props) {
 		pokemon,
 		report,
 	} = props
+	const [isConvertingToBug, setIsConvertingToBug] = useState(false)
 
 	const dateFormatter = useMemo(() => {
 		return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' })
 	}, [])
 
+	const handleConvertToBugClick = useCallback(() => {
+		setIsConvertingToBug(true)
+	}, [setIsConvertingToBug])
+
+	const handleConvertToBugClose = useCallback(() => {
+		setIsConvertingToBug(false)
+	}, [setIsConvertingToBug])
+
 	let entity = null
-	let entityLabel = null
 
 	switch (report.entityType) {
-		case 'battle-item':
-			entityLabel = 'Battle Item'
-			break
+		// case 'battle-item':
+		// 	entityLabel = 'Battle Item'
+		// 	break
 
 		case 'held-item':
 			entity = items[report.entityID]
-			entityLabel = 'Held Item'
 			break
 
 		case 'pokemon':
 			entity = pokemon[report.entityID]
-			entityLabel = 'Pokémon'
 			break
 	}
 
@@ -114,7 +125,9 @@ export function BugReport(props) {
 				<Dropdown
 					isUp
 					label="Actions...">
-					<Button className="dropdown-item">
+					<Button
+						className="dropdown-item"
+						onClick={handleConvertToBugClick}>
 						<span className="icon is-small">
 							<FontAwesomeIcon
 								fixedWidth
@@ -147,6 +160,12 @@ export function BugReport(props) {
 					</Button>
 				</Dropdown>
 			</div>
+
+			{isConvertingToBug && (
+				<ConvertBugReportToBugModal
+					onClose={handleConvertToBugClose}
+					report={report} />
+			)}
 		</section>
 	)
 }

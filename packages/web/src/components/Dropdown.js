@@ -44,6 +44,7 @@ function mapChildren(additionalHandlers) {
 export function Dropdown(props) {
 	const {
 		className,
+		isLoading,
 		isMultiselect,
 		isUp,
 		label,
@@ -114,6 +115,9 @@ export function Dropdown(props) {
 			<Button
 				aria-controls="dropdown-menu"
 				aria-haspopup="true"
+				className={classnames({
+					'is-loading': isLoading,
+				})}
 				onClick={toggleIsOpen}>
 				<span>{label}</span>
 				<span className="icon is-small">
@@ -134,6 +138,7 @@ export function Dropdown(props) {
 
 Dropdown.defaultProps = {
 	className: '',
+	isLoading: false,
 	isMultiselect: false,
 	isUp: false,
 }
@@ -141,6 +146,7 @@ Dropdown.defaultProps = {
 Dropdown.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
+	isLoading: PropTypes.bool,
 	isMultiselect: PropTypes.bool,
 	isUp: PropTypes.bool,
 	label: PropTypes.string.isRequired,
