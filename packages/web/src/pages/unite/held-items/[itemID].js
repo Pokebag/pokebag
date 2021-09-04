@@ -53,7 +53,7 @@ export default function HeldItemPage(props) {
 		const replacements = []
 
 		return item.special.description
-			.replace(/\{(\w+)}/g, (fullMatch, matchKey) => {
+			.replace(/\{(\w+)}/g, (_, matchKey) => {
 				replacements.push((
 					<strong>{item.special.boons[selectedLevel][matchKey]}</strong>
 				))
@@ -78,7 +78,7 @@ export default function HeldItemPage(props) {
 		itemStats,
 	} = useMemo(() => {
 		return {
-			boonLevels: Object.keys(item.special.boons),
+			boonLevels: Object.keys(item.special.boons || {}),
 			itemImageAlt: `Image of ${item.displayName}`,
 			itemImageURL: `/images/items/${item.id}.png`,
 			itemStats: Array(30).fill(null).map((_, index) => {
