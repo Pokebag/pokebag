@@ -17,7 +17,7 @@ import { useForm } from 'components/Forms/Form'
 export function DescriptionInput() {
 	const { values } = useForm()
 
-	const isDisabled = useMemo(() => !values['entity-id'], [values['entity-id']])
+	const isDisabled = useMemo(() => !values['entityID'], [values['entityID']])
 
 	return (
 		<Field

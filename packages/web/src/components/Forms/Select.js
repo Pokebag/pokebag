@@ -49,6 +49,7 @@ export function Select(props) {
 	const {
 		className,
 		id,
+		isDisabled,
 		isLoading,
 		isMultiselect,
 		isUp,
@@ -169,6 +170,7 @@ export function Select(props) {
 	return (
 		<Dropdown
 			className={className}
+			isDisabled={isDisabled}
 			isLoading={isLoading}
 			isMultiselect={isMultiselect}
 			isUp={isUp}
@@ -180,6 +182,7 @@ export function Select(props) {
 
 Select.defaultProps = {
 	className: '',
+	isDisabled: false,
 	isLoading: false,
 	isMultiselect: false,
 	isUp: false,
@@ -189,6 +192,7 @@ Select.defaultProps = {
 Select.propTypes = {
 	className: PropTypes.string,
 	id: PropTypes.string.isRequired,
+	isDisabled: PropTypes.bool,
 	isLoading: PropTypes.bool,
 	isMultiselect: PropTypes.bool,
 	isUp: PropTypes.bool,

@@ -37,21 +37,25 @@ export function EntitySelect(props) {
 	}, [entityTypes])
 
 	return (
-		<>
+		<div className="field">
 			<label className="label">{label}</label>
 
-			<div className="field is-horizontal">
-				<div className="field-body">
+			<div className="columns">
+				<div className="column is-half">
 					<Field id="entityType">
 						<Select
 							id="entityType"
 							label="Select a type..."
 							options={entityTypesAsOptions} />
 					</Field>
+				</div>
 
+				<div className="column is-half">
 					<Field id="entityID">
 						{!values.entityType && (
-							<Select options={[]} />
+							<Select
+								isDisabled
+								options={[]} />
 						)}
 
 						{(values.entityType === 'battle-items') && (
@@ -68,7 +72,7 @@ export function EntitySelect(props) {
 					</Field>
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }
 

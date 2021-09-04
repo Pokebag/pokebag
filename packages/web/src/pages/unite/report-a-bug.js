@@ -12,12 +12,11 @@ import { useRouter } from 'next/router'
 // Local imports
 import { FormButton } from 'components/Forms/FormButton'
 import { Form } from 'components/Forms/Form'
-import { IDSelect } from 'components/Unite/ReportABug/IDSelect'
+import { EntitySelect } from 'components/Unite/EntitySelect'
 import { DescriptionInput } from 'components/Unite/ReportABug/DescriptionInput'
 import { Layout } from 'components/Unite/Layout'
 import { PageHeader } from 'components/PageHeader'
 import { StepsToReproduceInput } from 'components/Unite/ReportABug/StepsToReproduceInput'
-import { TypeSelect } from 'components/Unite/ReportABug/TypeSelect'
 import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
 import classNames from 'classnames'
 
@@ -33,10 +32,6 @@ const DESCRIPTION = 'Report a bug in Pokémon UNITE so that we can investigate, 
 
 
 export default function ReportABugPage(props) {
-	const {
-		items,
-		pokemon,
-	} = props
 	const Router = useRouter()
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -45,12 +40,7 @@ export default function ReportABugPage(props) {
 
 		try {
 			const { id: reportID } = await fetch('/api/unite/bug-reports', {
-				body: JSON.stringify({
-					description: values.description,
-					entityID: values['entity-id'],
-					entityType: values['entity-type'],
-					stepsToReproduce: values['steps-to-reproduce'],
-				}),
+				body: JSON.stringify(values),
 				headers: {
 					'Content-Type': 'application/json',
 				},
@@ -88,23 +78,15 @@ export default function ReportABugPage(props) {
 
 			<Form
 				initialValues={{
-					'description': '',
-					'entity-id': null,
-					'entity-type': null,
-					'steps-to-reproduce': [],
+					description: '',
+					entityID: null,
+					entityType: null,
+					stepsToReproduce: [],
 				}}
 				isDisabled={isSubmitting}
 				onSubmit={handleSubmit}>
 				<section className="box section">
-					<div className="field is-horizontal">
-						<div className="field-body">
-							<TypeSelect />
-
-							<IDSelect
-								heldItems={items}
-								pokemon={pokemon} />
-						</div>
-					</div>
+					<EntitySelect label="What are you reporting a bug for?" />
 
 					<DescriptionInput />
 
@@ -124,29 +106,4 @@ export default function ReportABugPage(props) {
 			</Form>
 		</Layout>
 	)
-}
-
-export async function getStaticProps(context) {
-	const [
-		{ getHeldItemsProps },
-		{ getPokemonProps },
-	] = await Promise.all([
-		import('helpers/getHeldItemsProps'),
-		import('helpers/getPokemonProps'),
-	])
-
-	const [
-		{ props: heldItemProps },
-		{ props: pokemonProps },
-	] = await Promise.all([
-		getHeldItemsProps(context),
-		getPokemonProps(context),
-	])
-
-	return {
-		props: {
-			...heldItemProps,
-			...pokemonProps,
-		},
-	}
 }

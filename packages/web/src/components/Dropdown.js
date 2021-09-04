@@ -44,6 +44,7 @@ function mapChildren(additionalHandlers) {
 export function Dropdown(props) {
 	const {
 		className,
+		isDisabled,
 		isLoading,
 		isMultiselect,
 		isUp,
@@ -118,6 +119,7 @@ export function Dropdown(props) {
 				className={classnames({
 					'is-loading': isLoading,
 				})}
+				isDisabled={isDisabled}
 				onClick={toggleIsOpen}>
 				<span>{label}</span>
 				<span className="icon is-small">
@@ -138,6 +140,7 @@ export function Dropdown(props) {
 
 Dropdown.defaultProps = {
 	className: '',
+	isDisabled: false,
 	isLoading: false,
 	isMultiselect: false,
 	isUp: false,
@@ -146,6 +149,7 @@ Dropdown.defaultProps = {
 Dropdown.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
+	isDisabled: PropTypes.bool,
 	isLoading: PropTypes.bool,
 	isMultiselect: PropTypes.bool,
 	isUp: PropTypes.bool,

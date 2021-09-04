@@ -17,15 +17,15 @@ import { useForm } from 'components/Forms/Form'
 export function StepsToReproduceInput() {
 	const { values } = useForm()
 
-	const isDisabled = useMemo(() => !values['entity-id'], [values['entity-id']])
+	const isDisabled = useMemo(() => !values['entityID'], [values['entityID']])
 
 	return (
 		<Field
 			helperText="Please be as specific as possible."
-			id="step-1"
+			id="stepsToReproduce"
 			label="What steps must be taken to reproduce this bug?">
 			<MultiInput
-				id="steps-to-reproduce"
+				id="stepsToReproduce"
 				isDisabled={isDisabled}
 				isRequired
 				prefix="Step" />
