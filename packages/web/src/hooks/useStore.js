@@ -43,7 +43,9 @@ export const useStore = create((setState, getState) => {
 			},
 
 			battleItems: null,
+			bugs: null,
 			heldItems: null,
+			isGettingBugs: false,
 			isGettingHeldItems: false,
 			isGettingPokemon: false,
 			isSavingBug: false,
@@ -86,6 +88,22 @@ export const useStore = create((setState, getState) => {
 							id: 'x-speed',
 						},
 					}
+				})
+			},
+
+			getBugs: async () => {
+				if (getState().isGettingBugs) return
+
+				setState(state => {
+					state.unite.isGettingBugs = true
+				})
+
+				const response = await fetch('/api/unite/bugs')
+				const responseJSON = await response.json()
+
+				setState(state => {
+					state.unite.bugs = responseJSON.data.bugs
+					state.unite.isGettingBugs = false
 				})
 			},
 

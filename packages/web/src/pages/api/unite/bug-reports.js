@@ -76,6 +76,7 @@ export const handler = async (request, response) => {
 					description,
 					entityID,
 					entityType,
+					isAcknowledged: false,
 					stepsToReproduce,
 				})
 

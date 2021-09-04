@@ -4,6 +4,7 @@ import {
 	useEffect,
 	useMemo,
 } from 'react'
+import Link from 'next/link'
 import shallow from 'zustand/shallow'
 
 
@@ -90,7 +91,9 @@ export function Bug(props) {
 	const mapReport = useCallback(report => {
 		return (
 			<li key={report.id}>
-				<a href="#">{`Reported by ${report.author} on ${dateFormatter.format(new Date(report.createdAt))}`}</a>
+				<Link href={`/unite/bug-reports/${report.id}`}>
+					{`Reported by ${report.author.username} on ${dateFormatter.format(new Date(report.createdAt))}`}
+				</Link>
 			</li>
 		)
 	}, [dateFormatter])
@@ -136,28 +139,37 @@ export function Bug(props) {
 								</div>
 							</div>
 
-							<div className="column">
+							<div className="column is-half">
 								<h4 className="heading">{'First reported by:'}</h4>
 								<p>
-									<a href="#">{firstReport.author}</a>
+									<Link href={`/profile/${firstReport.authorID}`}>
+										{firstReport.author.username}
+									</Link>
 								</p>
 							</div>
 
-							<div className="column">
+							<div className="column is-half">
 								<h4 className="heading">{'First reported on:'}</h4>
 								<p>{dateFormatter.format(new Date(firstReport.createdAt))}</p>
 							</div>
 
-							<div className="column">
+							<div className="column is-half">
 								<h4 className="heading">{'Bug ID:'}</h4>
 								<p>
-									<a href="#">{bug.id}</a>
+									<Link href={`/unite/known-bugs/${bug.id}`}>
+										{bug.id}
+									</Link>
 								</p>
 							</div>
 
-							<div className="column">
+							<div className="column is-half">
 								<h4 className="heading">{'Status:'}</h4>
-								<p className="has-text-danger">{bug.status}</p>
+								{(bug.status === 'active') && (
+									<p className="has-text-danger">{'Active'}</p>
+								)}
+								{(bug.status === 'resolved') && (
+									<p className="has-text-success">{'Resolved'}</p>
+								)}
 							</div>
 
 							<div className="column is-full">

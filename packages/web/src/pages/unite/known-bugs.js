@@ -1,5 +1,5 @@
 // Module imports
-import { useCallback, useMemo } from 'react'
+import { useEffect } from 'react'
 import shallow from 'zustand/shallow'
 
 
@@ -17,21 +17,22 @@ import { useStore } from 'hooks/useStore'
 
 
 
+function mapBugs(bug) {
+	return (
+		<Bug
+			bug={bug}
+			key={bug.id} />
+	)
+}
+
 export default function KnownBugsPage(props) {
-	const { bugs } = props
-
 	const {
-		setHeldItems,
-		setPokemon,
+		bugs,
+		getBugs,
 	} = useStore(state => ({
-		setHeldItems: state.unite.setHeldItems,
-		setPokemon: state.unite.setPokemon,
-	}))
-
-	useMemo(() => {
-		setHeldItems(props.items)
-		setPokemon(props.pokemon)
-	}, [])
+		bugs: state.unite.bugs,
+		getBugs: state.unite.getBugs,
+	}), shallow)
 
 	useBreadcrumbs([
 		{
@@ -44,13 +45,14 @@ export default function KnownBugsPage(props) {
 		},
 	])
 
-	const mapBugs = useCallback(bug => {
-		return (
-			<Bug
-				bug={bug}
-				key={bug.id} />
-		)
-	}, [])
+	useEffect(() => {
+		if (!bugs) {
+			getBugs()
+		}
+	}, [
+		bugs,
+		getBugs,
+	])
 
 	return (
 		<Layout
@@ -62,7 +64,13 @@ export default function KnownBugsPage(props) {
 				</h2>
 			</PageHeader>
 
-			{bugs.map(mapBugs)}
+			{!bugs && (
+				<section className="box section">
+					Loading...
+				</section>
+			)}
+
+			{Boolean(bugs) && Object.values(bugs).map(mapBugs)}
 		</Layout>
 	)
 }
