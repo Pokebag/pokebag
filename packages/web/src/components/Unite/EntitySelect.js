@@ -54,6 +54,7 @@ export function EntitySelect(props) {
 					<Field id="entityID">
 						{!values.entityType && (
 							<Select
+								id="entityID"
 								isDisabled
 								options={[]} />
 						)}

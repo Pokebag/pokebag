@@ -20,7 +20,15 @@ import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
 
 
 
-export default function ReportABugPage(props) {
+function mapBugReports(report) {
+	return (
+		<BugReport
+			report={report}
+			key={report.id} />
+	)
+}
+
+export default function BugReportsPage(props) {
 	const {
 		items,
 		pokemon,
@@ -42,18 +50,6 @@ export default function ReportABugPage(props) {
 		return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' })
 	}, [])
 
-	const mapBugReports = useCallback(report => {
-		return (
-			<BugReport
-				items={items}
-				pokemon={pokemon}
-				report={report} />
-		)
-	}, [
-		items,
-		pokemon,
-	])
-
 	useEffect(async () => {
 		const response = await fetch('/api/unite/bug-reports')
 		const responseJSON = await response.json()
@@ -66,7 +62,8 @@ export default function ReportABugPage(props) {
 
 	return (
 		<Layout
-			title="Report a Bug">
+			description=""
+			title="Bug Report">
 			<PageHeader>
 				<h2 className="title">
 					{'Bug Reports'}
@@ -82,29 +79,4 @@ export default function ReportABugPage(props) {
 			)}
 		</Layout>
 	)
-}
-
-export async function getStaticProps(context) {
-	const [
-		{ getHeldItemsProps },
-		{ getPokemonProps },
-	] = await Promise.all([
-		import('helpers/getHeldItemsProps'),
-		import('helpers/getPokemonProps'),
-	])
-
-	const [
-		{ props: heldItemsProps },
-		{ props: pokemonProps },
-	] = await Promise.all([
-		getHeldItemsProps(context),
-		getPokemonProps(context),
-	])
-
-	return {
-		props: {
-			...heldItemsProps,
-			...pokemonProps,
-		},
-	}
 }

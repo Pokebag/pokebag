@@ -1,8 +1,4 @@
 // Module imports
-import {
-	useEffect,
-	useState,
-} from 'react'
 import { useRouter } from 'next/router'
 
 
@@ -20,11 +16,11 @@ import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
 
 export default function BugReportPage(props) {
 	const {
+		bugReport,
 		items,
 		pokemon,
 	} = props
 	const Router = useRouter()
-	const [bugReport, setBugReport] = useState(null)
 	const { reportID } = Router.query
 
 	useBreadcrumbs([
@@ -40,17 +36,6 @@ export default function BugReportPage(props) {
 			label: 'Report',
 			url: `/unite/bug-reports/${reportID}`,
 		},
-	])
-
-	useEffect(async () => {
-		if (reportID && !bugReport) {
-			const response = await fetch(`/api/unite/bug-reports/${reportID}`)
-			const responseJSON = await response.json()
-			setBugReport(responseJSON)
-		}
-	}, [
-		reportID,
-		setBugReport,
 	])
 
 	return (
@@ -73,54 +58,36 @@ export default function BugReportPage(props) {
 	)
 }
 
-export async function getStaticPaths() {
+export async function getServerSideProps(context) {
 	const [
 		{ firestore },
 	]= await Promise.all([
 		import('helpers/firebase.admin')
 	])
-	const paths = []
 
-	const bugReportsSnapshot = await firestore
+	const { reportID } = context.params
+
+	const bugReportSnapshot = await firestore
 		.collection('bug-reports')
+		.doc(reportID)
 		.get()
 
-	bugReportsSnapshot.forEach(bugReportSnapshot => {
-		paths.push({
-			params: {
-				reportID: bugReportSnapshot.id,
-			 },
-		})
-	})
+	const bugReport = bugReportSnapshot.data()
 
-	return {
-		fallback: 'blocking',
-		paths,
+	bugReport.createdAt = bugReport.createdAt.toDate().toISOString()
+	bugReport.id = bugReportSnapshot.id
+
+	const profileSnapshot = await firestore
+		.collection('profiles')
+		.doc(bugReport.authorID)
+		.get()
+
+	bugReport.author = {
+		...profileSnapshot.data(),
+		id: profileSnapshot.id,
 	}
-}
-
-export async function getStaticProps(context) {
-	const [
-		{ getHeldItemsProps },
-		{ getPokemonProps },
-	] = await Promise.all([
-		import('helpers/getHeldItemsProps'),
-		import('helpers/getPokemonProps'),
-	])
-
-	const [
-		{ props: heldItemsProps },
-		{ props: pokemonProps },
-	] = await Promise.all([
-		getHeldItemsProps(context),
-		getPokemonProps(context),
-	])
 
 	return {
-		props: {
-			...heldItemsProps,
-			...pokemonProps,
-		},
-		revalidate: 3600,
+		props: { bugReport },
 	}
 }

@@ -2,10 +2,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	useCallback,
+	useEffect,
 	useMemo,
 	useState,
 } from 'react'
 import Link from 'next/link'
+import shallow from 'zustand/shallow'
 
 
 
@@ -16,6 +18,7 @@ import { Button } from 'components/Button'
 import { ConvertBugReportToBugModal } from 'components/Unite/ConvertBugReportToBugModal'
 import { Dropdown } from 'components/Dropdown'
 import { Image } from 'components/Image'
+import { useStore } from 'hooks/useStore'
 
 
 
@@ -30,11 +33,19 @@ function mapStepsToReproduce(step, index) {
 }
 
 export function BugReport(props) {
+	const { report } = props
 	const {
-		items,
+		getHeldItems,
+		getPokemon,
+		heldItems,
 		pokemon,
-		report,
-	} = props
+	} = useStore(state => ({
+		getHeldItems: state.unite.getHeldItems,
+		getPokemon: state.unite.getPokemon,
+		heldItems: state.unite.heldItems,
+		pokemon: state.unite.pokemon,
+	}), shallow)
+
 	const [isConvertingToBug, setIsConvertingToBug] = useState(false)
 
 	const dateFormatter = useMemo(() => {
@@ -49,21 +60,40 @@ export function BugReport(props) {
 		setIsConvertingToBug(false)
 	}, [setIsConvertingToBug])
 
-	let entity = null
+	const entity = useMemo(() => {
+		switch (report.entityType) {
+			// case 'battle-items':
+			// 	entityLabel = 'Battle Item'
+			// 	break
 
-	switch (report.entityType) {
-		// case 'battle-items':
-		// 	entityLabel = 'Battle Item'
-		// 	break
+			case 'held-items':
+				return heldItems?.[report.entityID]
 
-		case 'held-items':
-			entity = items[report.entityID]
-			break
+			case 'pokemon':
+				return pokemon?.[report.entityID]
+		}
+	}, [
+		heldItems,
+		pokemon,
+		report.entityID,
+		report.entityType,
+	])
 
-		case 'pokemon':
-			entity = pokemon[report.entityID]
-			break
-	}
+	useEffect(() => {
+		if ((report.entityType === 'pokemon') && !pokemon) {
+			getPokemon()
+		}
+
+		if ((report.entityType === 'held-items') && !heldItems) {
+			getHeldItems()
+		}
+	}, [
+		getHeldItems,
+		getPokemon,
+		heldItems,
+		pokemon,
+		report.entityType,
+	])
 
 	return (
 		<section
