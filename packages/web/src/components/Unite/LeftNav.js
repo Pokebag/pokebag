@@ -22,6 +22,23 @@ export function LeftNav() {
 		<aside className="left-nav">
 			<div className="box menu">
 				<p className="menu-label">
+					Items
+				</p>
+
+				<ul className="menu-list">
+					<li>
+						<Link href="/unite/held-items">
+							<a
+								className={classnames({
+									'is-active': Router.pathname.startsWith('/unite/held-items'),
+								})}>
+									Held Items
+							</a>
+						</Link>
+					</li>
+				</ul>
+
+				<p className="menu-label">
 					Utilities
 				</p>
 
@@ -36,7 +53,13 @@ export function LeftNav() {
 							</a>
 						</Link>
 					</li>
+				</ul>
 
+				<p className="menu-label">
+					Bugs
+				</p>
+
+				<ul className="menu-list">
 					<li>
 						<Link href="/unite/known-bugs">
 							<a
@@ -55,23 +78,6 @@ export function LeftNav() {
 									'is-active': Router.pathname === '/unite/report-a-bug',
 								})}>
 								Report a Bug
-							</a>
-						</Link>
-					</li>
-				</ul>
-
-				<p className="menu-label">
-					Items
-				</p>
-
-				<ul className="menu-list">
-					<li>
-						<Link href="/unite/held-items">
-							<a
-								className={classnames({
-									'is-active': Router.pathname.startsWith('/unite/held-items'),
-								})}>
-									Held Items
 							</a>
 						</Link>
 					</li>
