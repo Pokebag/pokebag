@@ -1,30 +1,37 @@
 // Module imports
 import {
 	useCallback,
+	useEffect,
 	useMemo,
 } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Link from 'next/link'
+import shallow from 'zustand/shallow'
 
 
 
 
 
 // Local imports
-import { Button } from 'components/Button'
-import { Dropdown } from 'components/Dropdown'
 import { Image } from 'components/Image'
+import { useStore } from 'hooks/useStore'
 
 
 
 
 
 export function Bug(props) {
+	const { bug } = props
+
 	const {
-		bug,
-		items,
+		getHeldItems,
+		getPokemon,
+		heldItems,
 		pokemon,
-	} = props
+	} = useStore(state => ({
+		getHeldItems: state.unite.getHeldItems,
+		getPokemon: state.unite.getPokemon,
+		heldItems: state.unite.heldItems,
+		pokemon: state.unite.pokemon,
+	}), shallow)
 
 	const dateFormatter = useMemo(() => {
 		return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' })
@@ -55,19 +62,29 @@ export function Bug(props) {
 
 			case 'held-items':
 				return {
-					entity: items[bug.entityID],
+					entity: heldItems?.[bug.entityID],
 					entityLabel: 'Held Item',
 				}
 
 			case 'pokemon':
 				return {
-					entity: pokemon[bug.entityID],
+					entity: pokemon?.[bug.entityID],
 					entityLabel: 'Pokémon',
 				}
 		}
 	}, [
 		bug.entityID,
 		bug.entityType,
+		heldItems,
+		pokemon,
+	])
+
+	const isLoading = useMemo(() => {
+		return ((bug.entityType === 'pokemon') && !pokemon) || ((bug.entityType === 'held-items') && !heldItems)
+	}, [
+		bug.entityType,
+		pokemon,
+		heldItems,
 	])
 
 	const mapReport = useCallback(report => {
@@ -78,72 +95,97 @@ export function Bug(props) {
 		)
 	}, [dateFormatter])
 
+	useEffect(() => {
+		if ((bug.entityType === 'pokemon') && !pokemon) {
+			getPokemon()
+		}
+
+		if ((bug.entityType === 'held-items') && !heldItems) {
+			getHeldItems()
+		}
+	}, [
+		getHeldItems,
+		getPokemon,
+		heldItems,
+		pokemon,
+	])
+
 	const firstReport = reports[0]
 
 	return (
 		<section
 			className="box section"
 			key={bug.id}>
-			<header className="content">
-				<h3 className="title is-4">{bug.title}</h3>
-				<p className="subtitle is-5">{`This bug affects the ${entityLabel}, ${entity.displayName}.`}</p>
-			</header>
+			{isLoading && (
+				'Loading...'
+			)}
 
-			<div className="columns">
-				<div className="column columns is-multiline">
-					<div className="column is-full">
-						<h4 className="heading">{'Description'}</h4>
-						<div className="content">
-							<p>{bug.description}</p>
+			{!isLoading && (
+				<>
+					<header className="content">
+						<h3 className="title is-4">{bug.title}</h3>
+						<p className="subtitle is-5">{`This bug affects the ${entityLabel}, ${entity.displayName}.`}</p>
+					</header>
+
+					<div className="columns">
+						<div className="column columns is-multiline">
+							<div className="column is-full">
+								<h4 className="heading">{'Description'}</h4>
+								<div className="content">
+									<p>{bug.description}</p>
+								</div>
+							</div>
+
+							<div className="column">
+								<h4 className="heading">{'First reported by:'}</h4>
+								<p>
+									<a href="#">{firstReport.author}</a>
+								</p>
+							</div>
+
+							<div className="column">
+								<h4 className="heading">{'First reported on:'}</h4>
+								<p>{dateFormatter.format(new Date(firstReport.createdAt))}</p>
+							</div>
+
+							<div className="column">
+								<h4 className="heading">{'Bug ID:'}</h4>
+								<p>
+									<a href="#">{bug.id}</a>
+								</p>
+							</div>
+
+							<div className="column">
+								<h4 className="heading">{'Status:'}</h4>
+								<p className="has-text-danger">{bug.status}</p>
+							</div>
+
+							<div className="column is-full">
+								<h4 className="heading">
+									{'Related reports'}
+								</h4>
+
+								<div className="content">
+									<ul>
+										{reports.map(mapReport)}
+									</ul>
+								</div>
+							</div>
 						</div>
+
+						{Boolean(entity?.imageURL) && (
+							<div className="column is-narrow">
+								<Image
+									alt={`Image of ${entity.displayName}`}
+									blurDataURL={entity.blurDataURL}
+									priority
+									size={256}
+									src={entity.imageURL} />
+							</div>
+						)}
 					</div>
-
-					<div className="column">
-						<h4 className="heading">{'First reported by:'}</h4>
-						<p>
-							<a href="#">{firstReport.author}</a>
-						</p>
-					</div>
-
-					<div className="column">
-						<h4 className="heading">{'First reported on:'}</h4>
-						<p>{dateFormatter.format(new Date(firstReport.createdAt))}</p>
-					</div>
-
-					<div className="column">
-						<h4 className="heading">{'Bug ID:'}</h4>
-						<p>
-							<a href="#">{bug.id}</a>
-						</p>
-					</div>
-
-					<div className="column">
-						<h4 className="heading">{'Status:'}</h4>
-						<p className="has-text-danger">{bug.status}</p>
-					</div>
-
-					<div className="column is-full">
-						<h4 className="heading">
-							{'Related reports'}
-						</h4>
-
-						<div className="content">
-							<ul>
-								{reports.map(mapReport)}
-							</ul>
-						</div>
-					</div>
-				</div>
-
-				<div className="column is-narrow">
-					<Image
-						alt={`Image of ${entity.displayName}`}
-						blurDataURL={entity.blurDataURL}
-						priority
-						size={256}
-						src={entity.imageURL} />
-				</div>
-			</div>
+				</>
+			)}
 		</section>
 	)
 }

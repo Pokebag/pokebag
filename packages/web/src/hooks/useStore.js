@@ -44,6 +44,8 @@ export const useStore = create((setState, getState) => {
 
 			battleItems: null,
 			heldItems: null,
+			isGettingHeldItems: false,
+			isGettingPokemon: false,
 			isSavingBug: false,
 			pokemon: null,
 
@@ -88,15 +90,39 @@ export const useStore = create((setState, getState) => {
 			},
 
 			getHeldItems: async () => {
+				if (getState().isGettingHeldItems) return
+
+				setState(state => {
+					state.unite.isGettingHeldItems = true
+				})
+
 				const response = await API.getUniteHeldItems()
+
+				Object.values(response.data.items).forEach(item => {
+					item.imageURL = `/images/items/${item.id}.png`
+				})
+
 				setState(state => {
 					state.unite.heldItems = response.data.items
+					state.unite.isGettingHeldItems = false
 				})
 			},
 
 			getPokemon: async () => {
-				const response = await API.getUnitePokemon()
+				if (getState().isGettingPokemon) return
+
 				setState(state => {
+					state.unite.isGettingPokemon = true
+				})
+
+				const response = await API.getUnitePokemon()
+
+				Object.values(response.data.pokemon).forEach(mon => {
+					mon.imageURL = `/images/games/unite/pokemon/${mon.id}.png`
+				})
+
+				setState(state => {
+					state.unite.isGettingPokemon = false
 					state.unite.pokemon = response.data.pokemon
 				})
 			},

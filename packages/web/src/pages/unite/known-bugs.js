@@ -1,5 +1,6 @@
 // Module imports
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
+import shallow from 'zustand/shallow'
 
 
 
@@ -10,17 +11,27 @@ import { Bug } from 'components/Unite/Bug'
 import { Layout } from 'components/Unite/Layout'
 import { PageHeader } from 'components/PageHeader'
 import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
+import { useStore } from 'hooks/useStore'
 
 
 
 
 
 export default function KnownBugsPage(props) {
+	const { bugs } = props
+
 	const {
-		bugs,
-		items,
-		pokemon,
-	} = props
+		setHeldItems,
+		setPokemon,
+	} = useStore(state => ({
+		setHeldItems: state.unite.setHeldItems,
+		setPokemon: state.unite.setPokemon,
+	}))
+
+	useMemo(() => {
+		setHeldItems(props.items)
+		setPokemon(props.pokemon)
+	}, [])
 
 	useBreadcrumbs([
 		{
@@ -37,13 +48,9 @@ export default function KnownBugsPage(props) {
 		return (
 			<Bug
 				bug={bug}
-				items={items}
-				pokemon={pokemon} />
+				key={bug.id} />
 		)
-	}, [
-		items,
-		pokemon,
-	])
+	}, [])
 
 	return (
 		<Layout
@@ -132,7 +139,7 @@ export async function getStaticProps(context) {
 						},
 					],
 					status: 'Active',
-					title: 'Blastoise Literally Becomes a Bomb',
+					title: 'Crustle Literally Becomes a Bomb',
 				},
 			],
 		},
