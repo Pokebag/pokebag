@@ -54,7 +54,9 @@ export function LeftNav() {
 						</Link>
 					</li>
 				</ul>
+			</div>
 
+			<div className="box menu">
 				<p className="menu-label">
 					Bugs
 				</p>
