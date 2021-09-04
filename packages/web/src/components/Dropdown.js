@@ -59,7 +59,7 @@ export function Dropdown(props) {
 	const handleForeignClick = useCallback(event => {
 		const currentElement = containerRef.current
 
-		if ((currentElement !== event.target) || !currentElement.contains(event.target)) {
+		if ((currentElement !== event.target) && !currentElement.contains(event.target)) {
 			close()
 		}
 	}, [close])
