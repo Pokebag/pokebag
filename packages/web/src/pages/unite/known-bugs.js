@@ -48,25 +48,17 @@ export default function KnownBugsPage(props) {
 export async function getServerSideProps(context) {
 	const [
 		{ firestore },
-		{ getPokemonProps },
-		{ getHeldItemsProps },
 	] = await Promise.all([
 		import('helpers/firebase.admin'),
-		import('helpers/getPokemonProps'),
-		import('helpers/getHeldItemsProps'),
 	])
 
 	const bugs = {}
 	const bugReports = {}
 	const users = {}
 	const [
-		{ props: heldItemsProps },
-		{ props: pokemonProps },
 		bugsSnapshot,
 		bugReportsSnapshot,
 	] = await Promise.all([
-		getHeldItemsProps(context),
-		getPokemonProps(context),
 		firestore
 			.collection('bugs')
 			.get(),
@@ -128,10 +120,6 @@ export async function getServerSideProps(context) {
 	}))
 
 	return {
-		props: {
-			...heldItemsProps,
-			...pokemonProps,
-			bugs,
-		},
+		props: { bugs },
 	}
 }
