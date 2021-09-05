@@ -1,17 +1,8 @@
-// Module imports
-import { useEffect } from 'react'
-import shallow from 'zustand/shallow'
-
-
-
-
-
 // Local imports
 import { Bug } from 'components/Unite/Bug'
 import { Layout } from 'components/Unite/Layout'
 import { PageHeader } from 'components/PageHeader'
 import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
-import { useStore } from 'hooks/useStore'
 
 
 
@@ -26,13 +17,7 @@ function mapBugs(bug) {
 }
 
 export default function KnownBugsPage(props) {
-	const {
-		bugs,
-		getBugs,
-	} = useStore(state => ({
-		bugs: state.unite.bugs,
-		getBugs: state.unite.getBugs,
-	}), shallow)
+	const { bugs } = props
 
 	useBreadcrumbs([
 		{
@@ -45,15 +30,6 @@ export default function KnownBugsPage(props) {
 		},
 	])
 
-	useEffect(() => {
-		if (!bugs) {
-			getBugs()
-		}
-	}, [
-		bugs,
-		getBugs,
-	])
-
 	return (
 		<Layout
 			description="This page documents all of the Pokémon UNITE bugs known to Pokébag, as well as their status!"
@@ -64,92 +40,98 @@ export default function KnownBugsPage(props) {
 				</h2>
 			</PageHeader>
 
-			{!bugs && (
-				<section className="box section">
-					Loading...
-				</section>
-			)}
-
-			{Boolean(bugs) && Object.values(bugs).map(mapBugs)}
+			{Object.values(bugs).map(mapBugs)}
 		</Layout>
 	)
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
 	const [
+		{ firestore },
 		{ getPokemonProps },
 		{ getHeldItemsProps },
 	] = await Promise.all([
+		import('helpers/firebase.admin'),
 		import('helpers/getPokemonProps'),
 		import('helpers/getHeldItemsProps'),
 	])
 
+	const bugs = {}
+	const bugReports = {}
+	const users = {}
 	const [
 		{ props: heldItemsProps },
 		{ props: pokemonProps },
+		bugsSnapshot,
+		bugReportsSnapshot,
 	] = await Promise.all([
 		getHeldItemsProps(context),
 		getPokemonProps(context),
+		firestore
+			.collection('bugs')
+			.get(),
+		firestore
+			.collection('bug-reports')
+			.where('isAcknowledged', '==', true)
+			.get(),
 	])
+
+	// Parse bug reports
+	bugReportsSnapshot.forEach(bugReportSnapshot => {
+		const bugReportData = bugReportSnapshot.data()
+
+		bugReportData.createdAt = bugReportData.createdAt.toDate().toISOString()
+		bugReportData.id = bugReportSnapshot.id
+
+		if (!users[bugReportData.authorID]) {
+			users[bugReportData.authorID] = [bugReportData]
+		} else {
+			users[bugReportData.authorID].push(bugReportData)
+		}
+
+		bugReports[bugReportSnapshot.id] = bugReportData
+	})
+
+	// Parse bugs
+	bugsSnapshot.forEach(bugSnapshot => {
+		const bugData = bugSnapshot.data()
+
+		bugData.createdAt = bugData.createdAt.toDate().toISOString()
+		bugData.id = bugSnapshot.id
+		bugData.reports = bugData.reportIDs.map(reportID => {
+			return bugReports[reportID]
+		})
+
+		if (!users[bugData.authorID]) {
+			users[bugData.authorID] = [bugData]
+		} else {
+			users[bugData.authorID].push(bugData)
+		}
+
+		bugs[bugSnapshot.id] = bugData
+	})
+
+	// Parse users
+	await Promise.all(Object.entries(users).map(async ([userID, targets]) => {
+		const userSnapshot = await firestore
+			.collection('profiles')
+			.doc(userID)
+			.get()
+
+		const userData = userSnapshot.data()
+
+		userData.id = userSnapshot.id
+
+		targets.forEach(item => {
+			item.author = userData
+		})
+	}))
 
 	return {
 		props: {
 			...heldItemsProps,
 			...pokemonProps,
-
-			bugs: [
-				{
-					description: 'When a Pokémon gets hit with with Telekinesis, it is teleported to a completely different match and immediately wins.',
-					entityType: 'pokemon',
-					entityID: 'slowbro',
-					id: '12345',
-					reports: [
-						{
-							author: 'Ash Ketchum',
-							createdAt: '2021-06-02T05:00:00.000Z',
-							id: '1',
-						},
-						{
-							author: 'Professor Oak',
-							createdAt: '2021-07-02T05:00:00.000Z',
-							id: '2',
-						},
-						{
-							author: 'Misty',
-							createdAt: '2021-09-02T05:00:00.000Z',
-							id: '3',
-						},
-						{
-							author: 'Brock',
-							createdAt: '2021-08-02T05:00:00.000Z',
-							id: '4',
-						},
-					],
-					status: 'Active',
-					title: 'Crustle Does Donuts',
-				},
-
-				{
-					description: 'After pinching Zapdos, Crustle pulls into his shell. A fuse pops out of the top of the shell, slowly burning away. Once the fuse reaches its end, Crustle explodes. Everybody dies. Nobody wins.',
-					entityType: 'pokemon',
-					entityID: 'crustle',
-					id: '67890',
-					reports: [
-						{
-							author: 'James',
-							createdAt: '2021-07-02T05:00:00.000Z',
-							id: '6',
-						},
-						{
-							author: 'Jesse',
-							createdAt: '2021-06-02T05:00:00.000Z',
-							id: '5',
-						},
-					],
-					status: 'Active',
-					title: 'Crustle Literally Becomes a Bomb',
-				},
-			],
+			bugs,
 		},
 	}
 }
