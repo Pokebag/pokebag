@@ -1,15 +1,3 @@
-// Module imports
-import {
-	useCallback,
-	useEffect,
-	useMemo,
-	useState,
-} from 'react'
-
-
-
-
-
 // Local imports
 import { BugReport } from 'components/Unite/BugReport'
 import { Layout } from 'components/Unite/Layout'
@@ -29,11 +17,7 @@ function mapBugReports(report) {
 }
 
 export default function BugReportsPage(props) {
-	const {
-		items,
-		pokemon,
-	} = props
-	const [bugReports, setBugReports] = useState(null)
+	const { bugReports } = props
 
 	useBreadcrumbs([
 		{
@@ -46,20 +30,6 @@ export default function BugReportsPage(props) {
 		},
 	])
 
-	const dateFormatter = useMemo(() => {
-		return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' })
-	}, [])
-
-	useEffect(async () => {
-		const response = await fetch('/api/unite/bug-reports')
-		const responseJSON = await response.json()
-
-		setBugReports(responseJSON.bugReports)
-	}, [
-		dateFormatter,
-		setBugReports,
-	])
-
 	return (
 		<Layout
 			description=""
@@ -70,13 +40,62 @@ export default function BugReportsPage(props) {
 				</h2>
 			</PageHeader>
 
-			{Boolean(bugReports) && bugReports.map(mapBugReports)}
-
-			{!bugReports && (
-				<section className="box section">
-					Loading bug reports...
-				</section>
-			)}
+			{Object.values(bugReports).map(mapBugReports)}
 		</Layout>
 	)
+}
+
+export async function getServerSideProps(context) {
+	const [
+		{ firestore },
+	] = await Promise.all([
+		import('helpers/firebase.admin'),
+	])
+
+	const bugReports = {}
+	const users = {}
+	const [
+		bugReportsSnapshot,
+	] = await Promise.all([
+		firestore
+			.collection('bug-reports')
+			.where('isAcknowledged', '==', false)
+			.get(),
+	])
+
+	// Parse bug reports
+	bugReportsSnapshot.forEach(bugReportSnapshot => {
+		const bugReportData = bugReportSnapshot.data()
+
+		bugReportData.createdAt = bugReportData.createdAt.toDate().toISOString()
+		bugReportData.id = bugReportSnapshot.id
+
+		if (!users[bugReportData.authorID]) {
+			users[bugReportData.authorID] = [bugReportData]
+		} else {
+			users[bugReportData.authorID].push(bugReportData)
+		}
+
+		bugReports[bugReportSnapshot.id] = bugReportData
+	})
+
+	// Parse users
+	await Promise.all(Object.entries(users).map(async ([userID, targets]) => {
+		const userSnapshot = await firestore
+			.collection('profiles')
+			.doc(userID)
+			.get()
+
+		const userData = userSnapshot.data()
+
+		userData.id = userSnapshot.id
+
+		targets.forEach(item => {
+			item.author = userData
+		})
+	}))
+
+	return {
+		props: { bugReports },
+	}
 }
