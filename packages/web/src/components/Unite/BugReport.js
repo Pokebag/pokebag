@@ -108,7 +108,7 @@ export function BugReport(props) {
 						</div>
 					</div>
 
-					<div className="column is-one-third">
+					<div className="column is-half">
 						<h4 className="heading">{'Reported by:'}</h4>
 						<p>
 							<Link href={`/users/${report.authorID}`}>
@@ -117,12 +117,12 @@ export function BugReport(props) {
 						</p>
 					</div>
 
-					<div className="column is-one-third">
+					<div className="column is-half">
 						<h4 className="heading">{'Reported on:'}</h4>
 						<p>{dateFormatter.format(new Date(report.createdAt))}</p>
 					</div>
 
-					<div className="column is-one-third">
+					<div className="column is-half">
 						<h4 className="heading">{'Report ID:'}</h4>
 						<p>
 							<Link href={`/unite/bug-reports/${report.id}`}>
@@ -130,6 +130,17 @@ export function BugReport(props) {
 							</Link>
 						</p>
 					</div>
+
+					{report.isAcknowledged && (
+						<div className="column is-half">
+							<h4 className="heading">{'Bug ID:'}</h4>
+							<p>
+								<Link href={`/unite/bug-reports/${report.bugID}`}>
+									{report.bugID}
+								</Link>
+							</p>
+						</div>
+					)}
 
 					<div className="column is-full">
 						<h4 className="heading">{'Steps to Reproduce:'}</h4>
