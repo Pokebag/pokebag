@@ -32,6 +32,7 @@ export const handler = async (request, response) => {
 				entityID,
 				entityType,
 				isAcknowledged: false,
+				isIgnored: false,
 				stepsToReproduce,
 			})
 
