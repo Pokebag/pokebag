@@ -1,0 +1,79 @@
+$pokeslice-colors: (
+	absol: #00244f,
+	alolan-ninetales: #247bb4,
+	charizard: #da9b38,
+	cinderace: #b83f2b,
+	cramorant: #0b367e,
+	crustle: #d0a75f,
+	eldegoss: #d2bd20,
+	garchomp: #252042,
+	gardevoir: #59683b,
+	gengar: #221740,
+	greninja: #1e6dbe,
+	lucario: #07548d,
+	machamp: #5a769e,
+	mr-mime: #e37a8e,
+	pikachu: #dcc81c,
+	slowbro: #ad5869,
+	snorlax: #1183a5,
+	talonflame: #909399,
+	venusaur: #0d7288,
+	wigglytuff: #e4ccd3,
+	zeraora: #ccc351,
+);
+
+.pokeslice-container {
+	display: flex;
+}
+
+.pokeslice {
+	clip-path: polygon(
+		0 0,
+		100% 0,
+		50% 100%,
+		0 100%
+	);
+	position: relative;
+
+	@each $name, $color in $pokeslice-colors {
+		&.is-#{$name} .pokeslice-background {
+			background-color: $color;
+		}
+	}
+
+	&:not(:first-child) {
+		margin-left: -100px;
+	}
+
+	@for $index from 1 through 4 {
+		&:nth-child(4n + #{$index}) .pokeslice-background:after {
+			background-image: url('/images/games/unite/miscellaneous/pokeslice-background.#{$index}.jpg');
+		}
+	}
+}
+
+.pokeslice-background {
+	clip-path: polygon(
+		50% 0,
+		100% 0,
+		50% 100%,
+		0 100%
+	);
+	filter: saturate(9) brightness(0.6);
+
+	&, &:after {
+		bottom: 0;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	&:after {
+		background-size: cover;
+		content: '';
+		display: block;
+		filter: grayscale(1);
+		opacity: 0.5;
+	}
+}

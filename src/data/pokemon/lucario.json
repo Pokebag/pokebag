@@ -1,0 +1,10 @@
+{
+  "displayName": "Lucario",
+  "stats": {
+    "attack": 440,
+    "defense": 390,
+    "hp": 7249,
+    "spAtk": 115,
+    "spDef": 300
+  }
+}

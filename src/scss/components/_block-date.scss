@@ -1,0 +1,14 @@
+.block-date {
+	align-items: center;
+	background-color: $background;
+	border-radius: $radius;
+	display: flex;
+	flex-direction: column;
+	line-height: 1;
+	padding: 1.25rem 1.5rem;
+	text-transform: uppercase;
+
+	.date {
+		font-size: 2em;
+	}
+}

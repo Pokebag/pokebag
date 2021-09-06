@@ -1,0 +1,7 @@
+.multi-input {
+	list-style: none;
+
+	> li::marker {
+		vertical-align: baseline;
+	}
+}

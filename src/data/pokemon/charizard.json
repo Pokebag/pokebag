@@ -1,0 +1,10 @@
+{
+  "displayName": "Charizard",
+  "stats": {
+    "attack": 463,
+    "defense": 350,
+    "hp": 7700,
+    "spAtk": 112,
+    "spDef": 269
+  }
+}

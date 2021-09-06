@@ -1,0 +1,11 @@
+.card {
+	&.is-hoverable {
+		transform: translateY(0);
+		transition-duration: 0.2s;
+		transition-property: transform;
+
+		&:hover {
+			transform: translateY(-10px);
+		}
+	}
+}

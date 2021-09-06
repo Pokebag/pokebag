@@ -1,0 +1,25 @@
+@use 'sass:math';
+
+.stat-blocks {
+	display: flex;
+	gap: $block-spacing;
+
+	.stat-block {
+		font-size: 2em;
+		line-height: 1.2;
+		margin-bottom: 0 !important;
+		padding: #{math.div($block-spacing, 2)} $block-spacing;
+		text-align: center;
+		min-width: 4em;
+
+		.stat-label {
+			display: block;
+			font-family: FatFrank;
+			font-size: 0.3em;
+			font-style: italic;
+			font-weight: bold;
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+	}
+}

@@ -1,0 +1,10 @@
+{
+  "displayName": "Talonflame",
+  "stats": {
+    "attack": 623,
+    "defense": 290,
+    "hp": 6300,
+    "spAtk": 117,
+    "spDef": 200
+  }
+}

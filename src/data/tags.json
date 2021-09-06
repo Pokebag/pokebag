@@ -1,0 +1,22 @@
+{
+	"attack": {
+		"className": "is-danger",
+		"displayName": "Attack",
+		"icon": "bolt"
+	},
+	"defense": {
+		"className": "is-info",
+		"displayName": "Defense",
+		"icon": "shield-alt"
+	},
+	"score": {
+		"className": "is-success",
+		"displayName": "Score",
+		"icon": "futbol"
+	},
+	"other": {
+		"className": "is-light",
+		"displayName": "Other",
+		"icon": "ellipsis-h"
+	}
+}
