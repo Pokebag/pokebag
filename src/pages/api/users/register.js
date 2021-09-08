@@ -35,7 +35,11 @@ export const handler = async (request, response) => {
 			firestore
 				.collection('settings')
 				.doc(uid)
-				.set({ theme: 'system' }),
+				.set({
+					isAdmin: false,
+					isModerator: false,
+					theme: 'system',
+				}),
 		])
 
 		response.status(httpStatus.CREATED).end()
