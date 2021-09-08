@@ -16,7 +16,10 @@ import { useAuth } from 'contexts/AuthContext'
 
 export function LeftNav() {
 	const Router = useRouter()
-	const { isLoggedIn } = useAuth()
+	const {
+		isLoggedIn,
+		settings,
+	} = useAuth()
 
 	return (
 		<aside className="left-nav">
@@ -86,24 +89,49 @@ export function LeftNav() {
 				</ul>
 			</div>
 
-			{isLoggedIn && (
+			{(isLoggedIn && (settings.isModerator || settings.isAdmin)) && (
 				<div className="box menu">
-					<p className="menu-label">
-						Admin
-					</p>
+					{settings.isModerator && (
+						<>
+							<p className="menu-label">
+								Moderation
+							</p>
 
-					<ul className="menu-list">
-						<li>
-							<Link href="/unite/bug-reports">
-								<a
-									className={classnames({
-										'is-active': Router.pathname === '/unite/bug-reports',
-									})}>
-									Bug Reports
-								</a>
-							</Link>
-						</li>
-					</ul>
+							<ul className="menu-list">
+								<li>
+									<Link href="/unite/bug-reports">
+										<a
+											className={classnames({
+												'is-active': Router.pathname === '/unite/bug-reports',
+											})}>
+											Bug Reports
+										</a>
+									</Link>
+								</li>
+							</ul>
+						</>
+					)}
+
+					{settings.isAdmin && (
+						<>
+							<p className="menu-label">
+								Admin
+							</p>
+
+							<ul className="menu-list">
+								<li>
+									<Link href="/unite/blorp">
+										<a
+											className={classnames({
+												'is-active': Router.pathname === '/unite/blorp',
+											})}>
+											Blorp
+										</a>
+									</Link>
+								</li>
+							</ul>
+						</>
+					)}
 				</div>
 			)}
 		</aside>
