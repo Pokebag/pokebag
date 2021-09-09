@@ -37,7 +37,9 @@ export default function LoginPage() {
 
 	useEffect(() => {
 		if (isLoggedIn) {
-			Router.push('/')
+			const url = new URL(location.href)
+			const destination = url.searchParams.get('destination')
+			Router.push(destination ?? '/')
 		}
 	}, [isLoggedIn])
 
