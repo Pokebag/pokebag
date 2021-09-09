@@ -89,7 +89,7 @@ export function LeftNav() {
 				</ul>
 			</div>
 
-			{(isLoggedIn && (settings.isModerator || settings.isAdmin)) && (
+			{(isLoggedIn && (settings?.isModerator || settings?.isAdmin)) && (
 				<div className="box menu">
 					{settings.isModerator && (
 						<>
