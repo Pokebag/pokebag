@@ -19,14 +19,17 @@ import { useAuth } from 'contexts/AuthContext'
 export function RequirePermissions (props) {
 	const {
 		children,
+		isDisabled,
+		notPermittedComponent,
 		permissions,
+		verifyingComponent,
 	} = props
 	const {
 		isLoaded,
 		settings,
 	} = useAuth()
 	const [state, setState] = useState({
-		isPermissionCheckComplete: false,
+		isPermissionCheckComplete: isDisabled,
 		isPermitted: null,
 	})
 
@@ -47,25 +50,26 @@ export function RequirePermissions (props) {
 	])
 
 	if (!state.isPermissionCheckComplete) {
-		return (
-			<section className="box section">
-				{'Verifying permissions...'}
-			</section>
-		)
+		return verifyingComponent
 	}
 
 	if (!state.isPermitted) {
-		return (
-			<section className="box section">
-				{'Sorry, you\'re not allowed to be here. 🤷‍♂️'}
-			</section>
-		)
+		return notPermittedComponent
 	}
 
 	return children
 }
 
+RequirePermissions.defaultProps = {
+	isDisabled: false,
+	notPermittedComponent: null,
+	verifyingComponent: null,
+}
+
 RequirePermissions.propTypes = {
 	children: PropTypes.node.isRequired,
+	isDisabled: PropTypes.bool,
+	notPermittedComponent: PropTypes.node,
+	verifyingComponent: PropTypes.node,
 	permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 }

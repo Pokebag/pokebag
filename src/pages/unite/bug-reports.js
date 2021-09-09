@@ -42,8 +42,24 @@ export default function BugReportsPage(props) {
 				</h2>
 			</PageHeader>
 
-			<RequireAuth>
-				<RequirePermissions permissions={['isModerator']}>
+			<RequireAuth
+				verifyingComponent={(
+					<section className="box section">
+						Verifying auth state...
+					</section>
+				)}>
+				<RequirePermissions
+					notPermittedComponent={(
+						<section className="box section">
+							{'Sorry, you\'re not allowed to be here. 🤷‍♂️'}
+						</section>
+					)}
+					permissions={['isModerator']}
+					verifyingComponent={(
+						<section className="box section">
+							{'Verifying permissions...'}
+						</section>
+					)}>
 					{Object.values(bugReports).map(mapBugReports)}
 				</RequirePermissions>
 			</RequireAuth>

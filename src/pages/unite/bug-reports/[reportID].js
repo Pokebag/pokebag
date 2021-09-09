@@ -19,6 +19,7 @@ export default function BugReportPage(props) {
 	const {
 		bugReport,
 		items,
+		isPermitted,
 		pokemon,
 	} = props
 	const Router = useRouter()
@@ -43,18 +44,34 @@ export default function BugReportPage(props) {
 		<Layout
 			description={bugReport ? `A bug report from ${bugReport.author.username}` : 'A bug report'}
 			title="Bug Report">
-			<RequireAuth isDisabled={bugReport?.isAcknowledged}>
-				{!bugReport && (
+			<RequireAuth
+				isDisabled={bugReport?.isAcknowledged}
+				verifyingComponent={(
 					<section className="box section">
-						Loading bug report...
+						{'Verifying auth state...'}
+					</section>
+				)}>
+				{!isPermitted && (
+					<section className="box section">
+						{'Only moderators are allowed to view unverified bug reports.'}
 					</section>
 				)}
 
-				{Boolean(bugReport) && (
-					<BugReport
-						items={items}
-						pokemon={pokemon}
-						report={bugReport} />
+				{isPermitted && (
+					<>
+						{!bugReport && (
+							<section className="box section">
+								{'Loading bug report...'}
+							</section>
+						)}
+
+						{Boolean(bugReport) && (
+							<BugReport
+								items={items}
+								pokemon={pokemon}
+								report={bugReport} />
+						)}
+					</>
 				)}
 			</RequireAuth>
 		</Layout>
@@ -101,7 +118,9 @@ export async function getServerSideProps(context) {
 
 		if (!user || !settings.isModerator) {
 			return {
-				props: {},
+				props: {
+					isPermitted: false,
+				},
 			}
 		}
 	}
@@ -120,6 +139,9 @@ export async function getServerSideProps(context) {
 	}
 
 	return {
-		props: { bugReport },
+		props: {
+			bugReport,
+			isPermitted: true,
+		},
 	}
 }

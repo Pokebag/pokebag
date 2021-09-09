@@ -22,6 +22,7 @@ export function RequireAuth (props) {
 	const {
 		children,
 		isDisabled,
+		verifyingComponent,
 	} = props
 	const Router = useRouter()
 	const {
@@ -57,20 +58,8 @@ export function RequireAuth (props) {
 		user,
 	])
 
-	console.log({
-		isAuthCheckComplete,
-		isAuthCheckFailed,
-		isDisabled,
-		isLoaded,
-		user,
-	})
-
 	if (!isAuthCheckComplete) {
-		return (
-			<section className="box section">
-				Verifying auth state...
-			</section>
-		)
+		return verifyingComponent
 	}
 
 	if (isAuthCheckFailed) {
@@ -91,9 +80,11 @@ export function RequireAuth (props) {
 
 RequireAuth.defaultProps = {
 	isDisabled: false,
+	verifyingComponent: null,
 }
 
 RequireAuth.propTypes = {
 	children: PropTypes.node.isRequired,
 	isDisabled: PropTypes.bool,
+	verifyingComponent: PropTypes.node,
 }

@@ -77,7 +77,12 @@ export default function ReportABugPage() {
 				<p className="subtitle">{DESCRIPTION}</p>
 			</PageHeader>
 
-			<RequireAuth>
+			<RequireAuth
+				verifyingComponent={(
+					<section className="box section">
+						Verifying auth state...
+					</section>
+				)}>
 				<Form
 					initialValues={{
 						description: '',
