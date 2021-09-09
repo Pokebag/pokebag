@@ -7,6 +7,9 @@
   "scripts": {
     "dev": "next dev"
   },
+  "devDependencies": {
+    "simple-zustand-devtools": "^1.0.1"
+  },
   "dependencies": {
     "@creativebulma/bulma-tooltip": "^1.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",

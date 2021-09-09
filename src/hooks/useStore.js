@@ -1,5 +1,4 @@
 // Module imports
-// import { mountStoreDevtool } from 'simple-zustand-devtools'
 import create from 'zustand-store-addons'
 import produce from 'immer'
 
@@ -48,6 +47,7 @@ export const useStore = create((setState, getState) => {
 			isGettingBugs: false,
 			isGettingHeldItems: false,
 			isGettingPokemon: false,
+			isIgnoringBugReport: false,
 			isSavingBug: false,
 			pokemon: null,
 
@@ -145,6 +145,25 @@ export const useStore = create((setState, getState) => {
 				})
 			},
 
+			ignoreBugReport: async reportID => {
+				if (getState().isIgnoringBugReport) return
+
+				setState(state => {
+					state.unite.isIgnoringBugReport = true
+				})
+
+				await firestore
+					.collection('bug-reports')
+					.doc(reportID)
+					.update({
+						isIgnored: true,
+					})
+
+				setState(state => {
+					state.unite.isIgnoringBugReport = false
+				})
+			},
+
 			saveBug: async bug => {
 				let bugID = null
 
@@ -194,6 +213,9 @@ export const useStore = create((setState, getState) => {
 	middleware: [immer],
 })
 
-// if (process.env.NODE_ENV === 'development') {
-// 	mountStoreDevtool('LogStore', store)
-// }
+if ((process.env.NODE_ENV === 'development') && (typeof window !== 'undefined')) {
+	(async () => {
+		const { mountStoreDevtool } = await import('simple-zustand-devtools')
+		mountStoreDevtool('Firebase Store', useStore)
+	})()
+}

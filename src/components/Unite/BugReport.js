@@ -39,11 +39,15 @@ export function BugReport(props) {
 		getHeldItems,
 		getPokemon,
 		heldItems,
+		ignoreBugReport,
+		isIgnoringBugReport,
 		pokemon,
 	} = useStore(state => ({
 		getHeldItems: state.unite.getHeldItems,
 		getPokemon: state.unite.getPokemon,
 		heldItems: state.unite.heldItems,
+		ignoreBugReport: state.unite.ignoreBugReport,
+		isIgnoringBugReport: state.unite.isIgnoringBugReport,
 		pokemon: state.unite.pokemon,
 	}), shallow)
 
@@ -60,6 +64,13 @@ export function BugReport(props) {
 	const handleConvertToBugClose = useCallback(() => {
 		setIsConvertingToBug(false)
 	}, [setIsConvertingToBug])
+
+	const handleIgnoreClick = useCallback(() => {
+		ignoreBugReport(report.id)
+	}, [
+		ignoreBugReport,
+		report.id,
+	])
 
 	const entity = useMemo(() => {
 		switch (report.entityType) {
@@ -167,6 +178,7 @@ export function BugReport(props) {
 				{!report.bugID && (
 					<div className="buttons">
 						<Dropdown
+							isLoading={isIgnoringBugReport}
 							isUp
 							label="Actions...">
 							<Button
@@ -191,7 +203,9 @@ export function BugReport(props) {
 								<span>Add to Existing Bug</span>
 							</Button>
 
-							<Button className="dropdown-item has-text-danger">
+							<Button
+								className="dropdown-item has-text-danger"
+								onClick={handleIgnoreClick}>
 								<span className="icon is-small">
 									<FontAwesomeIcon
 										fixedWidth
