@@ -16,6 +16,7 @@ import { EntitySelect } from 'components/Unite/EntitySelect'
 import { DescriptionInput } from 'components/Unite/ReportABug/DescriptionInput'
 import { Layout } from 'components/Unite/Layout'
 import { PageHeader } from 'components/PageHeader'
+import { RequireAuth } from 'components/RequireAuth'
 import { StepsToReproduceInput } from 'components/Unite/ReportABug/StepsToReproduceInput'
 import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
 import classNames from 'classnames'
@@ -31,7 +32,7 @@ const DESCRIPTION = 'Report a bug in Pokémon UNITE so that we can investigate, 
 
 
 
-export default function ReportABugPage(props) {
+export default function ReportABugPage() {
 	const Router = useRouter()
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -76,34 +77,36 @@ export default function ReportABugPage(props) {
 				<p className="subtitle">{DESCRIPTION}</p>
 			</PageHeader>
 
-			<Form
-				initialValues={{
-					description: '',
-					entityID: null,
-					entityType: null,
-					stepsToReproduce: [],
-				}}
-				isDisabled={isSubmitting}
-				onSubmit={handleSubmit}>
-				<section className="box section">
-					<EntitySelect label="What are you reporting a bug for?" />
+			<RequireAuth>
+				<Form
+					initialValues={{
+						description: '',
+						entityID: null,
+						entityType: null,
+						stepsToReproduce: [],
+					}}
+					isDisabled={isSubmitting}
+					onSubmit={handleSubmit}>
+					<section className="box section">
+						<EntitySelect label="What are you reporting a bug for?" />
 
-					<DescriptionInput />
+						<DescriptionInput />
 
-					<StepsToReproduceInput />
+						<StepsToReproduceInput />
 
-					<div className="field has-text-right">
-						<FormButton
-							className={classNames({
-								'is-loading': isSubmitting,
-								'is-primary': true,
-							})}
-							type="submit">
-							Submit
-						</FormButton>
-					</div>
-				</section>
-			</Form>
+						<div className="field has-text-right">
+							<FormButton
+								className={classNames({
+									'is-loading': isSubmitting,
+									'is-primary': true,
+								})}
+								type="submit">
+								Submit
+							</FormButton>
+						</div>
+					</section>
+				</Form>
+			</RequireAuth>
 		</Layout>
 	)
 }
