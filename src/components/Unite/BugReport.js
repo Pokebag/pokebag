@@ -18,6 +18,7 @@ import { Button } from 'components/Button'
 import { ConvertBugReportToBugModal } from 'components/Unite/ConvertBugReportToBugModal'
 import { Dropdown } from 'components/Dropdown'
 import { Image } from 'components/Image'
+import { RequirePermissions } from 'components/RequirePermissions'
 import { useStore } from 'hooks/useStore'
 
 
@@ -162,45 +163,47 @@ export function BugReport(props) {
 				)}
 			</div>
 
-			<div className="buttons">
-				<Dropdown
-					isUp
-					label="Actions...">
-					<Button
-						className="dropdown-item"
-						onClick={handleConvertToBugClick}>
-						<span className="icon is-small">
-							<FontAwesomeIcon
-								fixedWidth
-								icon="bug" />
-						</span>
+			<RequirePermissions permissions={['isModerator']}>
+				<div className="buttons">
+					<Dropdown
+						isUp
+						label="Actions...">
+						<Button
+							className="dropdown-item"
+							onClick={handleConvertToBugClick}>
+							<span className="icon is-small">
+								<FontAwesomeIcon
+									fixedWidth
+									icon="bug" />
+							</span>
 
-						<span>Convert to Bug</span>
-					</Button>
+							<span>Convert to Bug</span>
+						</Button>
 
-					<Button className="dropdown-item">
-						<span className="icon is-small">
-							<FontAwesomeIcon
-								fixedWidth
-								icon="plus" />
-						</span>
+						<Button className="dropdown-item">
+							<span className="icon is-small">
+								<FontAwesomeIcon
+									fixedWidth
+									icon="plus" />
+							</span>
 
-						<span>Add to Existing Bug</span>
-					</Button>
+							<span>Add to Existing Bug</span>
+						</Button>
 
-					<Button className="dropdown-item has-text-danger">
-						<span className="icon is-small">
-							<FontAwesomeIcon
-								fixedWidth
-								icon="window-close" />
-						</span>
+						<Button className="dropdown-item has-text-danger">
+							<span className="icon is-small">
+								<FontAwesomeIcon
+									fixedWidth
+									icon="window-close" />
+							</span>
 
-						<span>
-							Ignore
-						</span>
-					</Button>
-				</Dropdown>
-			</div>
+							<span>
+								Ignore
+							</span>
+						</Button>
+					</Dropdown>
+				</div>
+			</RequirePermissions>
 
 			{isConvertingToBug && (
 				<ConvertBugReportToBugModal
