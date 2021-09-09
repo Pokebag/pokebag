@@ -2,6 +2,8 @@
 import { BugReport } from 'components/Unite/BugReport'
 import { Layout } from 'components/Unite/Layout'
 import { PageHeader } from 'components/PageHeader'
+import { RequireAuth } from 'components/RequireAuth'
+import { RequirePermissions } from 'components/RequirePermissions'
 import { useBreadcrumbs } from 'hooks/useBreadcrumbs'
 
 
@@ -40,17 +42,49 @@ export default function BugReportsPage(props) {
 				</h2>
 			</PageHeader>
 
-			{Object.values(bugReports).map(mapBugReports)}
+			<RequireAuth>
+				<RequirePermissions permissions={['isModerator']}>
+					{Object.values(bugReports).map(mapBugReports)}
+				</RequirePermissions>
+			</RequireAuth>
 		</Layout>
 	)
 }
 
 export async function getServerSideProps(context) {
 	const [
-		{ firestore },
+		{
+			auth,
+			firestore,
+		},
+		{ default: nookies },
 	] = await Promise.all([
 		import('helpers/firebase.admin'),
+		import('nookies'),
 	])
+
+	const { firebaseAuthToken } = nookies.get(context)
+
+	let settings = null
+	let user = null
+
+	if (firebaseAuthToken) {
+		user = await auth.verifyIdToken(firebaseAuthToken, true)
+	}
+
+	if (user) {
+		settings = await firestore
+			.collection('settings')
+			.doc(user.uid)
+			.get()
+		settings = settings.data()
+	}
+
+	if (!user || !settings.isModerator) {
+		return {
+			props: { bugReports },
+		}
+	}
 
 	const bugReports = {}
 	const users = {}
