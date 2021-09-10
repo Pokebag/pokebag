@@ -142,7 +142,7 @@ export function Bug(props) {
 							<div className="column is-half">
 								<h4 className="heading">{'First reported by:'}</h4>
 								<p>
-									<Link href={`/profile/${firstReport.authorID}`}>
+									<Link href={`/profile/${firstReport.author.username}`}>
 										{firstReport.author.username}
 									</Link>
 								</p>

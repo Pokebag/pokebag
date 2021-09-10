@@ -18,7 +18,7 @@ export default function HomePage(props) {
 		<BaseLayout
 			description="Pokébag aims to provide a great resource for information and tools for all Pokémon games!"
 			title="Home">
-			<main className="mt-0">
+			<div className="mt-0">
 				<div className="box section">
 					<div className="columns is-vcentered">
 						<div className="column is-5">
@@ -54,7 +54,7 @@ export default function HomePage(props) {
 						</div>
 					</div>
 				</div>
-			</main>
+			</div>
 		</BaseLayout>
 	)
 }

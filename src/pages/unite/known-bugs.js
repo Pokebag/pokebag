@@ -110,12 +110,15 @@ export async function getServerSideProps(context) {
 			.doc(userID)
 			.get()
 
-		const userData = userSnapshot.data()
+		const user = {
+			...userSnapshot.data(),
+			id: userSnapshot.id
+		}
 
-		userData.id = userSnapshot.id
+		user.createdAt = user.createdAt.toDate().toISOString()
 
 		targets.forEach(item => {
-			item.author = userData
+			item.author = user
 		})
 	}))
 

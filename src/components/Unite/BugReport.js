@@ -123,7 +123,7 @@ export function BugReport(props) {
 					<div className="column is-half">
 						<h4 className="heading">{'Reported by:'}</h4>
 						<p>
-							<Link href={`/users/${report.authorID}`}>
+							<Link href={`/profile/${report.author.username}`}>
 								{report.author.username}
 							</Link>
 						</p>

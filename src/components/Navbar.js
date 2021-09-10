@@ -22,6 +22,7 @@ export function Navbar() {
 	const {
 		isLoggedIn,
 		logout,
+		profile,
 	} = useAuth()
 
 	const [menuIsOpen, setMenuIsOpen] = useState(false)
@@ -98,11 +99,13 @@ export function Navbar() {
 								</div>
 
 								<div className="navbar-dropdown is-right">
-									<Link href="/unite">
-										<a className="navbar-item">Profile</a>
-									</Link>
+									{profile && (
+										<Link href={`/profile/${profile.username}`}>
+											<a className="navbar-item">Profile</a>
+										</Link>
+									)}
 
-									<Link href="/unite">
+									<Link href="/settings">
 										<a className="navbar-item">Settings</a>
 									</Link>
 

@@ -121,6 +121,8 @@ export async function getServerSideProps(context) {
 			id: profileSnapshot.id,
 		}
 
+		user.createdAt = user.createdAt.toDate().toISOString()
+
 		if (bug.authorID === userID) {
 			bug.author = user
 		}

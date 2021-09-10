@@ -18,7 +18,7 @@ export const handler = async (request, response) => {
 	} = request.body
 
 	try {
-		const { uid } = await auth.createUser({
+		const user = await auth.createUser({
 			disabled: false,
 			displayName: username,
 			email,
@@ -26,11 +26,20 @@ export const handler = async (request, response) => {
 			password,
 		})
 
+		const {
+			metadata,
+			uid,
+		} = user
+
 		await Promise.all([
 			firestore
 				.collection('profiles')
 				.doc(uid)
-				.set({ username }),
+				.set({
+					avatarURL: `https://avatars.dicebear.com/api/initials/username.svg`,
+					createdAt: new Date(metadata.creationTime),
+					username,
+				}),
 
 			firestore
 				.collection('settings')

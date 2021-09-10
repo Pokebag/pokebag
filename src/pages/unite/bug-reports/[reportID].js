@@ -138,6 +138,8 @@ export async function getServerSideProps(context) {
 		id: profileSnapshot.id,
 	}
 
+	bugReport.author.createdAt = bugReport.author.createdAt.toDate().toISOString()
+
 	return {
 		props: {
 			bugReport,
