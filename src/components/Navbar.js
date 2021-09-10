@@ -92,18 +92,23 @@ export function Navbar() {
 					</div>
 
 					<div className="navbar-end">
-						{isLoggedIn && (
+						{(isLoggedIn && Boolean(profile)) && (
 							<div className="navbar-item has-dropdown is-hoverable">
 								<div className="navbar-link">
-									Ohai!
+									<span class="icon-text">
+										<span class="icon">
+											<figure className="image is-24x24 is-rounded">
+												<img src={profile.avatarURL} />
+											</figure>
+										</span>
+										<span>{profile.username}</span>
+									</span>
 								</div>
 
 								<div className="navbar-dropdown is-right">
-									{profile && (
-										<Link href={`/profile/${profile.username}`}>
-											<a className="navbar-item">Profile</a>
-										</Link>
-									)}
+									<Link href={`/profile/${profile.username}`}>
+										<a className="navbar-item">Profile</a>
+									</Link>
 
 									<Link href="/settings">
 										<a className="navbar-item">Settings</a>
