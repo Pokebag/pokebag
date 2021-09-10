@@ -36,7 +36,7 @@ export const handler = async (request, response) => {
 				.collection('profiles')
 				.doc(uid)
 				.set({
-					avatarURL: `https://avatars.dicebear.com/api/initials/username.svg`,
+					avatarURL: `https://avatars.dicebear.com/api/bottts/username.svg`,
 					createdAt: new Date(metadata.creationTime),
 					username,
 				}),
@@ -48,6 +48,15 @@ export const handler = async (request, response) => {
 					isAdmin: false,
 					isModerator: false,
 					theme: 'system',
+				}),
+
+			firestore
+				.collection('activity-feeds')
+				.doc(uid)
+				.collection('items')
+				.add({
+					createdAt: new Date(metadata.creationTime),
+					type: 'create-account',
 				}),
 		])
 
