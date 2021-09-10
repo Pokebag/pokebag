@@ -95,8 +95,8 @@ export function Navbar() {
 						{(isLoggedIn && Boolean(profile)) && (
 							<div className="navbar-item has-dropdown is-hoverable">
 								<div className="navbar-link">
-									<span class="icon-text">
-										<span class="icon">
+									<span className="icon-text">
+										<span className="icon">
 											<figure className="image is-24x24 is-rounded">
 												<img src={profile.avatarURL} />
 											</figure>
