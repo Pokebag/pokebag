@@ -1041,6 +1041,7 @@ __metadata:
     "@next/mdx": ^11.1.0
     blurhash: ^1.1.3
     bulma: ^0.9.3
+    bulma-timeline: ^3.0.4
     classnames: ^2.3.1
     firebase: ^8.9.1
     firebase-admin: ^9.4.2
@@ -1792,6 +1793,13 @@ __metadata:
   version: 3.0.0
   resolution: "builtin-status-codes@npm:3.0.0"
   checksum: 1119429cf4b0d57bf76b248ad6f529167d343156ebbcc4d4e4ad600484f6bc63002595cbb61b67ad03ce55cd1d3c4711c03bbf198bf24653b8392420482f3773
+  languageName: node
+  linkType: hard
+
+"bulma-timeline@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "bulma-timeline@npm:3.0.4"
+  checksum: 7aec022581a1f0b4b35e6523b522e0c6796fee06f166eb6e17afa7a518df56874e2732990c7e6cc8b025d8d798e0ed4c8ee1ea318b0596af2b7918b40cf66ce3
   languageName: node
   linkType: hard
 

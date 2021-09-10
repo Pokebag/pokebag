@@ -1,4 +1,11 @@
 // Module imports
+import {
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react'
+import { firestore } from 'helpers/firebase'
 import Link from 'next/link'
 
 
@@ -6,16 +13,77 @@ import Link from 'next/link'
 
 
 // Local imports
+import { ActivityFeed } from 'components/ActivityFeed'
 import { BaseLayout } from 'components/BaseLayout'
+import { useAuth } from 'contexts/AuthContext'
 
 
 
 
+
+function getActivityFeedItemDate (activityFeedItem) {
+	return activityFeedItem.createdAt.toDate()
+}
+
+function ActivityFeedItem (props) {
+	const { item } = props
+
+	switch (item.type) {
+		case 'create-account':
+			return (
+				<p>Joined Pokébag! 🎉😍🎊</p>
+				)
+
+		case 'create-bug-report':
+			return (
+				<p>Created a <Link href={`/bug-reports/${item.bugReportID}`}>bug report!</Link></p>
+			)
+
+		default:
+			return (
+				<pre>{JSON.stringify(item)}</pre>
+			)
+	}
+}
 
 export default function ProfilePage(props) {
 	const { profile } = props
+	const { user } = useAuth()
+	const [activityFeedItems, setActivityFeedItems] = useState(null)
 
-	const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' })
+	const dateFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }), [])
+
+	const updateActivityFeed = useCallback(collectionSnapshot => {
+		const newActivityFeedItems = []
+
+		collectionSnapshot.forEach(documentSnapshot => {
+			newActivityFeedItems.push({
+				...documentSnapshot.data(),
+				id: documentSnapshot.id,
+			})
+		})
+
+		setActivityFeedItems(newActivityFeedItems)
+	}, [setActivityFeedItems])
+
+	useEffect(async () => {
+		if (user) {
+			try {
+				const collectionSnapshot = await firestore
+					.collection('activity-feeds')
+					.doc(user.uid)
+					.collection('items')
+					.get()
+
+				updateActivityFeed(collectionSnapshot)
+			} catch (error) {
+				console.log(error)
+			}
+		}
+	}, [
+		updateActivityFeed,
+		user,
+	])
 
 	return (
 		<BaseLayout
@@ -39,11 +107,20 @@ export default function ProfilePage(props) {
 					<section className="box section">
 						<h3 className="title is-4">Activity</h3>
 
-						<p>No activity... yet.</p>
+						{!Array.isArray(activityFeedItems) && (
+							<p>Loading...</p>
+						)}
 
-						{/* <ol>
-							<li></li>
-						</ol> */}
+						{(Array.isArray(activityFeedItems) && !activityFeedItems.length) && (
+							<p>No activity... yet.</p>
+						)}
+
+						{(Array.isArray(activityFeedItems) && Boolean(activityFeedItems.length)) && (
+							<ActivityFeed
+								getDate={getActivityFeedItemDate}
+								itemComponent={<ActivityFeedItem />}
+								items={activityFeedItems} />
+						)}
 					</section>
 				</div>
 			</div>
