@@ -1,5 +1,8 @@
 // Module imports
-import { useCallback } from 'react'
+import {
+	useCallback,
+	useMemo,
+} from 'react'
 import Link from 'next/link'
 
 
@@ -14,6 +17,17 @@ import { PublishedAt } from 'components/Blog/PublishedAt'
 
 
 
+
+function sortArticles (a, b) {
+	const articleADate = new Date(a.publishedAt)
+	const articleBDate = new Date(b.publishedAt)
+
+	if (articleADate < articleBDate) return 1
+
+	if (articleADate > articleBDate) return -1
+
+	return 0
+}
 
 export default function BlogIndexPage(props) {
 	const { articles } = props
@@ -60,6 +74,17 @@ export default function BlogIndexPage(props) {
 		)
 	}, [articles])
 
+	const sortedArticles = useMemo(() => {
+		return [...articles].sort(sortArticles)
+	}, [articles])
+
+	const renderedArticles = useMemo(() => {
+		return sortedArticles.map(mapArticles)
+	}, [
+		mapArticles,
+		sortedArticles,
+	])
+
 	return (
 		<Layout
 			description="Keep up with the latest news from Pokébag about all of the Pokémon games!"
@@ -69,7 +94,7 @@ export default function BlogIndexPage(props) {
 			</PageHeader>
 
 			<ul className="columns is-multiline">
-				{articles.map(mapArticles)}
+				{renderedArticles}
 			</ul>
 		</Layout>
 	)
