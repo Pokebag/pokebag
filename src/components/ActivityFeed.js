@@ -40,29 +40,37 @@ export function ActivityFeed (props) {
 
 	const mapItems = useCallback((item, index, array) => {
 		const currentItemDate = getDate(item)
+		const currentItemDay = currentItemDate.getDate()
 		const currentItemMonth = currentItemDate.getMonth()
 		const currentItemYear = currentItemDate.getFullYear()
 
 		const previousItem = array[index - 1]
 
+		let shouldRenderDay = true
 		let shouldRenderMonth = true
 		let shouldRenderYear = true
 
 		if (previousItem) {
 			const previousItemDate = getDate(previousItem)
+			const previousItemDay = previousItemDate.getDate()
 			const previousItemMonth = previousItemDate.getMonth()
 			const previousItemYear = previousItemDate.getFullYear()
 
-			shouldRenderMonth = previousItemMonth !== currentItemMonth
 			shouldRenderYear = previousItemYear !== currentItemYear
+			shouldRenderMonth = shouldRenderYear || (previousItemMonth !== currentItemMonth)
+			shouldRenderDay = shouldRenderMonth || (previousItemDay !== currentItemDay)
 		}
+
+		const yearFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric' })
+		const monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long' })
+		const dayFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' })
 
 		return (
 			<Fragment key={index}>
 				{shouldRenderYear && (
 					<>
 						<header className="timeline-header">
-							<span className="tag is-medium is-primary">{currentItemYear}</span>
+							<span className="tag is-medium is-primary">{yearFormatter.format(currentItemDate)}</span>
 						</header>
 
 						<div className="timeline-item" />
@@ -71,14 +79,16 @@ export function ActivityFeed (props) {
 
 				{shouldRenderMonth && (
 					<header className="timeline-header">
-						<span className="tag is-medium">{currentItemMonth}</span>
+						<span className="tag is-medium">{monthFormatter.format(currentItemDate)}</span>
 					</header>
 				)}
 
 				<div className="timeline-item">
 					<div className="timeline-marker"></div>
 					<div className="timeline-content">
-						<p className="heading">{dateFormatter.format(getDate(item))}</p>
+						{shouldRenderDay && (
+							<p className="heading">{dayFormatter.format(currentItemDate)}</p>
+						)}
 
 						{cloneElement(itemComponent, { item })}
 					</div>
