@@ -36,6 +36,16 @@ export const handler = async (request, response) => {
 				stepsToReproduce,
 			})
 
+		await firestore
+			.collection('activity-feeds')
+			.doc(user.uid)
+			.collection('items')
+			.add({
+				bugReportID: id,
+				createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+				type: 'create-bug-report',
+			})
+
 		response.status(httpStatus.OK).json({ id })
 	} catch (error) {
 		console.log(error.errorInfo.code)
@@ -66,9 +76,6 @@ export const handler = async (request, response) => {
 
 
 export default createEndpoint({
-	allowedMethods: [
-		'get',
-		'post',
-	],
+	allowedMethods: ['post'],
 	handler,
 })
