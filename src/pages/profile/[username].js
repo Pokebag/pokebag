@@ -32,11 +32,11 @@ function ActivityFeedItem (props) {
 		case 'create-account':
 			return (
 				<p>Joined Pokébag! 🎉😍🎊</p>
-				)
+			)
 
 		case 'create-bug-report':
 			return (
-				<p>Created a <Link href={`/bug-reports/${item.bugReportID}`}>bug report!</Link></p>
+				<p>Created a <Link href={`/unite/bug-reports/${item.bugReportID}`}>bug report!</Link></p>
 			)
 
 		default:
