@@ -116,7 +116,7 @@ export async function getServerSideProps(context) {
 			settings = settings.data()
 		}
 
-		if (!user || !settings.isModerator) {
+		if (!user && (bugReport.authorID !== user.uid) && !settings.isModerator) {
 			return {
 				props: {
 					isPermitted: false,
