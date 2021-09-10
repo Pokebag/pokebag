@@ -103,6 +103,10 @@ export function Dropdown(props) {
 		isOpen,
 	])
 
+	// Prevent the timeout from throwing an error if the component is unmounted
+	// before the timer completes
+	useEffect(() => stopHoverIntentTimer, [])
+
 	return (
 		<div
 			className={classnames(className, {

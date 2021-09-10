@@ -45,10 +45,11 @@ export function useFirestoreCollection(options, dependencies = []) {
 		return () => disconnectCollection(generateKey(options))
 	}, [
 		...dependencies,
-		collectionName,
 		connectCollection,
 		disconnectCollection,
 		documentIDs,
+		collectionName,
+		options.queries,
 	])
 
 	return data

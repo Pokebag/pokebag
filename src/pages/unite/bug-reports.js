@@ -26,7 +26,7 @@ function mapBugReports(report) {
 	)
 }
 
-export default function BugReportsPage(props) {
+export default function BugReportsPage() {
 	useBreadcrumbs([
 		{
 			label: 'Pokémon UNITE',
@@ -38,23 +38,27 @@ export default function BugReportsPage(props) {
 		},
 	])
 
-	const baseBugReports = useFirestoreCollection({ collectionName: 'bug-reports' })
+	const baseBugReports = useFirestoreCollection(useMemo(() => ({
+		collectionName: 'bug-reports',
+		queries: [
+			['where', 'isAcknowledged', '==', false],
+			['where', 'isIgnored', '==', false],
+		],
+	}), []))
 
-	const authorIDs = useMemo(() => {
-		return baseBugReports?.map(({ authorID }) => authorID) ?? []
-	}, [baseBugReports])
-
-	const userProfiles = useFirestoreCollection({
+	const userProfileCollectionOptions = useMemo(() => ({
 		collectionName: 'profiles',
-		documentIDs: authorIDs,
-	}, [authorIDs])
+		documentIDs: Object.values(baseBugReports ?? {}).map(({ authorID }) => authorID),
+	}), [baseBugReports])
+
+	const userProfiles = useFirestoreCollection(userProfileCollectionOptions, [userProfileCollectionOptions])
 
 	const bugReports = useMemo(() => {
 		if (!baseBugReports || !userProfiles) {
 			return []
 		}
 
-		return baseBugReports.reduce((accumulator, bugReport) => {
+		return Object.values(baseBugReports).reduce((accumulator, bugReport) => {
 			const userProfile = userProfiles[bugReport.authorID]
 			if (userProfile) {
 				accumulator.push({

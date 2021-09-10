@@ -8,8 +8,9 @@ import produce from 'immer'
 
 
 // Local imports
-import * as API from 'helpers/API'
+import { firestore } from 'helpers/firebase'
 // import { persist } from 'helpers/zustandPersist'
+import * as API from 'helpers/API'
 
 
 
@@ -213,9 +214,9 @@ export const useStore = create((setState, getState) => {
 	middleware: [immer],
 })
 
-if ((process.env.NODE_ENV === 'development') && (typeof window !== 'undefined')) {
-	(async () => {
-		const { mountStoreDevtool } = await import('simple-zustand-devtools')
-		mountStoreDevtool('Firebase Store', useStore)
-	})()
-}
+// if ((process.env.NODE_ENV === 'development') && (typeof window !== 'undefined')) {
+// 	(async () => {
+// 		const { mountStoreDevtool } = await import('simple-zustand-devtools')
+// 		mountStoreDevtool('Firebase Store', useStore)
+// 	})()
+// }

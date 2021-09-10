@@ -51,6 +51,7 @@ export const useFirebaseStore = create((setState, getState) => {
 				const {
 					collectionName,
 					documentIDs,
+					queries,
 				} = options
 				const key = generateKey(options)
 
@@ -80,10 +81,17 @@ export const useFirebaseStore = create((setState, getState) => {
 
 						state.data[key] = null
 					} else {
+						let query = firestore.collection(collectionName)
+
+						if (queries) {
+							queries.forEach(([queryType, ...queryParams]) => {
+								query = query[queryType](...queryParams)
+							})
+						}
+
 						state.connections[key] = {
 							count: 1,
-							unsubscribe: firestore
-								.collection(collectionName)
+							unsubscribe: query
 								.onSnapshot(snapshot => {
 									getState().actions.handleCollectionSnapshot(key, snapshot)
 								}),
@@ -140,7 +148,9 @@ export const useFirebaseStore = create((setState, getState) => {
 
 			handleCollectionSnapshot: (key, collectionSnapshot) => {
 				setState(state => {
-					state.data[key] = []
+					state.data[key] = {
+						...(state.data[key] || {}),
+					}
 
 					collectionSnapshot.docChanges().forEach(change => {
 						const {
@@ -148,11 +158,18 @@ export const useFirebaseStore = create((setState, getState) => {
 							type,
 						} = change
 
-						if (type !== 'removed') {
-							state.data[key].push({
-								...doc.data(),
-								id: doc.id,
-							})
+						switch (type) {
+							case 'added':
+							case 'modified':
+								state.data[key][doc.id] = {
+									...doc.data(),
+									id: doc.id,
+								}
+								break
+
+							case 'removed':
+								delete state.data[key][doc.id]
+								break
 						}
 					})
 				})
