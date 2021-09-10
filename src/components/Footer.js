@@ -1,5 +1,6 @@
 // Module imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Link from 'next/link'
 
 
 
@@ -25,7 +26,7 @@ export function Footer() {
 						<p><small>Pokémon Unite and Pokémon are trademarks or registered trademarks of Nintendo.</small></p>
 					</div>
 
-					<div className="column is-offset-one-quarter is-one-quarter">
+					<div className="column is-offset-one-fifth is-one-fifth">
 						<p className="title is-5">Social</p>
 
 						<ul>
@@ -46,6 +47,36 @@ export function Footer() {
 
 									{' Github'}
 								</ExternalLink>
+							</li>
+						</ul>
+					</div>
+
+					<div className="column is-one-fifth">
+						<p className="title is-5">Legal</p>
+
+						<ul>
+							<li>
+								<Link href="/legal/terms-of-service">
+									{'Terms of Service'}
+								</Link>
+							</li>
+
+							<li>
+								<Link href="/legal/privacy-policy">
+									{'Privacy Policy'}
+								</Link>
+							</li>
+
+							<li>
+								<Link href="/legal/cookie-policy">
+									{'Cookie Policy'}
+								</Link>
+							</li>
+
+							<li>
+								<Link href="/legal/code-of-conduct">
+									{'Code of Conduct'}
+								</Link>
 							</li>
 						</ul>
 					</div>
