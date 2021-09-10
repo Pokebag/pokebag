@@ -120,9 +120,9 @@ export function Navbar() {
 						{!isLoggedIn && (
 							<div className="navbar-item">
 								<div className="buttons">
-									<Link href="/sign-up">
+									<Link href="/create-account">
 										<a className="button is-primary">
-											<strong>Sign up</strong>
+											<strong>Create Account</strong>
 										</a>
 									</Link>
 

@@ -82,7 +82,7 @@ export default function LoginPage() {
 
 							<div className="column has-text-right">
 								<div className="field is-grouped">
-									<Link href="/sign-up">
+									<Link href="/create-account">
 										<a
 											className="button is-ghost mr-2"
 											disabled={isLoggingIn || isLoggedIn}>

@@ -58,7 +58,7 @@ export default function SignUpPage() {
 							password: '',
 						}}
 						onSubmit={handleSubmit}>
-						<h2 className="title">Sign Up</h2>
+						<h2 className="title">Create an Account</h2>
 
 						<Field
 							id="username"
