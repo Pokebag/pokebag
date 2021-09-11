@@ -137,7 +137,7 @@ export function BugReport(props) {
 					<div className="column is-half">
 						<h4 className="heading">{'Report ID:'}</h4>
 						<p>
-							<Link href={`/unite/bug-reports/${report.id}`}>
+							<Link href={`/unite/known-bugs/${report.id}`}>
 								{report.id}
 							</Link>
 						</p>
