@@ -33,7 +33,7 @@ export const handler = async (request, response) => {
 				entityType,
 				isAcknowledged: false,
 				isIgnored: false,
-				stepsToReproduce,
+				stepsToReproduce: stepsToReproduce.filter(step => Boolean(step)),
 			})
 
 		await firestore
