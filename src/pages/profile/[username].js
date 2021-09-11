@@ -48,7 +48,6 @@ function ActivityFeedItem (props) {
 
 export default function ProfilePage(props) {
 	const { profile } = props
-	const { user } = useAuth()
 	const [activityFeedItems, setActivityFeedItems] = useState(null)
 
 	const dateFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }), [])
@@ -67,11 +66,11 @@ export default function ProfilePage(props) {
 	}, [setActivityFeedItems])
 
 	useEffect(async () => {
-		if (user) {
+		if (profile) {
 			try {
 				const collectionSnapshot = await firestore
 					.collection('activity-feeds')
-					.doc(user.uid)
+					.doc(profile.id)
 					.collection('items')
 					.get()
 
@@ -81,8 +80,8 @@ export default function ProfilePage(props) {
 			}
 		}
 	}, [
+		profile,
 		updateActivityFeed,
-		user,
 	])
 
 	return (
