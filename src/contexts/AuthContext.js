@@ -319,15 +319,21 @@ const AuthContextProvider = props => {
 		dispatch({ type: 'attempt registration' })
 
 		try {
-			await fetch('/api/users/register', {
+			const response = await fetch('/api/users/register', {
 				body: JSON.stringify(user),
 				headers: { 'Content-Type': 'application/json' },
 				method: 'post',
 			})
+
+			if (!response.ok) {
+				throw await response.json()
+			}
+
 			dispatch({ type: 'registration success' })
 			await login(user.email, user.password)
 		} catch (error) {
-			return dispatch({ type: 'registration failure' })
+			dispatch({ type: 'registration failure' })
+			throw error
 		}
 	}, [dispatch])
 

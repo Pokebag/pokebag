@@ -23,6 +23,24 @@ import { useAuth } from 'contexts/AuthContext'
 
 
 
+function handleError(error, updateValidity) {
+	switch (error?.code) {
+		case 'auth/email-already-exists':
+			updateValidity('email', ['An account already exists with this email address'])
+			break
+
+		case 'auth/invalid-password':
+			updateValidity('password', ['Invalid password; passwords must be at least 6 characters'])
+			break
+
+		case 'auth/username-already-exists':
+			updateValidity('username', ['An account already exists with this username'])
+			break
+
+		default:
+			console.log(error)
+	}}
+
 export default function SignUpPage() {
 	const Router = useRouter()
 	const {
@@ -33,8 +51,21 @@ export default function SignUpPage() {
 		register,
 	} = useAuth()
 
-	const handleSubmit = useCallback(formData => {
-		register(formData.values)
+	const handleSubmit = useCallback(async (formData, actions) => {
+		const { values } = formData
+		const { updateValidity } = actions
+
+		try {
+			await register(values)
+		} catch (error) {
+			if (error.errors) {
+				error.errors.forEach(errorCode => {
+					handleError({ code: errorCode }, updateValidity)
+				})
+			} else {
+				handleError(error, updateValidity)
+			}
+		}
 	}, [register])
 
 	useEffect(() => {
@@ -86,6 +117,7 @@ export default function SignUpPage() {
 							<Input
 								id="password"
 								isDisabled={isRegistering || isRegistered}
+								minLength={6}
 								type="password" />
 						</Field>
 

@@ -18,6 +18,25 @@ export const handler = async (request, response) => {
 	} = request.body
 
 	try {
+		const collectionSnapshot = await firestore
+			.collection('profiles')
+			.where('username', '==', 'username')
+			.get()
+
+		const matchingUserProfiles = []
+
+		collectionSnapshot.forEach(documentSnapshot => {
+			matchingUserProfiles.push(documentSnapshot.data())
+		})
+
+		if (matchingUserProfiles.length) {
+			throw {
+				errorInfo: {
+					code: 'auth/username-already-exists',
+				},
+			}
+		}
+
 		const user = await auth.createUser({
 			disabled: false,
 			displayName: username,
@@ -66,6 +85,12 @@ export const handler = async (request, response) => {
 
 		switch (error.errorInfo.code) {
 			case 'auth/email-already-exists':
+				response.status(httpStatus.FORBIDDEN).json({
+					errors: [error.errorInfo.code]
+				})
+				break
+
+			case 'auth/username-already-exists':
 				response.status(httpStatus.FORBIDDEN).json({
 					errors: [error.errorInfo.code]
 				})
