@@ -40,7 +40,13 @@ export default function LoginPage() {
 		} catch (error) {
 			switch (error.code) {
 				case 'auth/invalid-email':
-					updateValidity('email', ['Invalid email'])
+					updateValidity('email', ['Invalid email.'])
+					break
+
+				case 'auth/too-many-requests':
+					updateValidity('password', [(
+						<>{'This account has been disabled due to too many failed login attempts. You may either '}<Link href="/reset-password">{'reset your password'}</Link>{' or try again later.'}</>
+					)])
 					break
 
 				case 'auth/user-disabled':
