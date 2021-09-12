@@ -31,6 +31,16 @@ export function Footer() {
 
 						<ul>
 							<li>
+								<ExternalLink href="https://discord.gg/6KuxFYqYXY">
+									<FontAwesomeIcon
+										fixedWidth
+										icon={['fab', 'discord']} />
+
+									{' Discord'}
+								</ExternalLink>
+							</li>
+
+							<li>
 								<ExternalLink href="https://twitter.com/PokebagApp">
 									<FontAwesomeIcon
 										fixedWidth
@@ -39,6 +49,7 @@ export function Footer() {
 									{' Twitter'}
 								</ExternalLink>
 							</li>
+
 							<li>
 								<ExternalLink href="https://github.com/Pokebag/pokebag">
 									<FontAwesomeIcon
