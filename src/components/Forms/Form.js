@@ -3,6 +3,7 @@ import {
 	createContext,
 	useCallback,
 	useContext,
+	useEffect,
 	useReducer,
 } from 'react'
 import PropTypes from 'prop-types'
@@ -64,6 +65,9 @@ function reducer(state, action) {
 				.some(isTouched => isTouched)
 			break
 
+		case 'reset state':
+			return createInitialState(payload)
+
 		default:
 			console.warn(`Unrecognized action dispatched: ${type}`, payload)
 			return state
@@ -78,19 +82,15 @@ function reducer(state, action) {
 
 export const FormContext = createContext({
 	...INITIAL_STATE,
+	reset: () => {},
 	updateValidity: () => {},
 	updateValue: () => {},
 })
 
-export function Form(props) {
-	const {
-		children,
-		className,
-		initialValues,
-		isDisabled,
-		onSubmit,
-	} = props
-	const [state, dispatch] = useReducer(reducer, {
+function createInitialState(options) {
+	const { initialValues } = options
+
+	return {
 		...INITIAL_STATE,
 		errors: Object
 			.keys(initialValues)
@@ -112,7 +112,18 @@ export function Form(props) {
 				return accumulator
 			}, {}),
 		values: { ...initialValues },
-	})
+	}
+}
+
+export function Form(props) {
+	const {
+		children,
+		className,
+		initialValues,
+		isDisabled,
+		onSubmit,
+	} = props
+	const [state, dispatch] = useReducer(reducer, createInitialState({ initialValues }))
 
 	const handleSubmit = useCallback(event => {
 		event.preventDefault()
@@ -144,10 +155,28 @@ export function Form(props) {
 		dispatch,
 	])
 
+	const reset = useCallback(options => {
+		dispatch({
+			payload: options,
+			type: 'reset state',
+		})
+	}, [ dispatch ])
+
+	useEffect(() => {
+		if (!state.isTouched) {
+			reset({ initialValues })
+		}
+	}, [
+		initialValues,
+		reset,
+		state.isTouched,
+	])
+
 	return (
 		<FormContext.Provider
 			value={{
 				...state,
+				reset,
 				updateValidity,
 				updateValue,
 			}}>
