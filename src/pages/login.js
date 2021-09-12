@@ -44,15 +44,15 @@ export default function LoginPage() {
 					break
 
 				case 'auth/user-disabled':
-					updateValidity('email', ['This user account has been disabled; please contact us on Discord to reactivate your account'])
+					updateValidity('email', ['This user account has been disabled. Please contact us on Discord to reactivate your account.'])
 					break
 
 				case 'auth/user-not-found':
-					updateValidity('email', ['There is no account with this email address'])
+					updateValidity('email', ['There is no account with this email address.'])
 					break
 
 				case 'auth/wrong-password':
-					updateValidity('password', ['Invalid password'])
+					updateValidity('password', ['Invalid password.'])
 					break
 
 				default:

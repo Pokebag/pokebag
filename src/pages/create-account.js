@@ -26,15 +26,15 @@ import { useAuth } from 'contexts/AuthContext'
 function handleError(error, updateValidity) {
 	switch (error?.code) {
 		case 'auth/email-already-exists':
-			updateValidity('email', ['An account already exists with this email address'])
+			updateValidity('email', ['An account already exists with this email address.'])
 			break
 
 		case 'auth/invalid-password':
-			updateValidity('password', ['Invalid password; passwords must be at least 6 characters'])
+			updateValidity('password', ['Invalid password. Passwords must be at least 6 characters long.'])
 			break
 
 		case 'auth/username-already-exists':
-			updateValidity('username', ['An account already exists with this username'])
+			updateValidity('username', ['An account already exists with this username.'])
 			break
 
 		default:

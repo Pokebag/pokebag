@@ -51,7 +51,7 @@ export function ReauthenticateModal (props) {
 		} catch (error) {
 			switch (error?.code) {
 				case 'auth/wrong-password':
-					updateValidity('reauthenticate-password', ['Wrong password'])
+					updateValidity('reauthenticate-password', ['Wrong password.'])
 					break
 
 				default:
