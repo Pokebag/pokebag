@@ -8,12 +8,15 @@ import Link from 'next/link'
 // Local imports
 import { BaseLayout } from 'components/BaseLayout'
 import { Image } from 'components/Image'
+import { useHandleMode } from 'hooks/useHandleMode'
 
 
 
 
 
-export default function HomePage(props) {
+export default function HomePage() {
+	useHandleMode()
+
 	return (
 		<BaseLayout
 			description="Pokébag aims to provide a great resource for information and tools for all Pokémon games!"

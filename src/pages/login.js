@@ -45,7 +45,7 @@ export default function LoginPage() {
 
 				case 'auth/too-many-requests':
 					updateValidity('password', [(
-						<>{'This account has been disabled due to too many failed login attempts. You may either '}<Link href="/reset-password">{'reset your password'}</Link>{' or try again later.'}</>
+						<>{'This account has been disabled due to too many failed login attempts. You may either '}<Link href="/forgot-password">{'reset your password'}</Link>{' or try again later.'}</>
 					)])
 					break
 
@@ -111,7 +111,7 @@ export default function LoginPage() {
 						<div className="columns is-vcentered">
 							<div className="column has-text-left">
 								{(!isLoggingIn && !isLoggedIn) && (
-									<Link href="/reset-password">
+									<Link href="/forgot-password">
 										{'Forgot password?'}
 									</Link>
 								)}
