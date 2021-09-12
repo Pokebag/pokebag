@@ -1,6 +1,7 @@
 // Module imports
 import {
 	createContext,
+	forwardRef,
 	useCallback,
 	useContext,
 	useEffect,
@@ -115,7 +116,7 @@ function createInitialState(options) {
 	}
 }
 
-export function Form(props) {
+export const Form = forwardRef((props, ref) => {
 	const {
 		children,
 		className,
@@ -124,14 +125,6 @@ export function Form(props) {
 		onSubmit,
 	} = props
 	const [state, dispatch] = useReducer(reducer, createInitialState({ initialValues }))
-
-	const handleSubmit = useCallback(event => {
-		event.preventDefault()
-		onSubmit(state)
-	}, [
-		onSubmit,
-		state,
-	])
 
 	const updateValidity = useCallback((fieldName, errors) => {
 		dispatch({
@@ -162,6 +155,15 @@ export function Form(props) {
 		})
 	}, [ dispatch ])
 
+	const handleSubmit = useCallback(event => {
+		event.preventDefault()
+		onSubmit(state, { updateValidity })
+	}, [
+		onSubmit,
+		state,
+		updateValidity,
+	])
+
 	useEffect(() => {
 		if (!state.isTouched) {
 			reset({ initialValues })
@@ -182,14 +184,15 @@ export function Form(props) {
 			}}>
 			<form
 				className={className}
-				onSubmit={handleSubmit}>
+				onSubmit={handleSubmit}
+				ref={ref}>
 				<fieldset disabled={isDisabled}>
 					{children}
 				</fieldset>
 			</form>
 		</FormContext.Provider>
 	)
-}
+})
 
 Form.defaultProps = {
 	className: null,

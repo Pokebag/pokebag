@@ -1,5 +1,6 @@
 // Local imports
 import { BaseLayout } from 'components/BaseLayout'
+import { EmailForm } from 'components/Settings/EmailForm'
 import { LeftNav } from 'components/Settings/LeftNav'
 import { PageHeader } from 'components/PageHeader'
 import { useAuth } from 'contexts/AuthContext'
@@ -42,11 +43,7 @@ export default function UserSettingsPage() {
 					)}
 
 					{(isLoaded && profile) && (
-						<section className="box section">
-							<h3 className="title is-4">
-								{'Update your email'}
-							</h3>
-						</section>
+						<EmailForm />
 					)}
 				</div>
 			</div>
