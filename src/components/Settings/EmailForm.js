@@ -31,7 +31,7 @@ export function EmailForm() {
 	} = useAuth()
 	const formRef = useRef(null)
 
-	const [isReauthenticationModalOpen, setIsReauthenticationModalOpen] = useState(true)
+	const [isReauthenticationModalOpen, setIsReauthenticationModalOpen] = useState(false)
 	const [isReauthenticated, setIsReauthenticated] = useState(false)
 	const [isSuccess, setIsSuccess] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)

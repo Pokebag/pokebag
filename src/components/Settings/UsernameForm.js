@@ -92,6 +92,9 @@ export function UsernameForm() {
 				isDisabled={isSubmitting}
 				onSubmit={onSubmit}>
 				<Field
+					helperText={(
+						<>Changing your username <strong>will</strong> allow somebody else to create an account with your old username.</>
+					)}
 					id="username"
 					label="New Username">
 					<Input
