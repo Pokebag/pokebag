@@ -36,6 +36,7 @@ export function Input(props) {
 		placeholder,
 		shouldDebounceBy,
 		type,
+		validateWithErrors,
 		value,
 	} = props
 	const {
@@ -60,7 +61,11 @@ export function Input(props) {
 			errors.push('Field is required')
 		}
 
-		if (typeof initialProps.validate === 'function') {
+		if ((type === 'email') && state.length && !/.+@.+\..+/.test(state)) {
+			errors.push('Invalid email')
+		}
+
+		if ((typeof initialProps.validate === 'function') && (validateWithErrors || !errors.length)) {
 			const customError = await initialProps.validate(state, values)
 			if (customError) {
 				errors.push(customError)
@@ -69,6 +74,7 @@ export function Input(props) {
 
 		updateValidity(id, errors)
 	}, shouldDebounceBy), [
+		type,
 		updateValidity,
 		values,
 	])
@@ -187,6 +193,7 @@ Input.defaultProps = {
 	placeholder: '',
 	shouldDebounceBy: 0,
 	type: 'text',
+	validateWithErrors: false,
 	validate: () => {},
 	value: null,
 }
@@ -210,6 +217,7 @@ Input.propTypes = {
 	shouldDebounceBy: PropTypes.number,
 	type: PropTypes.string,
 	validate: PropTypes.func,
+	validateWithErrors: PropTypes.bool,
 	value: PropTypes.oneOfType([
 		PropTypes.number,
 		PropTypes.string,
