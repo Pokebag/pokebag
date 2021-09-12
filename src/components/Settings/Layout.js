@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { BaseLayout } from 'components/BaseLayout'
+import { Breadcrumbs } from 'components/Breadcrumbs'
 import { LeftNav } from 'components/Settings/LeftNav'
 import { PageHeader } from 'components/PageHeader'
 import { useAuth } from 'contexts/AuthContext'
@@ -32,6 +33,8 @@ export function Layout(props) {
 				</div>
 
 				<div className="column is-three-quarters">
+					<Breadcrumbs />
+
 					<PageHeader>
 						<h2 className="title">
 							{'Account Settings'}

@@ -40,17 +40,7 @@ export function Layout(props) {
 				</div>
 
 				<div className="column is-three-quarters">
-					<Breadcrumbs
-						crumbs={[
-							{
-								label: 'Pokémon UNITE',
-								url: '/unite',
-							},
-							{
-								label: 'Pokémon UNITE',
-								url: '/unite',
-							},
-						]} />
+					<Breadcrumbs />
 
 					{children}
 				</div>
