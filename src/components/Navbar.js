@@ -110,7 +110,7 @@ export function Navbar() {
 										<a className="navbar-item">Profile</a>
 									</Link>
 
-									<Link href="/settings">
+									<Link href="/settings/profile">
 										<a className="navbar-item">Settings</a>
 									</Link>
 
