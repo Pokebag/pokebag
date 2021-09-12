@@ -93,7 +93,10 @@ Field.defaultProps = {
 Field.propTypes = {
 	children: PropTypes.node,
 	className: PropTypes.string,
-	helperText: PropTypes.string,
+	helperText: PropTypes.oneOfType([
+		PropTypes.node,
+		PropTypes.string,
+	]),
 	id: PropTypes.string.isRequired,
 	isRequired: PropTypes.bool,
 	label: PropTypes.string,
