@@ -76,7 +76,9 @@ export default function LoginPage() {
 	}, [isLoggedIn])
 
 	return (
-		<BaseLayout>
+		<BaseLayout
+			description="Login"
+			title="Login">
 			<section className="section">
 				<div className="columns container">
 					<Form
@@ -86,7 +88,7 @@ export default function LoginPage() {
 							password: '',
 						}}
 						onSubmit={handleSubmit}>
-						<h2 className="title">Login</h2>
+						<h2 className="title">{'Login'}</h2>
 
 						<Field
 							id="email"
@@ -106,19 +108,25 @@ export default function LoginPage() {
 								type="password" />
 						</Field>
 
-						<div className="columns">
+						<div className="columns is-vcentered">
 							<div className="column has-text-left">
+								{(!isLoggingIn && !isLoggedIn) && (
+									<Link href="/reset-password">
+										{'Forgot password?'}
+									</Link>
+								)}
+
 								{isLoggingIn && 'Logging in...'}
 								{isLoggedIn && 'Redirecting...'}
 							</div>
 
-							<div className="column has-text-right">
+							<div className="column has-text-right is-narrow">
 								<div className="field is-grouped">
 									<Link href="/create-account">
 										<a
 											className="button is-ghost mr-2"
 											disabled={isLoggingIn || isLoggedIn}>
-											Create an account
+											{'Create an account'}
 										</a>
 									</Link>
 
@@ -129,7 +137,7 @@ export default function LoginPage() {
 										})}
 										isDisabled={isLoggingIn || isLoggedIn}
 										type="submit">
-										Login
+										{'Login'}
 									</FormButton>
 								</div>
 							</div>
