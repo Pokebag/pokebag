@@ -31,8 +31,34 @@ export default function LoginPage() {
 		login,
 	} = useAuth()
 
-	const handleSubmit = useCallback(formData => {
-		login(formData.values.email, formData.values.password)
+	const handleSubmit = useCallback(async (formData, actions) => {
+		const { values } = formData
+		const { updateValidity } = actions
+
+		try {
+			await login(values.email, values.password)
+		} catch (error) {
+			switch (error.code) {
+				case 'auth/invalid-email':
+					updateValidity('email', ['Invalid email'])
+					break
+
+				case 'auth/user-disabled':
+					updateValidity('email', ['This user account has been disabled; please contact us on Discord to reactivate your account'])
+					break
+
+				case 'auth/user-not-found':
+					updateValidity('email', ['There is no account with this email address'])
+					break
+
+				case 'auth/wrong-password':
+					updateValidity('password', ['Invalid password'])
+					break
+
+				default:
+					console.log(error)
+			}
+		}
 	}, [login])
 
 	useEffect(() => {

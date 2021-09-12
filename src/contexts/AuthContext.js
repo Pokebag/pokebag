@@ -279,7 +279,8 @@ const AuthContextProvider = props => {
 			await auth.signInWithEmailAndPassword(email, password)
 			return dispatch({ type: 'login success' })
 		} catch (error) {
-			return dispatch({ type: 'login failure' })
+			dispatch({ type: 'login failure' })
+			throw error
 		}
 	}, [dispatch])
 
