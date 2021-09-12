@@ -10,6 +10,7 @@ import { BaseLayout } from 'components/BaseLayout'
 import { Breadcrumbs } from 'components/Breadcrumbs'
 import { LeftNav } from 'components/Settings/LeftNav'
 import { PageHeader } from 'components/PageHeader'
+import { RequireAuth } from 'components/RequireAuth'
 import { useAuth } from 'contexts/AuthContext'
 
 
@@ -41,13 +42,15 @@ export function Layout(props) {
 						</h2>
 					</PageHeader>
 
-					{(!isLoaded || !profile) && (
-						<section className="box section">
-							{'Loading...'}
-						</section>
-					)}
+					<RequireAuth>
+						{(!isLoaded || !profile) && (
+							<section className="box section">
+								{'Loading...'}
+							</section>
+						)}
 
-					{(isLoaded && profile) && children}
+						{(isLoaded && profile) && children}
+					</RequireAuth>
 				</div>
 			</div>
 		</BaseLayout>
