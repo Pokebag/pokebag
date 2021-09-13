@@ -1,9 +1,5 @@
 // Module imports
-import {
-	useCallback,
-	useEffect,
-	useMemo,
-} from 'react'
+import { useCallback } from 'react'
 import { useRouter } from 'next/router'
 import shallow from 'zustand/shallow'
 
@@ -72,12 +68,14 @@ export function ConvertBugReportToBugModal(props) {
 							label="What should we call this bug?">
 							<Input
 								id="title"
-								isDisabled={isSavingBug} />
+								isDisabled={isSavingBug}
+								isRequired />
 						</Field>
 
 						<EntitySelect
 							isDisabled={isSavingBug}
-							label="What is this bug related to?" />
+							label="What is this bug related to?"
+							isRequired />
 
 						<Field
 							id="description"
@@ -85,7 +83,8 @@ export function ConvertBugReportToBugModal(props) {
 							<Input
 								id="description"
 								isDisabled={isSavingBug}
-								isMultiline />
+								isMultiline
+								isRequired />
 						</Field>
 
 						<Field
@@ -94,6 +93,7 @@ export function ConvertBugReportToBugModal(props) {
 							<Select
 								id="status"
 								isDisabled={isSavingBug}
+								isRequired
 								isUp
 								options={[
 									{
