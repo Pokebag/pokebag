@@ -103,7 +103,7 @@ export function Input(props) {
 	])
 
 	useEffect(() => {
-		// Mark hidden and empty, non-required fields as valid
+		// Mark empty, non-required fields as valid
 		if (!isRequired && !values[id]) {
 			updateValidity(id, [])
 
@@ -111,7 +111,13 @@ export function Input(props) {
 		} else if (isRequired && (values[id] !== '')) {
 			validate(values[id], props)
 		}
-	}, [])
+	}, [
+		id,
+		isRequired,
+		updateValidity,
+		validate,
+		values[id],
+	])
 
 	return (
 		<div
