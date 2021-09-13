@@ -164,16 +164,6 @@ export const Form = forwardRef((props, ref) => {
 		updateValidity,
 	])
 
-	useEffect(() => {
-		if (!state.isTouched) {
-			reset({ initialValues })
-		}
-	}, [
-		initialValues,
-		reset,
-		state.isTouched,
-	])
-
 	return (
 		<FormContext.Provider
 			value={{
