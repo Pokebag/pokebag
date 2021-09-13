@@ -193,7 +193,7 @@ export function BugReport(props) {
 								<span>Convert to Bug</span>
 							</Button>
 
-							<Button className="dropdown-item">
+							{/* <Button className="dropdown-item">
 								<span className="icon is-small">
 									<FontAwesomeIcon
 										fixedWidth
@@ -201,7 +201,7 @@ export function BugReport(props) {
 								</span>
 
 								<span>Add to Existing Bug</span>
-							</Button>
+							</Button> */}
 
 							<Button
 								className="dropdown-item has-text-danger"
