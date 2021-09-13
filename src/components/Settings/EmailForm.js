@@ -36,12 +36,6 @@ export function EmailForm() {
 	const [isSuccess, setIsSuccess] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
-	const initialValues = useMemo(() => {
-		return {
-			email: user?.email
-		}
-	}, [user?.email])
-
 	const resetIsSuccess = useCallback(() => setIsSuccess(false), [setIsSuccess])
 
 	const onReauthenticationModalClose = useCallback(() => {
@@ -111,7 +105,7 @@ export function EmailForm() {
 				</h3>
 
 				<Form
-					initialValues={initialValues}
+					initialValues={{ email: user.email }}
 					isDisabled={isSubmitting}
 					onSubmit={onSubmit}
 					ref={formRef}>

@@ -21,7 +21,10 @@ import { useStore } from 'hooks/useStore'
 
 
 export function EntitySelect(props) {
-	const { label } = props
+	const {
+		isRequired,
+		label,
+	} = props
 	const {
 		entityTypes,
 	} = useStore(state => ({
@@ -45,6 +48,7 @@ export function EntitySelect(props) {
 					<Field id="entityType">
 						<Select
 							id="entityType"
+							isRequired={isRequired}
 							label="Select a type..."
 							options={entityTypesAsOptions} />
 					</Field>
@@ -60,15 +64,15 @@ export function EntitySelect(props) {
 						)}
 
 						{(values.entityType === 'battle-items') && (
-							<BattleItemsSelect />
+							<BattleItemsSelect isRequired={isRequired} />
 						)}
 
 						{(values.entityType === 'held-items') && (
-							<HeldItemsSelect />
+							<HeldItemsSelect isRequired={isRequired} />
 						)}
 
 						{(values.entityType === 'pokemon') && (
-							<PokemonSelect />
+							<PokemonSelect isRequired={isRequired} />
 						)}
 					</Field>
 				</div>
@@ -77,6 +81,11 @@ export function EntitySelect(props) {
 	)
 }
 
+EntitySelect.defaultProps = {
+	isRequired: false,
+}
+
 EntitySelect.propTypes = {
 	label: PropTypes.string.isRequired,
+	isRequired: PropTypes.bool,
 }

@@ -3,6 +3,7 @@ import {
 	useEffect,
 	useMemo,
 } from 'react'
+import PropTypes from 'prop-types'
 import shallow from 'zustand/shallow'
 
 
@@ -17,7 +18,9 @@ import { useStore } from 'hooks/useStore'
 
 
 
-export function PokemonSelect() {
+export function PokemonSelect(props) {
+	const { isRequired } = props
+
 	const {
 		getPokemon,
 		pokemon,
@@ -44,7 +47,16 @@ export function PokemonSelect() {
 		<Select
 			id="entityID"
 			isLoading={!pokemon}
+			isRequired={isRequired}
 			label="Select a Pokemon..."
 			options={options} />
 	)
+}
+
+PokemonSelect.defaultProps = {
+	isRequired: false,
+}
+
+PokemonSelect.propTypes = {
+	isRequired: PropTypes.bool,
 }

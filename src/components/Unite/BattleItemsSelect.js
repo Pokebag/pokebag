@@ -3,6 +3,7 @@ import {
 	useEffect,
 	useMemo,
 } from 'react'
+import PropTypes from 'prop-types'
 import shallow from 'zustand/shallow'
 
 
@@ -17,13 +18,15 @@ import { useStore } from 'hooks/useStore'
 
 
 
-export function BattleItemsSelect() {
+export function BattleItemsSelect(props) {
+	const { isRequired } = props
+
 	const {
-		getBattleItems,
 		battleItems,
+		getBattleItems,
 	} = useStore(state => ({
-		getBattleItems: state.unite.getBattleItems,
 		battleItems: state.unite.battleItems,
+		getBattleItems: state.unite.getBattleItems,
 	}), shallow)
 
 	const options = useMemo(() => {
@@ -44,7 +47,16 @@ export function BattleItemsSelect() {
 		<Select
 			id="entityID"
 			isLoading={!battleItems}
+			isRequired={isRequired}
 			label="Select an item..."
 			options={options} />
 	)
+}
+
+BattleItemsSelect.defaultProps = {
+	isRequired: false,
+}
+
+BattleItemsSelect.propTypes = {
+	isRequired: PropTypes.bool,
 }

@@ -3,6 +3,7 @@ import {
 	useEffect,
 	useMemo,
 } from 'react'
+import PropTypes from 'prop-types'
 import shallow from 'zustand/shallow'
 
 
@@ -17,7 +18,9 @@ import { useStore } from 'hooks/useStore'
 
 
 
-export function HeldItemsSelect() {
+export function HeldItemsSelect(props) {
+	const { isRequired } = props
+
 	const {
 		getHeldItems,
 		heldItems,
@@ -44,7 +47,16 @@ export function HeldItemsSelect() {
 		<Select
 			id="entityID"
 			isLoading={!heldItems}
+			isRequired={isRequired}
 			label="Select an item..."
 			options={options} />
 	)
+}
+
+HeldItemsSelect.defaultProps = {
+	isRequired: false,
+}
+
+HeldItemsSelect.propTypes = {
+	isRequired: PropTypes.bool,
 }

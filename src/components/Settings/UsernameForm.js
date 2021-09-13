@@ -1,7 +1,6 @@
 // Module imports
 import {
 	useCallback,
-	useMemo,
 	useState,
 } from 'react'
 import classnames from 'classnames'
@@ -31,12 +30,6 @@ export function UsernameForm() {
 
 	const [isSuccess, setIsSuccess] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)
-
-	const initialValues = useMemo(() => {
-		return {
-			username: profile?.username
-		}
-	}, [profile?.username])
 
 	const resetIsSuccess = useCallback(() => setIsSuccess(false), [setIsSuccess])
 
@@ -88,7 +81,7 @@ export function UsernameForm() {
 			</h3>
 
 			<Form
-				initialValues={initialValues}
+				initialValues={{ username: profile.username }}
 				isDisabled={isSubmitting}
 				onSubmit={onSubmit}>
 				<Field

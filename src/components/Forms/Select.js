@@ -1,6 +1,7 @@
 // Module imports
 import {
 	useCallback,
+	useEffect,
 	useMemo,
 } from 'react'
 import PropTypes from 'prop-types'
@@ -52,6 +53,7 @@ export function Select(props) {
 		isDisabled,
 		isLoading,
 		isMultiselect,
+		isRequired,
 		isUp,
 	} = props
 	const {
@@ -167,6 +169,22 @@ export function Select(props) {
 		isMultiselect,
 	])
 
+	useEffect(() => {
+		// Mark empty, non-required fields as valid
+		if (!isRequired && currentValue) {
+			validate(values[id], props)
+		} else if (isRequired && (currentValue || (Array.isArray(currentValue) && currentValue.length))) {
+			updateValidity(id, [])
+		}
+	}, [
+		currentValue,
+		id,
+		isRequired,
+		updateValidity,
+		validate,
+		values[id],
+	])
+
 	return (
 		<Dropdown
 			className={className}
@@ -185,6 +203,7 @@ Select.defaultProps = {
 	isDisabled: false,
 	isLoading: false,
 	isMultiselect: false,
+	isRequired: false,
 	isUp: false,
 	label: 'Select...',
 }
@@ -195,6 +214,7 @@ Select.propTypes = {
 	isDisabled: PropTypes.bool,
 	isLoading: PropTypes.bool,
 	isMultiselect: PropTypes.bool,
+	isRequired: PropTypes.bool,
 	isUp: PropTypes.bool,
 	label: PropTypes.string,
 	options: PropTypes.arrayOf(PropTypes.oneOfType([
